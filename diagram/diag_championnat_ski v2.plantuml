@@ -1,0 +1,90 @@
+@startuml championnat_ski
+
+class Epreuve{
+    - id: int
+    - lieu: string
+    - date: datetime
+
+    + créerEpreuve()
+    + modifierEpreuve()
+    + supprimerEpreuve()
+
+    + démarrerEpreuve()
+    + terminerEpreuve()
+
+ 
+}
+
+class Participant{
+    - id: int
+    - nom: string
+    - prénom: string
+    - date_de_naissance: datetime
+    - adresse_mail: string
+    - photo: string
+
+    + créerParticipant()
+    + modifierParticipant()
+    + supprimerParticipant()
+
+}
+
+class Résultat{
+    - id: int
+    - temps_passage1: datetime
+    - temps_passage2: datetime
+    - temps_moyenne: datetime
+
+    + importerFeuilleChronométrage()
+    + exporterFeuilleChronométrage()
+
+    + afficherRésultat()
+}
+
+abstract class Groupe{
+    - id: int
+    - nom: string
+
+    + créerGroupe()
+    + modifierGroupe()
+    + supprimerGroupe()
+}
+
+class Catégorie{
+    - id: int
+    - nom: string
+
+    + créerCatégorie()
+    + modifierCatégorie()
+    + supprimerCatégorie()
+}
+
+class Profil{
+    - id: int
+    - nom: string
+    
+    + créerProfil()
+    + modifierProfil()
+    + supprimerProfil()
+}
+
+
+interface modifiable
+{
+    + créer()
+    + modifier()
+    + supprimer()
+}
+
+Epreuve .right.|> modifiable
+Participant ..|> modifiable
+Groupe .left.|> modifiable
+Groupe <|-- Catégorie
+Groupe <|-- Profil
+Epreuve *-right- Participant
+Participant *-right- Résultat
+Participant o-- Profil
+Participant o-- Catégorie
+
+ 
+@enduml

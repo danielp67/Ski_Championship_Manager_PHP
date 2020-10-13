@@ -1,0 +1,98 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Poster un nouveau commentaire{% endblock %}
+
+
+{% block content %}
+
+<div class="row mx-auto py-5">
+  
+      <div class="col-12">
+      <h1>Bienvenue {{ session.login }} sur Online Advisor !</h1>
+
+        <div class="row">
+          <div class="col-6">
+          <p>Dernière connexion le {{ session.lastLoginAt }}</p>
+          </div>
+          <div class="col-6">
+            <p><a class="btn btn-danger" href="user/sessionDestroy">
+            Se déconnecter</a></p>
+          </div>
+          <div class="col-4 offset-4">
+          <a class="center btn btn-primary" href="item/listItemPage">
+          Retour à la liste des items</a>
+          </div>
+        </div>
+        
+      </div>
+
+
+    <div class="col-10 offset-1">
+    <div class="card my-3 bg-light border-success">
+      
+    <div class="card-header">
+              <div class="row">
+              <div class="col-4 offset-4 text-center">
+                <h3>{{ Item.item_name }}</h3>
+              </div>
+              <div class="col-4 text-right">
+                <h3>Note : {{ Item.rate }} /5</h3>
+              </div>
+            </div>
+              </div>
+
+              <div class="card-body">
+                <div class="card-text font-weight-bold">
+                  De <em>{{ Item.user_login }}</em> : {{ Item.review }}
+                  <br>
+                </div>
+              </div>
+
+
+              <div class="card-footer">
+              <div class="row">
+                <div class="col-6">Catégorie : {{ Item.category }}</div>
+                <div class="col-6">Date : {{ Item.date_creation }}</div>
+              </div>
+              </div>
+    
+    </div>
+
+
+
+    <h4>Commentaires :</h4>
+
+{% for Comment in Comments %}
+    
+          <div class="card my-3 bg-light">
+            <div class="card-body">
+              <div class="card-title">
+                  {{ Comment.user_login }}
+                  <em>le {{ Comment.date_comment }}</em>
+                
+              </div>
+
+              <h5>{{ Comment.comment }}</h5>
+
+            </div>
+          </div>
+
+
+ {% endfor %}
+
+
+    <form method="post" 
+    action="comment/addComment/{{ Item.id }}"class="news">
+      <label for="comment">Nouveau commentaire : </label>
+      <input type="text" name="comment" id="comment" 
+      placeholder="Votre commentaire" size="50" maxlength="255" required>
+      </br>
+      <input class="mt-2 btn btn-primary" type="submit" value="Envoyer" />
+    </form>
+
+
+  </div>
+</div>
+
+
+{% endblock %}
