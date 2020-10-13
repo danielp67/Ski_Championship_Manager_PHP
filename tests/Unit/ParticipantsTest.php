@@ -9,6 +9,7 @@ beforeEach(function (){
 
 it('test of instance', function(){
         $this->expect($this->participant)->toBeInstanceOf(Participants::class);
+        $this->assertClassHasAttribute('id', Participants::class);
         $this->assertClassHasAttribute('lastName', Participants::class);
         $this->assertClassHasAttribute('firstName', Participants::class);
         $this->assertClassHasAttribute('mail', Participants::class);
@@ -17,6 +18,19 @@ it('test of instance', function(){
         $this->assertClassHasAttribute('categoriesId', Participants::class);
         $this->assertClassHasAttribute('profilsId', Participants::class);
         });
+
+it('has setId', function($id){
+    $this->expect($this->participant->setId($id))->toBeInstanceOf(Participants::class);
+    $this->expect($id)->toBeInt();
+})->with([
+    0,1,3,5,7,10
+]);
+
+it('has setId throw exception', function($id){
+    $this->participant->setId($id);
+})->with([
+    -1,-25
+])->throws(Exception::class);
 
 
 it('has setLastName', function($lastName){
@@ -82,7 +96,34 @@ it('has setImgLink throw exception', function($imgLink){
     $this->participant->setImgLink($imgLink);
 })->with([
     '25jpg',
-    '/link/Img/45.JRG'
+    '/link/Img/45.JrG'
 ])->throws(Exception::class);
 
+
+it('has setCategoriesId', function($categoriesId){
+    $this->expect($this->participant->setCategoriesId($categoriesId))->toBeInstanceOf(Participants::class);
+    $this->expect($categoriesId)->toBeInt();
+})->with([
+    0,1,3,5,7,10
+]);
+
+it('has setCategoriesId throw exception', function($categoriesId){
+    $this->participant->setCategoriesId($categoriesId);
+})->with([
+    -1,-25
+])->throws(Exception::class);
+
+
+it('has setProfilsId', function($profilsId){
+    $this->expect($this->participant->setProfilsId($profilsId))->toBeInstanceOf(Participants::class);
+    $this->expect($profilsId)->toBeInt();
+})->with([
+    0,1,3,5,7,10
+]);
+
+it('has setProfilsId throw exception', function($profilsId){
+    $this->participant->setProfilsId($profilsId);
+})->with([
+    -1,-25
+])->throws(Exception::class);
        

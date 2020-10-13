@@ -12,6 +12,7 @@ final class Participants
     private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
     private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
     private const PATTERN_IMG = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
+    private int $id;
     private string $lastName = '';
     private string $firstName = '';
     private string $mail = '';
@@ -21,9 +22,17 @@ final class Participants
     private int $profilsId;
 
     /**
+     * Get the value of id
+     */ 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
      * Get the value of lastName
      */ 
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -31,7 +40,7 @@ final class Participants
     /**
      * Get the value of firstName
      */ 
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -39,7 +48,7 @@ final class Participants
     /**
      * Get the value of mail
      */ 
-    public function getMail()
+    public function getMail(): ?string
     {
         return $this->mail;
     }
@@ -47,7 +56,7 @@ final class Participants
     /**
      * Get the value of birthDate
      */ 
-    public function getBirthDate()
+    public function getBirthDate(): ?DateTimeInterface
     {
         return $this->birthDate;
     }
@@ -55,7 +64,7 @@ final class Participants
     /**
      * Get the value of imgLink
      */ 
-    public function getImgLink()
+    public function getImgLink(): ?string
     {
         return $this->imgLink;
     }
@@ -63,7 +72,7 @@ final class Participants
     /**
      * Get the value of categoriesId
      */ 
-    public function getCategoriesId()
+    public function getCategoriesId(): ?int
     {
         return $this->categoriesId;
     }
@@ -71,9 +80,24 @@ final class Participants
     /**
      * Get the value of profilsId
      */ 
-    public function getProfilsId()
+    public function getProfilsId(): ?int
     {
         return $this->profilsId;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId(int $id): self
+    {
+        if (! is_int($id) || $id < 0) {
+            throw new Exception('Id invalide');
+        }
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -146,13 +170,43 @@ final class Participants
      *
      * @return  self
      */ 
-    public function setImgLink($imgLink)
+    public function setImgLink(string $imgLink): self
     {
         $pattern = self::PATTERN_IMG;
         if (! preg_match($pattern, $imgLink)) {
             throw new Exception('image est invalide');
         }
         $this->imgLink = $imgLink;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of categoriesId
+     *
+     * @return  self
+     */ 
+    public function setCategoriesId(int $categoriesId): self
+    {
+        if (! is_int($categoriesId) || $categoriesId < 0) {
+            throw new Exception('Catégorie Id invalide');
+        }
+        $this->categoriesId = $categoriesId;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of profilsId
+     *
+     * @return  self
+     */ 
+    public function setProfilsId(int $profilsId): self
+    {
+        if (! is_int($profilsId) || $profilsId < 0) {
+            throw new Exception('Profil Id invalide');
+        }
+        $this->profilsId = $profilsId;
 
         return $this;
     }

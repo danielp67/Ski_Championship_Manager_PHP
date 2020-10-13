@@ -1,4 +1,5 @@
 {
+    "license": "proprietary",
     "name": "acs/tp15_championnat_ski",
     "description": "championnat_ski",
     "authors": [
@@ -17,6 +18,8 @@
     },
 
     "require": {
+        "symfony/http-foundation": "^5.1",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "9.3.10",
