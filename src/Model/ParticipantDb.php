@@ -70,11 +70,11 @@ final class ParticipantDb
         ));
     }
 
-    public function delete(Participant $participant): array
+    public function delete(int $id): array
     {
         $deleteParticipant = $this->dataBase->prepare('DELETE FROM participant WHERE id = :id');
 
-        return $deleteParticipant->execute(array('id' => $participant->getId()));
+        return $deleteParticipant->execute(array('id' => $id));
     }
 
 }

@@ -13,11 +13,11 @@ final class Participant
     private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
     private const PATTERN_IMG = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
     private int $id;
-    private string $lastName = '';
-    private string $firstName = '';
-    private string $mail = '';
+    private string $lastName;
+    private string $firstName;
+    private string $mail;
     private DateTimeInterface $birthDate;
-    private string $imgLink = '';
+    private string $imgLink;
     private int $categoryId;
     private int $profileId;
 

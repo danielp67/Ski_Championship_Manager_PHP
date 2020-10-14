@@ -48,11 +48,11 @@ final class CategoryDb
         ));
     }
 
-    public function delete(Category $category): array
+    public function delete(int $id): array
     {
         $deleteCategory = $this->dataBase->prepare('DELETE FROM category WHERE id = :id');
 
-        return $deleteCategory->execute(array('id' => $category->getId()));
+        return $deleteCategory->execute(array('id' => $id));
     }
 
 }
