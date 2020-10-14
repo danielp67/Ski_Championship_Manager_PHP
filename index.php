@@ -27,7 +27,10 @@ var_dump($request2);
     $router->get('/', 'Home.loginPage');
 
 
-    $router->post('user/logUser', 'User.logUser');
+    $router->get('race', 'Race.racePage');
+
+    $router->get('participant', 'Participant.participantPage');
+
     $router->post('user/addNewUser', 'User.addNewUser');
 
     $router->get('item/listItemPage', 'Item.listItemPage');

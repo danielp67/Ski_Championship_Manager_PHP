@@ -2,13 +2,13 @@
 
 namespace App\Model;
 
-final class CategoryDb
+final class CategoryModel
 {
     private object $dataBase;
 
     public function __construct()
     {
-        $pdo = new ConnectDb();
+        $pdo = new ConnectModel();
         $this->dataBase = $pdo->dbConnect();
     }
 

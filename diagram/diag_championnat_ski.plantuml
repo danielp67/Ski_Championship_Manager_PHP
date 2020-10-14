@@ -39,11 +39,15 @@ class Passages{
     - id: int
     - numero_passage: int
     - temps_passage: time
+    - participant_id: int
+    - epreuve_id: int
 
 }
 
 class Résultats{
     - id: int
+    - participant_id: int
+    - epreuve_id: int
     - temps_moyenne: time
 
     + importerFeuilleChronométrage()

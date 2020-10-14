@@ -12,6 +12,9 @@ class Stage
     private int $id;
     private int $stage;
     private DateTimeInterface $time;
+    private int $participantId;
+    private int $raceId;
+
 
     /**
      * Get the value of id
@@ -37,6 +40,22 @@ class Stage
         return $this->time;
     }
 
+        /**
+     * Get the value of participantId
+     */ 
+    public function getParticipantId(): ?int
+    {
+        return $this->participantId;
+    }
+
+    /**
+     * Get the value of raceId
+     */ 
+    public function getRaceId(): ?int
+    {
+        return $this->raceId;
+    }
+
     /**
      * Set the value of id
      *
@@ -44,10 +63,7 @@ class Stage
      */ 
     public function setId(int $id): self
     {
-        if (! is_int($id) || $id < 0) {
-            throw new Exception('Id invalide');
-        }
-        $this->id = $id;
+        $this->id = $this->checkId($id);
 
         return $this;
     }
@@ -59,7 +75,7 @@ class Stage
      */ 
     public function setStage(int $stage): self
     {
-        if (! is_int($stage) || $stage < 0) {
+        if (! is_int($stage) || $stage < 1 || $stage > 2) {
             throw new Exception('Id invalide');
         }
         $this->stage = $stage;
@@ -79,11 +95,47 @@ class Stage
             throw new Exception('temps est invalide');
         }
         $date = DateTime::createFromFormat('i:s.u', $timeStage);
-        echo $timeStage;
-        var_dump($date);
+        //var_dump($date);
         $this->date = $date;
 
         return $this;
+    }
+
+        /**
+     * Set the value of participantId
+     *
+     * @return  self
+     */ 
+    public function setParticipantId($participantId)
+    {
+        $this->participantId = $this->checkId($participantId);
+
+        return $this;
+    }
+
+    /**
+     * Set the value of raceId
+     *
+     * @return  self
+     */ 
+    public function setRaceId($raceId)
+    {
+        $this->raceId = $this->checkId($raceId);
+
+        return $this;
+    }
+
+    /**
+     * check the value if is int
+     *
+     * @return  int
+     */ 
+    private function checkId(int $int): int
+    {
+        if (! is_int($int) || $int < 0) {
+            throw new Exception('Id invalide');
+        }
+        return $int;
     }
 
 }
