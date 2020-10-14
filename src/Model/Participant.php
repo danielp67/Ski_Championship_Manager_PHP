@@ -6,7 +6,7 @@ use DateTime;
 use DateTimeInterface;
 use Exception;
 
-final class Participants
+final class Participant
 {
     private const PATTERN_MAIL = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
     private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
@@ -18,8 +18,8 @@ final class Participants
     private string $mail = '';
     private DateTimeInterface $birthDate;
     private string $imgLink = '';
-    private int $categoriesId;
-    private int $profilsId;
+    private int $categoryId;
+    private int $profileId;
 
     /**
      * Get the value of id
@@ -70,19 +70,19 @@ final class Participants
     }
 
     /**
-     * Get the value of categoriesId
+     * Get the value of categoryId
      */ 
-    public function getCategoriesId(): ?int
+    public function getCategoryId(): ?int
     {
-        return $this->categoriesId;
+        return $this->categoryId;
     }
 
     /**
-     * Get the value of profilsId
+     * Get the value of profileId
      */ 
-    public function getProfilsId(): ?int
+    public function getProfileId(): ?int
     {
-        return $this->profilsId;
+        return $this->profileId;
     }
 
     /**
@@ -92,10 +92,7 @@ final class Participants
      */ 
     public function setId(int $id): self
     {
-        if (! is_int($id) || $id < 0) {
-            throw new Exception('Id invalide');
-        }
-        $this->id = $id;
+        $this->id = $this->checkId($id);
 
         return $this;
     }
@@ -107,11 +104,7 @@ final class Participants
      */ 
     public function setLastName(string $lastName): self
     {
-        $pattern = self::PATTERN_NAME;
-        if (! preg_match($pattern, $lastName)) {
-            throw new Exception('nom est invalide');
-        }
-        $this->lastName = $lastName;
+        $this->lastName = $this->checkStringMatchPattern(self::PATTERN_NAME, $lastName);
 
         return $this;
     }
@@ -123,11 +116,7 @@ final class Participants
      */ 
     public function setFirstName(string $firstName): self
     {
-        $pattern = self::PATTERN_NAME;
-        if (! preg_match($pattern, $firstName)) {
-            throw new Exception('prénom est invalide');
-        }
-        $this->firstName = $firstName;
+        $this->firstName = $this->checkStringMatchPattern(self::PATTERN_NAME, $firstName);
 
         return $this;
     }
@@ -139,11 +128,7 @@ final class Participants
      */ 
     public function setMail(string $mail): self
     {
-        $pattern = self::PATTERN_MAIL;
-        if (! preg_match($pattern, $mail)) {
-            throw new Exception('mail est invalide');
-        }
-        $this->mail = $mail;
+        $this->mail = $this->checkStringMatchPattern(self::PATTERN_MAIL, $mail);
 
         return $this;
     }
@@ -155,11 +140,8 @@ final class Participants
      */ 
     public function setBirthDate(string $birthDate): self
     {
-        $pattern = self::PATTERN_DATE;
-        if (! preg_match($pattern, $birthDate)) {
-            throw new Exception('date est invalide');
-        }
-        $date = DateTime::createFromFormat('d/m/Y', $birthDate);
+        $checkDate = $this->checkStringMatchPattern(self::PATTERN_DATE, $birthDate);
+        $date = DateTime::createFromFormat('d/m/Y', $checkDate);
         $this->birthDate = $date;
 
         return $this;
@@ -172,42 +154,58 @@ final class Participants
      */ 
     public function setImgLink(string $imgLink): self
     {
-        $pattern = self::PATTERN_IMG;
-        if (! preg_match($pattern, $imgLink)) {
-            throw new Exception('image est invalide');
-        }
-        $this->imgLink = $imgLink;
+        $this->imgLink = $this->checkStringMatchPattern(self::PATTERN_IMG, $imgLink);
 
         return $this;
     }
 
     /**
-     * Set the value of categoriesId
+     * Set the value of categoryId
      *
      * @return  self
      */ 
-    public function setCategoriesId(int $categoriesId): self
+    public function setCategoryId(int $categoryId): self
     {
-        if (! is_int($categoriesId) || $categoriesId < 0) {
-            throw new Exception('Catégorie Id invalide');
-        }
-        $this->categoriesId = $categoriesId;
+        $this->categoryId = $this->checkId($categoryId);
 
         return $this;
     }
 
     /**
-     * Set the value of profilsId
+     * Set the value of profileId
      *
      * @return  self
      */ 
-    public function setProfilsId(int $profilsId): self
+    public function setProfileId(int $profileId): self
     {
-        if (! is_int($profilsId) || $profilsId < 0) {
-            throw new Exception('Profil Id invalide');
-        }
-        $this->profilsId = $profilsId;
+        $this->profileId = $this->checkId($profileId);
 
         return $this;
+    }
+
+    /**
+     * check the value if is int
+     *
+     * @return  int
+     */ 
+    private function checkId(int $int): int
+    {
+        if (! is_int($int) || $int < 0) {
+            throw new Exception('Id invalide');
+        }
+        return $int;
+    }
+
+    /**
+     * check the string value if match pattern
+     *
+     * @return  string
+     */ 
+    private function checkStringMatchPattern(string $pattern, string $string): string
+    {
+        if (! preg_match($pattern, $string)) {
+            throw new Exception('format non valide');
+        }
+        return $string;
     }
 }

@@ -5,7 +5,7 @@ namespace App\Model;
 use Exception;
 use PDO;
 
-final class ConnectModel
+final class ConnectDb
 {
     public function dbConnect()
     {

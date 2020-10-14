@@ -1,26 +1,26 @@
 <?php
 
-use App\Model\Participants;
+use App\Model\Participant;
 
 beforeEach(function (){
-       $this->participant = new Participants();
+       $this->participant = new Participant();
       });
 
 
 it('test of instance', function(){
-        $this->expect($this->participant)->toBeInstanceOf(Participants::class);
-        $this->assertClassHasAttribute('id', Participants::class);
-        $this->assertClassHasAttribute('lastName', Participants::class);
-        $this->assertClassHasAttribute('firstName', Participants::class);
-        $this->assertClassHasAttribute('mail', Participants::class);
-        $this->assertClassHasAttribute('birthDate', Participants::class);
-        $this->assertClassHasAttribute('imgLink', Participants::class);
-        $this->assertClassHasAttribute('categoriesId', Participants::class);
-        $this->assertClassHasAttribute('profilsId', Participants::class);
+        $this->expect($this->participant)->toBeInstanceOf(Participant::class);
+        $this->assertClassHasAttribute('id', Participant::class);
+        $this->assertClassHasAttribute('lastName', Participant::class);
+        $this->assertClassHasAttribute('firstName', Participant::class);
+        $this->assertClassHasAttribute('mail', Participant::class);
+        $this->assertClassHasAttribute('birthDate', Participant::class);
+        $this->assertClassHasAttribute('imgLink', Participant::class);
+        $this->assertClassHasAttribute('categoryId', Participant::class);
+        $this->assertClassHasAttribute('profileId', Participant::class);
         });
 
 it('has setId', function($id){
-    $this->expect($this->participant->setId($id))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setId($id))->toBeInstanceOf(Participant::class);
     $this->expect($id)->toBeInt();
 })->with([
     0,1,3,5,7,10
@@ -35,7 +35,7 @@ it('has setId throw exception', function($id){
 
 it('has setLastName', function($lastName){
     $pattern = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
-    $this->expect($this->participant->setLastName($lastName))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setLastName($lastName))->toBeInstanceOf(Participant::class);
     $this->assertMatchesRegularExpression($pattern, $lastName);
 })->with('name');
 
@@ -46,7 +46,7 @@ it('has setLastName throw exception', function($lastName){
 
 it('has setFirstName', function($firstName){
     $pattern = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
-    $this->expect($this->participant->setFirstName($firstName))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setFirstName($firstName))->toBeInstanceOf(Participant::class);
     $this->assertMatchesRegularExpression($pattern, $firstName);
 })->with('name');
 
@@ -57,7 +57,7 @@ it('has setFirstName throw exception', function($firstName){
 
 it('has setMail', function($mail){
     $pattern = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
-    $this->expect($this->participant->setMail($mail))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setMail($mail))->toBeInstanceOf(Participant::class);
     $this->assertMatchesRegularExpression($pattern, $mail);
 })->with('mail');
 
@@ -68,7 +68,7 @@ it('has setMail throw exception', function($mail){
 
 it('has setBirthDate', function($birthDate){
     $pattern = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
-    $this->expect($this->participant->setBirthDate($birthDate))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setBirthDate($birthDate))->toBeInstanceOf(Participant::class);
     $this->assertMatchesRegularExpression($pattern, $birthDate);
 })->with([
     '01/01/1000',
@@ -85,7 +85,7 @@ it('has setBirthDate throw exception', function($birthDate){
 
 it('has setImgLink', function($imgLink){
     $pattern = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
-    $this->expect($this->participant->setImgLink($imgLink))->toBeInstanceOf(Participants::class);
+    $this->expect($this->participant->setImgLink($imgLink))->toBeInstanceOf(Participant::class);
     $this->assertMatchesRegularExpression($pattern, $imgLink);
 })->with([
     '25.jpg',
@@ -100,29 +100,29 @@ it('has setImgLink throw exception', function($imgLink){
 ])->throws(Exception::class);
 
 
-it('has setCategoriesId', function($categoriesId){
-    $this->expect($this->participant->setCategoriesId($categoriesId))->toBeInstanceOf(Participants::class);
-    $this->expect($categoriesId)->toBeInt();
+it('has setCategoryId', function($categoryId){
+    $this->expect($this->participant->setCategoryId($categoryId))->toBeInstanceOf(Participant::class);
+    $this->expect($categoryId)->toBeInt();
 })->with([
     0,1,3,5,7,10
 ]);
 
-it('has setCategoriesId throw exception', function($categoriesId){
-    $this->participant->setCategoriesId($categoriesId);
+it('has setCategoryId throw exception', function($categoryId){
+    $this->participant->setCategoryId($categoryId);
 })->with([
     -1,-25
 ])->throws(Exception::class);
 
 
-it('has setProfilsId', function($profilsId){
-    $this->expect($this->participant->setProfilsId($profilsId))->toBeInstanceOf(Participants::class);
-    $this->expect($profilsId)->toBeInt();
+it('has setProfileId', function($profileId){
+    $this->expect($this->participant->setProfileId($profileId))->toBeInstanceOf(Participant::class);
+    $this->expect($profileId)->toBeInt();
 })->with([
     0,1,3,5,7,10
 ]);
 
-it('has setProfilsId throw exception', function($profilsId){
-    $this->participant->setProfilsId($profilsId);
+it('has setProfileId throw exception', function($profileId){
+    $this->participant->setProfileId($profileId);
 })->with([
     -1,-25
 ])->throws(Exception::class);

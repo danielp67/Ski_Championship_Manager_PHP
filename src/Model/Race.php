@@ -6,7 +6,7 @@ use DateTime;
 use DateTimeInterface;
 use Exception;
 
-final class Epreuves
+final class Race
 {
     protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
     private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';

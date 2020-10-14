@@ -2,38 +2,38 @@
 
 namespace App\Model;
 
-final class ParticipantsModel
+final class ParticipantDb
 {
     private object $dataBase;
 
     public function __construct()
     {
-        $pdo = new ConnectModel();
+        $pdo = new ConnectDb();
         $this->dataBase = $pdo->dbConnect();
     }
 
-    public function getParticipant(int $id): array
+    public function get(int $id): array
     {
         $getParticipant = $this->dataBase->prepare('SELECT *
-        FROM participants WHERE id = ?');
+        FROM participant WHERE id = ?');
         $getParticipant->execute(array($id));
 
         return $getParticipant->fetchAll();
     }
 
-    public function getAllParticipants(): array
+    public function getAll(): array
     {
         $getAllParticipants = $this->dataBase->prepare('SELECT *
-        FROM participants');
+        FROM participant');
         $getAllParticipants->execute();
 
         return $getAllParticipants->fetchAll();
     }
 
-    public function addParticipant(Participants $participant): array
+    public function add(Participant $participant): array
     {
         $addParticipant = $this->dataBase->prepare('INSERT INTO 
-        participants (last_name, first_name, mail, birth_date, img_link, categories_id, profils_id) VALUES(?, ?, ?, ?, ?, ?, ?)');
+        participant (last_name, first_name, mail, birth_date, img_link, categories_id, profils_id) VALUES(?, ?, ?, ?, ?, ?, ?)');
         
         return $addParticipant->execute(array(
             $participant->getLastName(), 
@@ -41,14 +41,14 @@ final class ParticipantsModel
             $participant->getMail(),
             $participant->getBirthDate(),
             $participant->getImgLink(),
-            $participant->getCategoriesId(),
-            $participant->getProfilsId(),
+            $participant->getCategoryId(),
+            $participant->getProfileId(),
         ));
     }
 
-    public function updateParticipant(Participants $participant): array
+    public function update(Participant $participant): array
     {
-        $updateParticipant = $this->dataBase->prepare('UPDATE participants 
+        $updateParticipant = $this->dataBase->prepare('UPDATE participant 
         SET last_name = :last_name,
             first_name = :first_name,
             mail = :mail,
@@ -64,15 +64,15 @@ final class ParticipantsModel
             'mail' => $participant->getMail(),
             'birth_date' =>  $participant->getBirthDate(),
             'img_link' =>  $participant->getImgLink(),
-            'categories_id' =>  $participant->getCategoriesId(),
-            'profils_id' =>  $participant->getProfilsId(),
+            'category_id' =>  $participant->getCategoryId(),
+            'profile_id' =>  $participant->getProfileId(),
             'id' => $participant->getId()  
         ));
     }
 
-    public function deleteParticipant(Participants $participant): array
+    public function delete(Participant $participant): array
     {
-        $deleteParticipant = $this->dataBase->prepare('DELETE FROM participants WHERE id = :id');
+        $deleteParticipant = $this->dataBase->prepare('DELETE FROM participant WHERE id = :id');
 
         return $deleteParticipant->execute(array('id' => $participant->getId()));
     }
