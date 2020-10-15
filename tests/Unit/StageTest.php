@@ -9,6 +9,9 @@ beforeEach(function (){
 
 it('test of instance', function(){
         $this->expect($this->stage)->toBeInstanceOf(Stage::class);
+        });
+
+it('should has properties', function(){
         $this->assertClassHasAttribute('id', Stage::class);
         $this->assertClassHasAttribute('stage', Stage::class);
         $this->assertClassHasAttribute('time', Stage::class);
@@ -16,9 +19,39 @@ it('test of instance', function(){
         $this->assertClassHasAttribute('raceId', Stage::class);
         });
 
+
+it('should getId', function(){
+    $this->stage->setId(4);
+    $this->expect($this->stage->getId())->toBeInt();
+});
+
+it('should getStage', function(){
+    $this->stage->setStage(1);
+    $this->expect($this->stage->getStage())->toBeInt();
+});
+
+it('should getTime', function(){
+    $timeStage = '01:00.0';
+    $date = DateTime::createFromFormat('i:s.u', $timeStage);
+    $this->stage->setTime($timeStage);
+    $this->expect($this->stage->getTime())->toEqual($date);
+});
+
+it('should getParticipantId', function(){
+    $this->stage->setParticipantId(4);
+    $this->expect($this->stage->getParticipantId())->toBeInt();
+});
+
+it('should getRaceId', function(){
+    $this->stage->setRaceId(4);
+    $this->expect($this->stage->getRaceId())->toBeInt();
+});
+
+
+
 it('has setId', function($id){
-    $this->expect($this->stage->setId($id))->toBeInstanceOf(Stage::class);
-    $this->expect($id)->toBeInt();
+    $result = $this->stage->setId($id);
+    $this->expect($result->getId())->toEqual($id);
 })->with([
     0,1,3,5,7,10
 ]);
@@ -31,8 +64,8 @@ it('has setId throw exception', function($id){
 
 
 it('has setStage', function($stage){
-    $this->expect($this->stage->setStage($stage))->toBeInstanceOf(Stage::class);
-    $this->expect($stage)->toBeInt();
+    $result = $this->stage->setStage($stage);
+    $this->expect($result->getStage())->toEqual($stage);
 })->with([
     1,2
 ]);
@@ -47,7 +80,9 @@ it('has setStage throw exception', function($stage){
 
 it('has setTime', function($time){
     $pattern = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
-    $this->expect($this->stage->setTime($time))->toBeInstanceOf(Stage::class);
+    $timeStage = DateTime::createFromFormat('i:s.u', $time);
+    $result = $this->stage->setTime($time);
+    $this->expect($result->getTime())->toEqual($timeStage);
     $this->assertMatchesRegularExpression($pattern, $time);
 })->with([
     '01:00.0',
@@ -63,8 +98,8 @@ it('has setTime throw exception', function($time){
 
 
 it('has setParticipantId', function($participantId){
-    $this->expect($this->stage->setParticipantId($participantId))->toBeInstanceOf(Stage::class);
-    $this->expect($participantId)->toBeInt();
+    $result = $this->stage->setParticipantId($participantId);
+    $this->expect($result->getParticipantId())->toEqual($participantId);
 })->with([
     0,1,3,5,7,10
 ]);
@@ -77,8 +112,8 @@ it('has setParticipantId throw exception', function($participantId){
 
 
 it('has setRaceId', function($raceId){
-    $this->expect($this->stage->setRaceId($raceId))->toBeInstanceOf(Stage::class);
-    $this->expect($raceId)->toBeInt();
+    $result = $this->stage->setRaceId($raceId);
+    $this->expect($result->getRaceId())->toEqual($raceId);
 })->with([
     0,1,3,5,7,10
 ]);

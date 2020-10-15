@@ -9,9 +9,12 @@ beforeEach(function (){
 
 it('test of instance', function(){
         $this->expect($this->result)->toBeInstanceOf(Result::class);
+        });
+
+
+it('should has properties', function(){
         $this->assertClassHasAttribute('id', Result::class);
         $this->assertClassHasAttribute('participantId', Result::class);
         $this->assertClassHasAttribute('raceId', Result::class);
         $this->assertClassHasAttribute('averageTime', Result::class);
-
         });

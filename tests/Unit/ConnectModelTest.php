@@ -9,5 +9,8 @@ beforeEach(function (){
 
 it('test of instance', function(){
         $this->expect($this->connectModel)->toBeInstanceOf(ConnectModel::class);
-        $this->expect(method_exists ($this->connectModel,  'dbConnect' ))->toBeTrue();
         });
+
+it('should has methods', function(){
+      $this->expect(method_exists ($this->connectModel,  'dbConnect' ))->toBeTrue();
+      });

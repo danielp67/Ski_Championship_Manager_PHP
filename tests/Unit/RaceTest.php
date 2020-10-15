@@ -6,18 +6,37 @@ beforeEach(function(){
        $this->race = new Race();
       });
 
-
 it('test of instance', function(){
         $this->expect($this->race)->toBeInstanceOf(Race::class);
+        });
+
+it('should has properties', function(){
         $this->assertClassHasAttribute('id', Race::class);
         $this->assertClassHasAttribute('location', Race::class);
         $this->assertClassHasAttribute('date', Race::class);
         });
 
+it('should getId', function(){
+    $this->race->setId(4);
+    $this->expect($this->race->getId())->toBeInt();
+});
+
+it('should getLocation', function(){
+    $this->race->setLocation('Isola 2000');
+    $this->expect($this->race->getLocation())->toBeString();
+});
+
+it('should getDate', function(){
+    $dateLocation = '01/01/1000';
+    $date = DateTime::createFromFormat('d/m/Y', $dateLocation);
+    $this->race->setDate($dateLocation);
+    $this->expect($this->race->getDate())->toEqual($date);
+});
+
 
 it('has setId', function($id){
-    $this->expect($this->race->setId($id))->toBeInstanceOf(Race::class);
-    $this->expect($id)->toBeInt();
+    $result = $this->race->setId($id);
+    $this->expect($result->getId())->toEqual($id);
 })->with([
     0,1,3,5,7,10
 ]);
@@ -31,7 +50,8 @@ it('has setId throw exception', function($id){
 
 it('has setLocation', function($location){
     $pattern = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
-    $this->expect($this->race->setLocation($location))->toBeInstanceOf(Race::class);
+    $result = $this->race->setLocation($location);
+    $this->expect($result->getLocation())->toEqual($location);
     $this->assertMatchesRegularExpression($pattern, $location);
 })->with('group');
 
@@ -42,7 +62,9 @@ it('has setName throw exception', function($location){
 
 it('has setDate', function($date){
     $pattern = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
-    $this->expect($this->race->setDate($date))->toBeInstanceOf(Race::class);
+    $dateRace = DateTime::createFromFormat('d/m/Y', $date);
+    $result = $this->race->setDate($date);
+    $this->expect($result->getDate())->toEqual($dateRace);
     $this->assertMatchesRegularExpression($pattern, $date);
 })->with([
     '01/01/1000',

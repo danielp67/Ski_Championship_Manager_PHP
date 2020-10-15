@@ -9,13 +9,28 @@ beforeEach(function (){
 
 it('test of instance', function(){
         $this->expect($this->profile)->toBeInstanceOf(Profile::class);
+        });
+
+it('should has properties', function(){
         $this->assertClassHasAttribute('id', Profile::class);
         $this->assertClassHasAttribute('name', Profile::class);
         });
 
+
+it('should getId', function(){
+    $this->profile->setId(4);
+    $this->expect($this->profile->getId())->toBeInt();
+});
+
+it('should getName', function(){
+    $this->profile->setName('ASVP');
+    $this->expect($this->profile->getName())->toBeString();
+});
+
+
 it('has setId', function($id){
-    $this->expect($this->profile->setId($id))->toBeInstanceOf(Profile::class);
-    $this->expect($id)->toBeInt();
+    $result = $this->profile->setId($id);
+    $this->expect($result->getId())->toEqual($id);
 })->with([
     0,1,3,5,7,10
 ]);
@@ -29,7 +44,8 @@ it('has setId throw exception', function($id){
 
 it('has setName', function($name){
     $pattern = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
-    $this->expect($this->profile->setName($name))->toBeInstanceOf(Profile::class);
+    $result = $this->profile->setName($name);
+    $this->expect($result->getName())->toEqual($name);
     $this->assertMatchesRegularExpression($pattern, $name);
 })->with('group');
 

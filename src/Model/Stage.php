@@ -11,7 +11,7 @@ class Stage
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     private int $id;
     private int $stage;
-    private DateTimeInterface $time;
+    private ?DateTimeInterface $time;
     private int $participantId;
     private int $raceId;
 
@@ -40,7 +40,7 @@ class Stage
         return $this->time;
     }
 
-        /**
+    /**
      * Get the value of participantId
      */ 
     public function getParticipantId(): ?int
@@ -95,13 +95,13 @@ class Stage
             throw new Exception('temps est invalide');
         }
         $date = DateTime::createFromFormat('i:s.u', $timeStage);
-        //var_dump($date);
-        $this->date = $date;
+        var_dump($date);
+        $this->time = $date;
 
         return $this;
     }
 
-        /**
+    /**
      * Set the value of participantId
      *
      * @return  self
