@@ -43,10 +43,8 @@ it('has setId throw exception', function($id){
 
 
 it('has setName', function($name){
-    $pattern = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
     $result = $this->profile->setName($name);
     $this->expect($result->getName())->toEqual($name);
-    $this->assertMatchesRegularExpression($pattern, $name);
 })->with('group');
 
 it('has setName throw exception', function($name){

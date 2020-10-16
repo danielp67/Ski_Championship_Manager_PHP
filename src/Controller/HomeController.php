@@ -4,12 +4,10 @@ namespace App\Controller;
 
 final class HomeController extends ManagerController
 {
-    /**
-     * @Route("/home")
-     */
+
     public function homePage(): void
     {
-        echo $this->twig->render('homeView.html.twig', ['newUser' => false ]);
+       echo $this->twig->render('homeView.html.twig', ['newUser' => false ]);
     }
 
     public function errorPage($error): void

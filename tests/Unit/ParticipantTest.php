@@ -79,10 +79,8 @@ it('has setId throw exception', function($id){
 
 
 it('has setLastName', function($lastName){
-    $pattern = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
     $result = $this->participant->setLastName($lastName);
     $this->expect($result->getLastName())->toEqual($lastName);
-    $this->assertMatchesRegularExpression($pattern, $lastName);
 })->with('name');
 
 it('has setLastName throw exception', function($lastName){
@@ -91,10 +89,8 @@ it('has setLastName throw exception', function($lastName){
 
 
 it('has setFirstName', function($firstName){
-    $pattern = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
     $result = $this->participant->setFirstName($firstName);
     $this->expect($result->getFirstName())->toEqual($firstName);
-    $this->assertMatchesRegularExpression($pattern, $firstName);
 })->with('name');
 
 it('has setFirstName throw exception', function($firstName){
@@ -103,10 +99,8 @@ it('has setFirstName throw exception', function($firstName){
 
 
 it('has setMail', function($mail){
-    $pattern = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
     $result = $this->participant->setMail($mail);
     $this->expect($result->getMail())->toEqual($mail);
-    $this->assertMatchesRegularExpression($pattern, $mail);
 })->with('mail');
 
 it('has setMail throw exception', function($mail){
@@ -114,12 +108,10 @@ it('has setMail throw exception', function($mail){
 })->with('failMail')->throws(Exception::class);
 
 
-it('has setBirthDate', function($birthDate){
-    $pattern = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
+it('has setBirthDate between 3years to 100years', function($birthDate){
     $date = DateTime::createFromFormat('d/m/Y', $birthDate);
     $result = $this->participant->setBirthDate($birthDate);
     $this->expect($result->getBirthDate())->toEqual($date);
-    $this->assertMatchesRegularExpression($pattern, $birthDate);
 })->with([
     '01/01/2017',
     '31/12/1950'
@@ -136,10 +128,8 @@ it('has setBirthDate throw exception', function($birthDate){
 
 
 it('has setImgLink', function($imgLink){
-    $pattern = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
     $result = $this->participant->setImgLink($imgLink);
     $this->expect($result->getImgLink())->toEqual($imgLink);
-    $this->assertMatchesRegularExpression($pattern, $imgLink);
 })->with([
     '25.jpg',
     '/link/Img/45.JPEG'

@@ -65,11 +65,9 @@ it('has setRaceId throw exception', function($raceId){
     
 
 it('has setAverageTime', function($averageTime){
-    $pattern = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     $timeStage = DateTime::createFromFormat('i:s.u', $averageTime);
     $result = $this->result->setAverageTime($averageTime);
     $this->expect($result->getAverageTime())->toEqual($timeStage);
-    $this->assertMatchesRegularExpression($pattern, $averageTime);
 })->with([
     '01:00.0',
     '99:59.999'

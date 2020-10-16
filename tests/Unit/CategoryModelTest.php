@@ -5,8 +5,7 @@ use App\Model\CategoryModel;
 beforeEach(function (){
        $this->categoryModel = new CategoryModel();
       });
-
-
+      
 it('test of instance', function(){
         $this->expect($this->categoryModel)->toBeInstanceOf(CategoryModel::class);
         });

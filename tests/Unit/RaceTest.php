@@ -49,10 +49,8 @@ it('has setId throw exception', function($id){
 
 
 it('has setLocation', function($location){
-    $pattern = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
     $result = $this->race->setLocation($location);
     $this->expect($result->getLocation())->toEqual($location);
-    $this->assertMatchesRegularExpression($pattern, $location);
 })->with('group');
 
 it('has setName throw exception', function($location){
@@ -61,11 +59,9 @@ it('has setName throw exception', function($location){
 
 
 it('has setDate', function($date){
-    $pattern = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
     $dateRace = DateTime::createFromFormat('d/m/Y', $date);
     $result = $this->race->setDate($date);
     $this->expect($result->getDate())->toEqual($dateRace);
-    $this->assertMatchesRegularExpression($pattern, $date);
 })->with([
     '01/01/2200',
     '31/12/2500'

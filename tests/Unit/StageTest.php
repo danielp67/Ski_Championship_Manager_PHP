@@ -79,11 +79,9 @@ it('has setStage throw exception', function($stage){
 
 
 it('has setTime', function($time){
-    $pattern = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     $timeStage = DateTime::createFromFormat('i:s.u', $time);
     $result = $this->stage->setTime($time);
     $this->expect($result->getTime())->toEqual($timeStage);
-    $this->assertMatchesRegularExpression($pattern, $time);
 })->with([
     '01:00.0',
     '99:59.999'
