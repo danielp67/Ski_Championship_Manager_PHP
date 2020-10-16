@@ -15,6 +15,8 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
 require __DIR__.'/vendor/autoload.php';
 
 echo date('Y-m-d H:i:s');
+$params = explode('/', $_GET['url']);
+var_dump($params);
 
 try
 {
@@ -23,13 +25,19 @@ try
     $loader = new YamlFileLoader($fileLocator);
     $routes = $loader->load('routes.yaml');
     // Init RequestContext object
+    $request =  Request::createFromGlobals();
     $context = new RequestContext();
-    $context->fromRequest(Request::createFromGlobals());
+
+  // var_dump($request);
+ // var_dump($context);
+    $context->fromRequest($request);
 
     // Init UrlMatcher object
     $matcher = new UrlMatcher($routes, $context);
+
     // Find the current route
     $parameters = $matcher->match($context->getPathInfo());
+    
 /*
     // How to generate a SEO URL
     $generator = new UrlGenerator($routes, $context);
@@ -37,8 +45,7 @@ try
     var_dump($generator);
 */
     $params = explode('::', $parameters['_controller']);
-    
-    var_dump($params);
+    $response = new Response();
 
     if ($params[0] !== null) {
 
@@ -47,8 +54,7 @@ try
     $controller = new $controller();
 
         if (method_exists($controller, $action)) {
-           // $response = new Response();
-           call_user_func_array([$controller,$action], $params);
+           call_user_func_array([$controller,$action], [$request, $response]);
 
         } else {
             // On envoie le code réponse 404
@@ -62,13 +68,11 @@ try
         // Ici aucun paramètre n'est défini
         // On instancie le contrôleur
         $controller = new HomeController();
-
         // On appelle la méthode index
-        $controller->homePage();
+        $controller->homePage($request, $response);
     }
 }
 catch (Exception $error) { // S'il y a eu une erreur, alors...
-  
     $controller = new HomeController();
     $controller->errorPage($error);
 }

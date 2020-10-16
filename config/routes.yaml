@@ -4,3 +4,11 @@
 home:
     path: /home
     controller: App\Controller\HomeController::homePage
+
+race:
+    path: /race
+    controller: App\Controller\RaceController::racePage
+
+participant:
+    path: /participant
+    controller: App\Controller\ParticipantController::participantPage
