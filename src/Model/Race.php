@@ -40,7 +40,8 @@ final class Race
 
     /**
      * Set the value of id
-     *
+     * @param int $id
+     * @throws Exception
      * @return  self
      */ 
     public function setId(int $id): self
@@ -55,7 +56,8 @@ final class Race
 
     /**
      * Set the value of location
-     *
+     * @param string $location
+     * @throws Exception
      * @return  self
      */ 
     public function setLocation(string $location): self
@@ -71,7 +73,8 @@ final class Race
 
     /**
      * Set the value of date
-     *
+     * @param string $date
+     * @throws Exception
      * @return  self
      */ 
     public function setDate(string $dateLocation): self

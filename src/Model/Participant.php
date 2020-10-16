@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Exception;
@@ -55,6 +56,7 @@ final class Participant
 
     /**
      * Get the value of birthDate
+     * 
      */ 
     public function getBirthDate(): ?DateTimeInterface
     {
@@ -87,7 +89,7 @@ final class Participant
 
     /**
      * Set the value of id
-     *
+     * @param int $id
      * @return  self
      */ 
     public function setId(int $id): self
@@ -99,7 +101,7 @@ final class Participant
 
     /**
      * Set the value of lastName
-     *
+     * @param string $lastName
      * @return  self
      */ 
     public function setLastName(string $lastName): self
@@ -111,7 +113,7 @@ final class Participant
 
     /**
      * Set the value of firstName
-     *
+     * @param string $firstName
      * @return  self
      */ 
     public function setFirstName(string $firstName): self
@@ -123,7 +125,7 @@ final class Participant
 
     /**
      * Set the value of mail
-     *
+     * @param string $mail
      * @return  self
      */ 
     public function setMail(string $mail): self
@@ -135,13 +137,19 @@ final class Participant
 
     /**
      * Set the value of birthDate
-     *
+     * @param string $birthDate
+     * @throws Exception
      * @return  self
      */ 
     public function setBirthDate(string $birthDate): self
     {
         $checkDate = $this->checkStringMatchPattern(self::PATTERN_DATE, $birthDate);
         $date = DateTime::createFromFormat('d/m/Y', $checkDate);
+        $maxAge100 = (new DateTime())->sub(new DateInterval('P100Y'));
+        $minAge3 = (new DateTime())->sub(new DateInterval('P3Y'));
+        if($date<$maxAge100 || $date>$minAge3){
+            throw new Exception('Date de naissance non valide');
+        }
         $this->birthDate = $date;
 
         return $this;
@@ -149,7 +157,7 @@ final class Participant
 
     /**
      * Set the value of imgLink
-     *
+     * @param string $imgLink
      * @return  self
      */ 
     public function setImgLink(string $imgLink): self
@@ -161,7 +169,7 @@ final class Participant
 
     /**
      * Set the value of categoryId
-     *
+     * @param int $categoryId
      * @return  self
      */ 
     public function setCategoryId(int $categoryId): self
@@ -173,7 +181,7 @@ final class Participant
 
     /**
      * Set the value of profileId
-     *
+     * @param int $profileId
      * @return  self
      */ 
     public function setProfileId(int $profileId): self
@@ -185,7 +193,8 @@ final class Participant
 
     /**
      * check the value if is int
-     *
+     * @param int $int
+     * @throws Exception
      * @return  int
      */ 
     private function checkId(int $int): int
@@ -198,7 +207,9 @@ final class Participant
 
     /**
      * check the string value if match pattern
-     *
+     * @param string $pattern
+     * @param string  $string
+     * @throws Exception
      * @return  string
      */ 
     private function checkStringMatchPattern(string $pattern, string $string): string

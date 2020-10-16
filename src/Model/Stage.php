@@ -11,7 +11,7 @@ class Stage
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     private int $id;
     private int $stage;
-    private ?DateTimeInterface $time;
+    private DateTimeInterface $time;
     private int $participantId;
     private int $raceId;
 
@@ -58,7 +58,7 @@ class Stage
 
     /**
      * Set the value of id
-     *
+     * @param int $id
      * @return  self
      */ 
     public function setId(int $id): self
@@ -70,7 +70,8 @@ class Stage
 
     /**
      * Set the value of stage
-     *
+     * @param int $stage
+     * @throws Exception
      * @return  self
      */ 
     public function setStage(int $stage): self
@@ -85,7 +86,8 @@ class Stage
 
     /**
      * Set the value of time
-     *
+     * @param int $time
+     * @throws Exception
      * @return  self
      */ 
     public function setTime(string $timeStage): self
@@ -95,7 +97,6 @@ class Stage
             throw new Exception('temps est invalide');
         }
         $date = DateTime::createFromFormat('i:s.u', $timeStage);
-        var_dump($date);
         $this->time = $date;
 
         return $this;
@@ -103,7 +104,7 @@ class Stage
 
     /**
      * Set the value of participantId
-     *
+     * @param int $participantId
      * @return  self
      */ 
     public function setParticipantId($participantId)
@@ -115,7 +116,7 @@ class Stage
 
     /**
      * Set the value of raceId
-     *
+     * @param int $raceId
      * @return  self
      */ 
     public function setRaceId($raceId)
@@ -127,7 +128,8 @@ class Stage
 
     /**
      * check the value if is int
-     *
+     * @param int $int
+     * @throws Exception
      * @return  int
      */ 
     private function checkId(int $int): int

@@ -11,7 +11,7 @@ it('test of instance', function(){
         $this->expect($this->category)->toBeInstanceOf(Category::class);
 });
 
-it('should has properties', function(){
+it('should had properties', function(){
         $this->assertClassHasAttribute('id', Category::class);
         $this->assertClassHasAttribute('name', Category::class);
     });

@@ -10,7 +10,7 @@ it('test of instance', function(){
         $this->expect($this->race)->toBeInstanceOf(Race::class);
         });
 
-it('should has properties', function(){
+it('should had properties', function(){
         $this->assertClassHasAttribute('id', Race::class);
         $this->assertClassHasAttribute('location', Race::class);
         $this->assertClassHasAttribute('date', Race::class);
@@ -67,7 +67,7 @@ it('has setDate', function($date){
     $this->expect($result->getDate())->toEqual($dateRace);
     $this->assertMatchesRegularExpression($pattern, $date);
 })->with([
-    '01/01/1000',
+    '01/01/2200',
     '31/12/2500'
 ]);
 

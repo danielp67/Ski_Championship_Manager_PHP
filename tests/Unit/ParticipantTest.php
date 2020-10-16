@@ -10,7 +10,7 @@ it('test of instance', function(){
         $this->expect($this->participant)->toBeInstanceOf(Participant::class);
         });
 
-it('should has properties', function(){
+it('should had properties', function(){
     $this->assertClassHasAttribute('id', Participant::class);
     $this->assertClassHasAttribute('lastName', Participant::class);
     $this->assertClassHasAttribute('firstName', Participant::class);
@@ -47,7 +47,7 @@ it('should getImgLink', function(){
 });
 
 it('should getBirthDate', function(){
-    $birthDate = '01/01/1000';
+    $birthDate = '01/01/2000';
     $date = DateTime::createFromFormat('d/m/Y', $birthDate);
     $this->participant->setBirthDate($birthDate);
     $this->expect($this->participant->getBirthDate())->toEqual($date);
@@ -121,14 +121,16 @@ it('has setBirthDate', function($birthDate){
     $this->expect($result->getBirthDate())->toEqual($date);
     $this->assertMatchesRegularExpression($pattern, $birthDate);
 })->with([
-    '01/01/1000',
-    '31/12/2500'
+    '01/01/2017',
+    '31/12/1950'
 ]);
 
 it('has setBirthDate throw exception', function($birthDate){
     $this->participant->setBirthDate($birthDate);
 })->with([
     '01/01/10002',
+    '01/01/2020',
+    '01/01/1920',
     '31/32/2500'
 ])->throws(Exception::class);
 

@@ -1,16 +1,53 @@
 <?php
 
 use App\Controller\HomeController;
-use App\Router\Router;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\Loader\YamlFileLoader;
 
 require __DIR__.'/vendor/autoload.php';
 
+// looks inside *this* directory
+$fileLocator = new FileLocator([__DIR__.'/config/']);
+$loader = new YamlFileLoader($fileLocator);
+$routes = $loader->load('routes.yaml');
+
+
+
+
+
+$route = new Route('/home', ['_controller' => HomeController::class]);
+$routes = new RouteCollection();
+$routes->add('home', $route);
+
+$context = new RequestContext('/');
+
+// Routing can match routes with incoming requests
+$matcher = new UrlMatcher($routes, $context);
+$parameters = $matcher->match('/home');
+// $parameters = [
+//     '_controller' => 'App\Controller\BlogController',
+//     'slug' => 'lorem-ipsum',
+//     '_route' => 'blog_show'
+// ]
+
+// Routing can also generate URLs for a given route
+$generator = new UrlGenerator($routes, $context);
+$url = $generator->generate('home', [
+    'slug' => 'test',
+]);
+// $url = '/blog/my-blog-post'
+
+
+
+
+
 
 echo date('Y-m-d H:i:s');
-$params = explode('/', $_GET['url']);
-var_dump($params);
 /*
 $request = new Request();
 $request2 = Request::createFromGlobals();
@@ -18,32 +55,13 @@ $request2 = Request::createFromGlobals();
 var_dump($request);
 var_dump($request2);
 */
-
+/*
     $router = new Router($_GET['url']);
 
 
     $router->get('home/loginPage', 'Home.loginPage');
     $router->get('home/newUserPage', 'Home.newUserPage');
     $router->get('/', 'Home.loginPage');
-
-
-    $router->get('race', 'Race.racePage');
-
-    $router->get('participant', 'Participant.participantPage');
-
-    $router->post('user/addNewUser', 'User.addNewUser');
-
-    $router->get('item/listItemPage', 'Item.listItemPage');
-    $router->post('item/addNewItem', 'Item.addNewItem');
-
-
-    $router->get('item/getComments/:id', 'Item.getComments');
-    $router->post('comment/addComment/:id', 'Comment.addComment');
-
-
-    $router->get('user/sessionDestroy', 'User.sessionDestroy');
-
-    $router->get('home/errorPage', 'Home.errorPage');
 
 
 try {
@@ -56,3 +74,4 @@ catch (Exception $error) {
         $controller->errorPage($error);
 }
 
+*/

@@ -11,7 +11,7 @@ it('test of instance', function(){
         $this->expect($this->profile)->toBeInstanceOf(Profile::class);
         });
 
-it('should has properties', function(){
+it('should had properties', function(){
         $this->assertClassHasAttribute('id', Profile::class);
         $this->assertClassHasAttribute('name', Profile::class);
         });

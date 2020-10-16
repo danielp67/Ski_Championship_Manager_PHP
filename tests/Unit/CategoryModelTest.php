@@ -12,11 +12,11 @@ it('test of instance', function(){
         });
 
 
-it('should has properties', function(){
+it('should had properties', function(){
       $this->assertClassHasAttribute('dataBase', CategoryModel::class);
 });
 
-it('should has methods', function(){
+it('should had methods', function(){
       $this->expect(method_exists ($this->categoryModel,  'get' ))->toBeTrue();
       $this->expect(method_exists ($this->categoryModel,  'getAll' ))->toBeTrue();
       $this->expect(method_exists ($this->categoryModel,  'add' ))->toBeTrue();

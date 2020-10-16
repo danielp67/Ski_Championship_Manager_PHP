@@ -29,7 +29,8 @@ abstract class Group
 
     /**
      * Set the value of id
-     *
+     * @param int $id
+     * @throws Exception
      * @return  self
      */ 
     public function setId(int $id): self
@@ -44,7 +45,8 @@ abstract class Group
 
     /**
      * Set the value of name
-     *
+     * @param string $name
+     * @throws Exception
      * @return  self
      */ 
     public function setName(string $name): self
