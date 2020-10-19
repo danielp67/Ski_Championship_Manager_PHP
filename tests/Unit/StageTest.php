@@ -13,7 +13,7 @@ it('test of instance', function(){
 
 it('should has properties', function(){
         $this->assertClassHasAttribute('id', Stage::class);
-        $this->assertClassHasAttribute('stage', Stage::class);
+        $this->assertClassHasAttribute('stageNb', Stage::class);
         $this->assertClassHasAttribute('time', Stage::class);
         $this->assertClassHasAttribute('participantId', Stage::class);
         $this->assertClassHasAttribute('raceId', Stage::class);
@@ -25,9 +25,9 @@ it('should getId', function(){
     $this->expect($this->stage->getId())->toBeInt();
 });
 
-it('should getStage', function(){
-    $this->stage->setStage(1);
-    $this->expect($this->stage->getStage())->toBeInt();
+it('should getStageNb', function(){
+    $this->stage->setStageNb(1);
+    $this->expect($this->stage->getStageNb())->toBeInt();
 });
 
 it('should getTime', function(){
@@ -63,15 +63,15 @@ it('has setId throw exception', function($id){
 ])->throws(Exception::class);
 
 
-it('has setStage', function($stage){
-    $result = $this->stage->setStage($stage);
-    $this->expect($result->getStage())->toEqual($stage);
+it('has setStageNb', function($stageNb){
+    $result = $this->stage->setStageNb($stageNb);
+    $this->expect($result->getStageNb())->toEqual($stageNb);
 })->with([
     1,2
 ]);
 
-it('has setStage throw exception', function($stage){
-    $this->stage->setStage($stage);
+it('has setStageNb throw exception', function($stageNb){
+    $this->stage->setStageNb($stageNb);
 })->with([
     -1,0,3
 ])->throws(Exception::class);

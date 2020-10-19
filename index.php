@@ -29,7 +29,7 @@ try
     $context = new RequestContext();
 
   // var_dump($request);
- // var_dump($context);
+   // var_dump($context);
     $context->fromRequest($request);
 
     // Init UrlMatcher object
@@ -58,7 +58,7 @@ try
 
         } else {
             // On envoie le code réponse 404
-            http_response_code(404);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $error = "La page recherchée n'existe pas";
             $controller = new HomeController();
             $controller->errorPage($error);
@@ -73,6 +73,8 @@ try
     }
 }
 catch (Exception $error) { // S'il y a eu une erreur, alors...
+    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+    $error = $error->getMessage();
     $controller = new HomeController();
     $controller->errorPage($error);
 }

@@ -13,11 +13,10 @@ class Epreuves{
     + terminerEpreuve()
 }
 
-class ListeParticipants{
+class Epreuve_Participants{
     - id: int
-    - liste_participant: array
-    - épreuve: Epreuves
-
+ 
+    + importerFeuilleChronométrage()
     + ajouterListeParticipants()
     + modifierListeParticipants()
 }
@@ -43,17 +42,13 @@ class Passages{
     - numero_passage: int
     - temps_passage: time
 
+   
+    + exporterFeuilleChronométrage()
 }
 
 class Résultats{
     - id: int
-    - épreuves: Epreuves
-    - passages: Passages
-    - listeParticipants: ListeParticipants
     - temps_moyenne: time
-
-    + importerFeuilleChronométrage()
-    + exporterFeuilleChronométrage()
 
     + calculerRésultat()
     + afficherRésultat()
@@ -101,13 +96,11 @@ Groupes .left.|> modifiable
 Groupes <|-- Catégories
 Groupes <|-- Profils
 
-Epreuves *-right- ListeParticipants
-ListeParticipants -left-o Participants
+Epreuves *-right- Epreuve_Participants
+Epreuve_Participants -left-o Participants
 
-ListeParticipants *-left- Passages
-Passages *-right- Résultats
-Epreuves -- Résultats
-ListeParticipants -- Résultats
+Epreuve_Participants *-- Passages
+(Epreuve_Participants, Passages) .. Résultats
 Participants --* Profils
 Participants --* Catégories
 

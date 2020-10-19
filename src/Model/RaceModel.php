@@ -33,7 +33,7 @@ final class RaceModel
     public function add(Race $race): array
     {
         $addRace = $this->dataBase->prepare('INSERT INTO 
-        race (location, date) VALUES(?)');
+        race (location, date) VALUES(?, ?)');
         
         return $addRace->execute(array(
             $race->getLocation(), 

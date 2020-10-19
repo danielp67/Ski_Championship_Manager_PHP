@@ -2,8 +2,8 @@
 
 namespace App\Model;
 
-use Exception;
 use PDO;
+use PDOException;
 
 final class ConnectModel
 {
@@ -12,7 +12,7 @@ final class ConnectModel
         try {
             // On se connecte à MySQL
             return new PDO('mysql:host=localhost;dbname=championnat_ski; charset=utf8', 'root', '');
-        } catch (Exception $error) {
+        } catch (PDOException $error) {
             // En cas d'erreur, on affiche un message et on arrête tout
             die('Erreur : '.$error->getMessage());
         }

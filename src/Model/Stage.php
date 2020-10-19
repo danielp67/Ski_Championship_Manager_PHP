@@ -10,7 +10,7 @@ class Stage
 {
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     private int $id;
-    private int $stage;
+    private int $stageNb;
     private DateTimeInterface $time;
     private int $participantId;
     private int $raceId;
@@ -25,11 +25,11 @@ class Stage
     }
 
     /**
-     * Get the value of stage
+     * Get the value of stageNb
      */ 
-    public function getStage(): ?int
+    public function getStageNb(): ?int
     {
-        return $this->stage;
+        return $this->stageNb;
     }
 
     /**
@@ -69,17 +69,17 @@ class Stage
     }
 
     /**
-     * Set the value of stage
-     * @param int $stage
+     * Set the value of stageNb
+     * @param int $stageNb
      * @throws Exception
      * @return  self
      */ 
-    public function setStage(int $stage): self
+    public function setStageNb(int $stageNb): self
     {
-        if (! is_int($stage) || $stage < 1 || $stage > 2) {
+        if (! is_int($stageNb) || $stageNb < 1 || $stageNb > 2) {
             throw new Exception('Id invalide');
         }
-        $this->stage = $stage;
+        $this->stageNb = $stageNb;
 
         return $this;
     }

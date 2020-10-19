@@ -12,7 +12,6 @@ final class HomeController extends ManagerController
 
     public function errorPage($error): void
     {   
-        $error = 'Erreur : ' . $error->getMessage();
         echo $this->twig->render('errorView.html.twig', ['error' => $error]);
     }
 }

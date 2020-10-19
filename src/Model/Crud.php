@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Composer\Repository\RepositoryInterface;
+
 interface Crud
 {
     public function get(int $id);
