@@ -52,7 +52,7 @@ try
     $controller = $params[0];
     $action = $params[1];
     $controller = new $controller();
-
+    
         if (method_exists($controller, $action)) {
            call_user_func_array([$controller,$action], [$request, $response]);
 

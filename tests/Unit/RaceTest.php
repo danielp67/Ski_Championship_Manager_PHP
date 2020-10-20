@@ -16,24 +16,6 @@ it('should had properties', function(){
         $this->assertClassHasAttribute('date', Race::class);
         });
 
-it('should getId', function(){
-    $this->race->setId(4);
-    $this->expect($this->race->getId())->toBeInt();
-});
-
-it('should getLocation', function(){
-    $this->race->setLocation('Isola 2000');
-    $this->expect($this->race->getLocation())->toBeString();
-});
-
-it('should getDate', function(){
-    $dateLocation = '01/01/1000';
-    $date = DateTime::createFromFormat('d/m/Y', $dateLocation);
-    $this->race->setDate($dateLocation);
-    $this->expect($this->race->getDate())->toEqual($date);
-});
-
-
 it('has setId', function($id){
     $result = $this->race->setId($id);
     $this->expect($result->getId())->toEqual($id);
@@ -59,12 +41,12 @@ it('has setName throw exception', function($location){
 
 
 it('has setDate', function($date){
-    $dateRace = DateTime::createFromFormat('d/m/Y', $date);
+    $dateRace = DateTime::createFromFormat('Y-m-d', $date);
     $result = $this->race->setDate($date);
     $this->expect($result->getDate())->toEqual($dateRace);
 })->with([
-    '01/01/2200',
-    '31/12/2500'
+    '2020-12-31',
+    '2500-01-01'
 ]);
 
 it('has setDate throw exception', function($date){

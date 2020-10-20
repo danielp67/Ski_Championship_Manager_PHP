@@ -2,9 +2,7 @@
 
 namespace App\Model;
 
-use Composer\Repository\RepositoryInterface;
-
-interface Crud
+interface Repository
 {
     public function get(int $id);
     public function getAll();

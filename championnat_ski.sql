@@ -2,16 +2,24 @@
 -- Base de données :  `championnat_ski`
 --
 
+DROP TABLE IF EXISTS `profile`;
+DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `participant`;
+
+DROP TABLE IF EXISTS `race`;
+DROP TABLE IF EXISTS `race_participant`;
+DROP TABLE IF EXISTS `stage`;
+DROP TABLE IF EXISTS `result`;
+
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `category`
 --
 
-DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB;
 
 --
@@ -33,10 +41,9 @@ INSERT INTO `category` (`id`, `name`) VALUES
 -- Structure de la table `profile`
 --
 
-DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB;
 
 --
@@ -54,11 +61,11 @@ INSERT INTO `profile` (`id`, `name`) VALUES
 -- Structure de la table `race`
 --
 
-DROP TABLE IF EXISTS `race`;
 CREATE TABLE IF NOT EXISTS `race` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `loation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` date NOT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` date NOT NULL
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB;
 
 
@@ -68,7 +75,6 @@ CREATE TABLE IF NOT EXISTS `race` (
 -- Structure de la table `participant`
 --
 
-DROP TABLE IF EXISTS `participant`;
 CREATE TABLE IF NOT EXISTS `participant` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -77,10 +83,9 @@ CREATE TABLE IF NOT EXISTS `participant` (
   `birth_date` date NOT NULL,
   `img_link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` int(11) NOT NULL,
-  `profile_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  `profile_id` int(11) NOT NULL,
   CONSTRAINT fk_category_id          -- On donne un nom à notre clé
-        FOREIGN KEY (category_id )             -- Colonne sur laquelle on crée la clé
+        FOREIGN KEY (category_id)             -- Colonne sur laquelle on crée la clé
         REFERENCES Category(id),        -- Colonne de référence
   CONSTRAINT fk_profile_id          -- On donne un nom à notre clé
         FOREIGN KEY (profile_id)             -- Colonne sur laquelle on crée la clé
@@ -93,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `participant` (
 -- Structure de la table `race_participant`
 --
 
-DROP TABLE IF EXISTS `race_participant`;
 CREATE TABLE IF NOT EXISTS `race_participant` (
   `id` int(11) PRIMARY KEY NOT NULL,
   `race_id` int(11) NOT NULL,
@@ -103,7 +107,7 @@ CONSTRAINT fk_race_id         -- On donne un nom à notre clé
         REFERENCES race(id),        -- Colonne de référence
 CONSTRAINT fk_participant_id         -- On donne un nom à notre clé
         FOREIGN KEY (participant_id)             -- Colonne sur laquelle on crée la clé
-        REFERENCES participant(id),        -- Colonne de référence
+        REFERENCES participant(id)       -- Colonne de référence
 ) ENGINE=InnoDB;
 
 
@@ -114,15 +118,14 @@ CONSTRAINT fk_participant_id         -- On donne un nom à notre clé
 -- Structure de la table `stage`
 --
 
-DROP TABLE IF EXISTS `stage`;
 CREATE TABLE IF NOT EXISTS `stage` (
   `id` int(11) PRIMARY KEY NOT NULL,
   `stage_nb` int(11) NOT NULL,
   `time` time DEFAULT NULL,
-  `race_participant_id` int(11) DEFAULT NULL,
+  `race_participant_id` int(11) NOT NULL,
 CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
         FOREIGN KEY (race_participant_id)             -- Colonne sur laquelle on crée la clé
-        REFERENCES race_participant(id),        -- Colonne de référence
+        REFERENCES race_participant(id)        -- Colonne de référence
 ) ENGINE=InnoDB;
 
 
@@ -133,13 +136,12 @@ CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
 -- Structure de la table `result`
 --
 
-DROP TABLE IF EXISTS `result`;
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `average_time` time NOT NULL,
   `race_participant_id` int(11) NOT NULL,
 CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
         FOREIGN KEY (race_participant_id)             -- Colonne sur laquelle on crée la clé
-        REFERENCES race_participant(id),        -- Colonne de référence
+        REFERENCES race_participant(id)        -- Colonne de référence
 ) ENGINE=InnoDB;
 

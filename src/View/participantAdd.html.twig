@@ -1,0 +1,83 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Nouveau Participant
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-6 offset-3">
+        <form method="post" action="/participant/check" enctype="multipart/form-data" class="card">
+            <legend class="card-header text-secondary">Créer un nouveau participant :</legend>
+             <div class="form-inline mt-2">
+                <label for="lastName" class="col-5 offset-1 text-right ">
+                    Nom : </label>
+                <input class="form-control col-5" type="text" name="lastName"
+                id="lastName" value="Dupont" required minlength="2">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="firstName" class="col-5 offset-1 text-right ">
+                    Prénom : </label>
+                <input class="form-control col-5" type="text" name="firstName"
+                id="firstName"  value="Jean" required minlength="2">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="birthdate" class="col-5 offset-1 text-right ">
+                    Date de naissance : </label>
+                <input class="form-control col-5" type="date" name="birthdate"
+                id="birthdate" value="1970-01-01" placeholder="10/10/2020">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="mail" class="col-5 offset-1 text-right ">
+                    E-mail : </label>
+                <input class="form-control col-5" type="email" name="mail"
+                id="mail" value="nom@exemple.com" placeholder="nom@exemple.com">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="img" class="col-5 offset-1 text-right ">
+                    Photo : </label>
+                <input class="form-control col-5" type="file" name="img"
+                id="img">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="category" class="col-5 offset-1 text-right ">
+                    Catégorie : </label>
+
+                     <select class="form-control" name="category" id="category" value="2" >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+
+            </div>
+            <div class="form-inline mt-2">
+                <label for="profile" class="col-5 offset-1 text-right ">
+                    Profil : </label>
+                     <select class="form-control" name="profile" id="profile" value="2">
+                        <option value="1">Gardes-champetre</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+            </div>
+
+    
+            <div class="form-group mt-3">
+                <input type="submit" class="btn btn-success"
+                value="Créer" />
+            </div>
+            <div class="card-footer">
+                <a href="/race" id="raceView">Retour ?</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+
+

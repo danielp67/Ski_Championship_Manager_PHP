@@ -9,7 +9,7 @@ use Exception;
 final class Race
 {
     protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
-    private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
+    private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
     protected int $id;
     protected string $location;
     protected DateTimeInterface $date;
@@ -83,7 +83,7 @@ final class Race
         if (! preg_match($pattern, $dateLocation)) {
             throw new Exception('date est invalide');
         }
-        $date = DateTime::createFromFormat('d/m/Y', $dateLocation);
+        $date = DateTime::createFromFormat('Y-m-d', $dateLocation);
         $this->date = $date;
 
         return $this;

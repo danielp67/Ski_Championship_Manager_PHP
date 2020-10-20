@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
-final class CategoryModel
+use App\Model\Category;
+use App\Model\ConnectModel;
+
+final class CategoryRepository implements CategoryInterface
 {
     private object $dataBase;
 
@@ -12,7 +15,7 @@ final class CategoryModel
         $this->dataBase = $pdo->dbConnect();
     }
 
-    public function get(int $id): array
+    public function find(int $id): array
     {
         $getCategory = $this->dataBase->prepare('SELECT *
         FROM category WHERE id = ?');
@@ -21,7 +24,16 @@ final class CategoryModel
         return $getCategory->fetchAll();
     }
 
-    public function getAll(): array
+    public function findbyName(Category $category): array
+    {
+        $getCategory = $this->dataBase->prepare('SELECT *
+        FROM category WHERE name = ?');
+        $getCategory->execute(array($category->getName()));
+
+        return $getCategory->fetchAll();
+    }
+
+    public function findAll(): array
     {
         $getAllCategories = $this->dataBase->prepare('SELECT *
         FROM category');
@@ -30,7 +42,7 @@ final class CategoryModel
         return $getAllCategories->fetchAll();
     }
 
-    public function add(Category $category): array
+    public function add(Category $category): bool
     {
         $addCategory = $this->dataBase->prepare('INSERT INTO 
         category (name) VALUES(?)');
@@ -38,7 +50,7 @@ final class CategoryModel
         return $addCategory->execute(array($category->getName()));
     }
 
-    public function update(Category $category): array
+    public function update(Category $category): bool
     {
         $updateCategory = $this->dataBase->prepare('UPDATE category SET name = :name WHERE id = :id');
 
@@ -48,7 +60,7 @@ final class CategoryModel
         ));
     }
 
-    public function delete(int $id): array
+    public function delete(int $id): bool
     {
         $deleteCategory = $this->dataBase->prepare('DELETE FROM category WHERE id = :id');
 

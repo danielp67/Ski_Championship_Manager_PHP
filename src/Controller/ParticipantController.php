@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 final class ParticipantController extends ManagerController
 {
     public function participantPage(): void
@@ -9,9 +11,19 @@ final class ParticipantController extends ManagerController
         echo $this->twig->render('participantView.html.twig');
     }
 
-    public function errorPage($error): void
-    {   
-        $error = 'Erreur : ' . $error->getMessage();
-        echo $this->twig->render('errorView.html.twig', ['error' => $error]);
+    public function participantAdd(): void
+    {
+        echo $this->twig->render('participantAdd.html.twig');
     }
+
+    public function participantCheck(): void
+    {
+        $request = Request::createFromGlobals();
+        var_dump($request->request);
+        var_dump($request->files);
+
+        
+      //  echo $this->twig->render('participantAdd.html.twig');
+    }
+
 }

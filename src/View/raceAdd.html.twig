@@ -1,0 +1,71 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Nouvelle Epreuve
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-6 offset-3">
+        <form method="post" action="/race/check" class="card">
+            <legend class="card-header text-secondary">Créer une nouvelle épreuve :</legend>
+            <div class="form-inline mt-2">
+                <label for="location" class="col-5 offset-1 text-right ">
+                    Lieu : </label>
+                <input class="form-control col-5" type="text" name="location"
+                id="location" required minlength="4">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="date" class="col-5 offset-1 text-right ">
+                    Date : </label>
+                <input class="form-control col-5" type="date" name="date"
+                id="date" placeholder="10/10/2020">
+            </div>
+    
+            <div class="form-group mt-3">
+            <button type="button" class="btn btn-success"  id="button" data-toggle="modal" data-target="#modalAdd">
+                    Créer
+                </button>
+                <input type="submit" class="btn btn-inactive"
+                value="Créer" />
+            </div>
+            <div class="card-footer">
+                <a href="/race" id="raceView">Retour ?</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmer la création ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+  
+        Etes vous sûr de vouloir créer une nouvelle épreuve ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+       <form method="post" action="/race/check" dialog>
+        <input type="submit" class="btn btn-primary"  value="Confirmer"/>
+        </form>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+

@@ -2,6 +2,7 @@
 
 use App\Model\ConnectModel;
 
+
 beforeEach(function (){
        $this->connectModel = new ConnectModel();
       });

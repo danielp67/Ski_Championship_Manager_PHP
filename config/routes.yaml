@@ -8,7 +8,52 @@ home:
 race:
     path: /race
     controller: App\Controller\RaceController::racePage
+race_add:
+    path: /race/add
+    controller: App\Controller\RaceController::raceAdd
+race_check:
+    path: /race/check
+    controller: App\Controller\RaceController::raceCheck
 
 participant:
     path: /participant
     controller: App\Controller\ParticipantController::participantPage
+participant_add:
+    path: /participant/add
+    controller: App\Controller\ParticipantController::participantAdd
+participant_check:
+    path: /participant/check
+    controller: App\Controller\ParticipantController::participantCheck
+
+category:
+    path: /category
+    controller: App\Controller\CategoryController::categoryPage
+category_add:
+    path: /category/add
+    controller: App\Controller\CategoryController::categoryAdd
+category_update:
+    path: /category/update
+    controller: App\Controller\CategoryController::categoryUpdate
+category_check:
+    path: /category/check
+    controller: App\Controller\CategoryController::categoryCheck
+category_delete:
+    path: /category/delete
+    controller: App\Controller\CategoryController::categoryDelete
+
+
+profile:
+    path: /profile
+    controller: App\Controller\ProfileController::profilePage
+profile_add:
+    path: /profile/add
+    controller: App\Controller\ProfileController::profileAdd
+profile_update:
+    path: /profile/update
+    controller: App\Controller\ProfileController::profileUpdate
+profile_check:
+    path: /profile/check
+    controller: App\Controller\ProfileController::profileCheck
+profile_delete:
+    path: /profile/delete
+    controller: App\Controller\ProfileController::profileDelete
