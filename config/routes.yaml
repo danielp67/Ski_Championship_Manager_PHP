@@ -1,0 +1,74 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+home:
+    path: /home
+    controller: App\Controller\HomeController::homePage
+
+race:
+    path: /race
+    controller: App\Controller\RaceController::racePage
+race_list:
+    path: /race/list
+    controller: App\Controller\RaceController::raceList
+race_detail:
+    path: /race/detail/{id<\d+>}
+    controller: App\Controller\RaceController::raceDetail
+race_start:
+    path: /race/detail/{id<\d+>}/start
+    controller: App\Controller\RaceController::raceStart
+race_finish:
+    path: /race/detail/{id<\d+>}/finish
+    controller: App\Controller\RaceController::raceFinish
+race_cancel:
+    path: /race/detail/{id<\d+>}/cancel
+    controller: App\Controller\RaceController::raceCancel
+race_add:
+    path: /race/add
+    controller: App\Controller\RaceController::raceAdd
+race_form:
+    path: /race/form
+    controller: App\Controller\RaceController::raceForm
+race_check:
+    path: /race/check
+    controller: App\Controller\RaceController::raceCheck
+
+participant:
+    path: /participant
+    controller: App\Controller\ParticipantController::participantPage
+participant_add:
+    path: /participant/add
+    controller: App\Controller\ParticipantController::participantAdd
+participant_check:
+    path: /participant/check
+    controller: App\Controller\ParticipantController::participantCheck
+
+category:
+    path: /category
+    controller: App\Controller\CategoryController::categoryPage
+category_add:
+    path: /category/add
+    controller: App\Controller\CategoryController::categoryAdd
+category_update:
+    path: /category/update
+    controller: App\Controller\CategoryController::categoryUpdate
+category_check:
+    path: /category/check
+    controller: App\Controller\CategoryController::categoryCheck
+category_delete:
+    path: /category/delete
+    controller: App\Controller\CategoryController::categoryDelete
+
+
+profile:
+    path: /profile
+    controller: App\Controller\ProfileController::profilePage
+profile_add:
+    path: /profile/add
+    controller: App\Controller\ProfileController::profileAdd
+profile_update:
+    path: /profile/update
+    controller: App\Controller\ProfileController::profileUpdate
+profile_delete:
+    path: /profile/delete
+    controller: App\Controller\ProfileController::profileDelete

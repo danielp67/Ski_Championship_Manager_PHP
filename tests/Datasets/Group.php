@@ -1,16 +1,17 @@
 <?php
 
-dataset('name', [
-    'De Durand',
+dataset('group', [
+    'De Durand67',
     'lalalladfr',
     'gtede',
-    'gmail-dudutede'
+    'M1'
 ]);
 
-dataset('failName', [
+
+dataset('failGroup', [
     'test%testcom5',
     'lalalfr7897987898585',
     '#.de',
     'gmail-fd.d*',
-    '12lettr Uni'
+    '12lettr*Uni'
 ]);
