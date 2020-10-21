@@ -25,5 +25,4 @@ final class ParticipantController extends AbstractController
         
       //  echo $this->twig->render('participantAdd.html.twig');
     }
-
 }

@@ -36,7 +36,7 @@ final class RaceModel
         race (location, date) VALUES(?, ?)');
         
         return $addRace->execute(array(
-            $race->getLocation(), 
+            $race->getLocation(),
             $race->getDate()
             ));
     }
@@ -48,7 +48,7 @@ final class RaceModel
         return $updateRace->execute(array(
             'location' => $race->getLocation(),
             'date' => $race->getDate(),
-            'id' => $race->getId()  
+            'id' => $race->getId()
         ));
     }
 
@@ -58,5 +58,4 @@ final class RaceModel
 
         return $deleteRace->execute(array('id' => $id));
     }
-
 }

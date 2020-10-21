@@ -13,7 +13,7 @@ abstract class AbstractGroup
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -21,7 +21,7 @@ abstract class AbstractGroup
 
     /**
      * Get the value of name
-     */ 
+     */
     public function getname(): ?string
     {
         return $this->name;
@@ -32,7 +32,7 @@ abstract class AbstractGroup
      * @param int $id
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setId(int $id): self
     {
         if (! is_int($id) || $id < 0) {
@@ -48,7 +48,7 @@ abstract class AbstractGroup
      * @param string $name
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setName(string $name): self
     {
         $pattern = self::PATTERN_GROUP;
@@ -59,5 +59,4 @@ abstract class AbstractGroup
 
         return $this;
     }
-
 }

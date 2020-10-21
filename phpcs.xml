@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<ruleset name="tp15_championnat_ski">
+    <description>Mes regles de formatage </description>
+
+        <arg name="colors" />
+        <arg value="p" />
+
+        <file>src</file>
+
+
+        <rule ref="PSR12"></rule>
+</ruleset>

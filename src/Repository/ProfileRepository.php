@@ -22,7 +22,7 @@ final class ProfileRepository implements ProfileInterface
         FROM profile WHERE id = ?');
         $getProfile->execute(array($id));
 
-        return $getProfile->fetchAll();
+        return $getProfile->fetch();
     }
 
     public function findbyName(Profile $profile): array
@@ -57,7 +57,7 @@ final class ProfileRepository implements ProfileInterface
 
         return $updateProfile->execute(array(
             'name' => $profile->getName(),
-            'id' => $profile->getId()  
+            'id' => $profile->getId()
         ));
     }
 
@@ -67,5 +67,4 @@ final class ProfileRepository implements ProfileInterface
 
         return $deleteProfile->execute(array('id' => $id));
     }
-
 }

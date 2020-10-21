@@ -18,7 +18,4 @@ abstract class AbstractController
 
         return $this->twig;
     }
-
-
-    
 }

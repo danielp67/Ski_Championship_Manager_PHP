@@ -11,16 +11,16 @@ use Twig\Loader\FilesystemLoader;
 
 final class ProfileController
 {
-   private ProfileRepository $profileRepository;
-   public object $loader;
-   public object $twig;
+    private ProfileRepository $profileRepository;
+    public object $loader;
+    public object $twig;
 
-   public function __construct()
-   {
-       $this->loader = new FilesystemLoader('src/View');
-       $this->twig = new Environment($this->loader, []);
-       $this->profileRepository = new ProfileRepository();
-   }
+    public function __construct()
+    {
+        $this->loader = new FilesystemLoader('src/View');
+        $this->twig = new Environment($this->loader, []);
+        $this->profileRepository = new ProfileRepository();
+    }
 
     public function profilePage(): void
     {
@@ -35,7 +35,7 @@ final class ProfileController
         $newProfile = new Profile();
         $newProfile->setName($name);
         $checkProfile = $this->profileRepository->findbyName($newProfile);
-        if(empty($checkProfile)){
+        if (empty($checkProfile)) {
             $addProfile = $this->profileRepository->add($newProfile);
         }
         $response = new RedirectResponse('http://127.1.2.3/profile');
@@ -49,7 +49,7 @@ final class ProfileController
         $updateProfile->setName($request->get('name'));
         $updateProfile->setId($request->get('nameId'));
         $checkProfile = $this->profileRepository->findbyName($updateProfile);
-        if(empty($checkProfile)){
+        if (empty($checkProfile)) {
             $addProfile = $this->profileRepository->update($updateProfile);
         }
         $response = new RedirectResponse('http://127.1.2.3/profile');
@@ -64,5 +64,4 @@ final class ProfileController
         $response = new RedirectResponse('http://127.1.2.3/profile');
         $response->send();
     }
-
 }

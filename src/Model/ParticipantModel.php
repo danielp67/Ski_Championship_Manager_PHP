@@ -33,10 +33,11 @@ final class ParticipantModel
     public function add(Participant $participant): array
     {
         $addParticipant = $this->dataBase->prepare('INSERT INTO 
-        participant (last_name, first_name, mail, birth_date, img_link, categories_id, profils_id) VALUES(?, ?, ?, ?, ?, ?, ?)');
+        participant (last_name, first_name, mail, birth_date, img_link, categories_id, profils_id) 
+        VALUES(?, ?, ?, ?, ?, ?, ?)');
         
         return $addParticipant->execute(array(
-            $participant->getLastName(), 
+            $participant->getLastName(),
             $participant->getFirstName(),
             $participant->getMail(),
             $participant->getBirthDate(),
@@ -59,14 +60,14 @@ final class ParticipantModel
          WHERE id = :id');
 
         return $updateParticipant->execute(array(
-            'last_name' => $participant->getLastName(), 
+            'last_name' => $participant->getLastName(),
             'first_name' => $participant->getFirstName(),
             'mail' => $participant->getMail(),
             'birth_date' =>  $participant->getBirthDate(),
             'img_link' =>  $participant->getImgLink(),
             'category_id' =>  $participant->getCategoryId(),
             'profile_id' =>  $participant->getProfileId(),
-            'id' => $participant->getId()  
+            'id' => $participant->getId()
         ));
     }
 
@@ -76,5 +77,4 @@ final class ParticipantModel
 
         return $deleteParticipant->execute(array('id' => $id));
     }
-
 }

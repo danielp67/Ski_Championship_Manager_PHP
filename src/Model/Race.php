@@ -17,7 +17,7 @@ final class Race
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -25,7 +25,7 @@ final class Race
 
     /**
      * Get the value of location
-     */ 
+     */
     public function getLocation(): ?string
     {
         return $this->location;
@@ -33,7 +33,7 @@ final class Race
 
     /**
      * Get the value of date
-     */ 
+     */
     public function getDate(): ?DateTimeInterface
     {
         return $this->date;
@@ -41,7 +41,7 @@ final class Race
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus(): ?int
     {
         return $this->status;
@@ -52,10 +52,10 @@ final class Race
      * @param int $id
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setId(int $id): self
     {
-        if (! is_int($id) || $id < 0 ) {
+        if (! is_int($id) || $id < 0) {
             throw new Exception('Id invalide');
         }
         $this->id = $id;
@@ -68,7 +68,7 @@ final class Race
      * @param string $location
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setLocation(string $location): self
     {
         $pattern = self::PATTERN_GROUP;
@@ -85,7 +85,7 @@ final class Race
      * @param string $date
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setDate(string $dateLocation): self
     {
         $pattern = self::PATTERN_DATE;
@@ -103,7 +103,7 @@ final class Race
      * @param int $status
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setStatus(int $status): self
     {
         if (! is_int($status) || $status < 0 || $status > 3) {
@@ -113,5 +113,4 @@ final class Race
 
         return $this;
     }
-
 }

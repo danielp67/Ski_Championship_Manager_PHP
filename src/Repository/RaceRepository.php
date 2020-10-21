@@ -21,7 +21,7 @@ final class RaceRepository implements RaceInterface
         FROM race WHERE id = ?');
         $getRace->execute(array($id));
 
-        return $getRace->fetchAll();
+        return $getRace->fetch();
     }
 
     public function findByName(Race $race): array
@@ -29,7 +29,7 @@ final class RaceRepository implements RaceInterface
         $getRace = $this->dataBase->prepare('SELECT *
         FROM  race WHERE location = ? AND date = ?');
         $getRace->execute(array(
-            $race->getLocation(), 
+            $race->getLocation(),
             $race->getDate()
         ));
 
@@ -51,7 +51,7 @@ final class RaceRepository implements RaceInterface
         race (location, date, status) VALUES(?, ?, ?)');
         
         return $addRace->execute(array(
-            $race->getLocation(), 
+            $race->getLocation(),
             $race->getDate()->format('Y-m-d'),
             $race->getStatus()
             ));
@@ -59,13 +59,17 @@ final class RaceRepository implements RaceInterface
 
     public function update(Race $race): bool
     {
-        $updateRace = $this->dataBase->prepare('UPDATE race SET location = :location, date = :date, status = :status WHERE id = :id');
+        $updateRace = $this->dataBase->prepare('UPDATE race 
+        SET location = :location, 
+            date = :date, 
+            status = :status 
+        WHERE id = :id');
 
         return $updateRace->execute(array(
             'location' => $race->getLocation(),
             'date' => $race->getDate()->format('Y-m-d'),
             'status' => $race->getStatus(),
-            'id' => $race->getId()  
+            'id' => $race->getId()
         ));
     }
 
@@ -75,5 +79,4 @@ final class RaceRepository implements RaceInterface
 
         return $deleteRace->execute(array('id' => $id));
     }
-
 }

@@ -44,7 +44,7 @@ final class ProfileModel
 
         return $updateProfile->execute(array(
             'name' => $profile->getName(),
-            'id' => $profile->getId()  
+            'id' => $profile->getId()
         ));
     }
 
@@ -54,5 +54,4 @@ final class ProfileModel
 
         return $deleteProfile->execute(array('id' => $id));
     }
-
 }

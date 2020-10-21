@@ -12,5 +12,4 @@ interface RaceInterface
     public function add(Race $object);
     public function update(Race $object);
     public function delete(int $id);
-
 }

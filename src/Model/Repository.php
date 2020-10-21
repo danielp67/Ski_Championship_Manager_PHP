@@ -9,5 +9,4 @@ interface Repository
     public function add($object);
     public function update($object);
     public function delete(int $id);
-
 }

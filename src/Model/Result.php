@@ -16,7 +16,7 @@ class Result
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -24,7 +24,7 @@ class Result
 
     /**
      * Get the value of participantId
-     */ 
+     */
     public function getParticipantId(): ?int
     {
         return $this->participantId;
@@ -32,7 +32,7 @@ class Result
 
     /**
      * Get the value of raceId
-     */ 
+     */
     public function getRaceId(): ?int
     {
         return $this->raceId;
@@ -40,7 +40,7 @@ class Result
 
     /**
      * Get the value of averageTime
-     */ 
+     */
     public function getAverageTime(): ?DateTimeInterface
     {
         return $this->averageTime;
@@ -50,7 +50,7 @@ class Result
      * Set the value of id
      * @param int $id
      * @return  self
-     */ 
+     */
     public function setId(int $id): self
     {
         $this->id = $this->checkId($id);
@@ -62,7 +62,7 @@ class Result
      * Set the value of participantId
      * @param int $participantId
      * @return  self
-     */ 
+     */
     public function setParticipantId(int $participantId): self
     {
         $this->participantId = $this->checkId($participantId);
@@ -74,7 +74,7 @@ class Result
      * Set the value of raceId
      * @param int $raceId
      * @return  self
-     */ 
+     */
     public function setRaceId(int $raceId): self
     {
         $this->raceId = $this->checkId($raceId);
@@ -87,7 +87,7 @@ class Result
      * @param DateTimeInterface $averageTime
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setAverageTime(string $averageTime): self
     {
         $pattern = self::PATTERN_TIME;
@@ -106,7 +106,7 @@ class Result
      * @param int $int
      * @throws Exception
      * @return  int
-     */ 
+     */
     private function checkId(int $int): int
     {
         if (! is_int($int) || $int < 0) {
@@ -114,7 +114,4 @@ class Result
         }
         return $int;
     }
-
-
-
 }

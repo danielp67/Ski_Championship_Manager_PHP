@@ -30,7 +30,7 @@ final class CategoryRepository implements CategoryInterface
         FROM category WHERE name = ?');
         $getCategory->execute(array($category->getName()));
 
-        return $getCategory->fetchAll();
+        return $getCategory->fetch();
     }
 
     public function findAll(): array
@@ -56,7 +56,7 @@ final class CategoryRepository implements CategoryInterface
 
         return $updateCategory->execute(array(
             'name' => $category->getName(),
-            'id' => $category->getId()  
+            'id' => $category->getId()
         ));
     }
 
@@ -66,5 +66,4 @@ final class CategoryRepository implements CategoryInterface
 
         return $deleteCategory->execute(array('id' => $id));
     }
-
 }

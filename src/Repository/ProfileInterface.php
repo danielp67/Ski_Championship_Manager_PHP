@@ -12,5 +12,4 @@ interface ProfileInterface
     public function add(Profile $object);
     public function update(Profile $object);
     public function delete(int $id);
-
 }

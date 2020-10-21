@@ -12,5 +12,4 @@ interface CategoryInterface
     public function add(Category $object);
     public function update(Category $object);
     public function delete(int $id);
-
 }

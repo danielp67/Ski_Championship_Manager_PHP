@@ -18,7 +18,7 @@ class Stage
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -26,7 +26,7 @@ class Stage
 
     /**
      * Get the value of stageNb
-     */ 
+     */
     public function getStageNb(): ?int
     {
         return $this->stageNb;
@@ -34,7 +34,7 @@ class Stage
 
     /**
      * Get the value of time
-     */ 
+     */
     public function getTime(): ?DateTimeInterface
     {
         return $this->time;
@@ -42,7 +42,7 @@ class Stage
 
     /**
      * Get the value of participantId
-     */ 
+     */
     public function getParticipantId(): ?int
     {
         return $this->participantId;
@@ -50,7 +50,7 @@ class Stage
 
     /**
      * Get the value of raceId
-     */ 
+     */
     public function getRaceId(): ?int
     {
         return $this->raceId;
@@ -60,7 +60,7 @@ class Stage
      * Set the value of id
      * @param int $id
      * @return  self
-     */ 
+     */
     public function setId(int $id): self
     {
         $this->id = $this->checkId($id);
@@ -73,7 +73,7 @@ class Stage
      * @param int $stageNb
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setStageNb(int $stageNb): self
     {
         if (! is_int($stageNb) || $stageNb < 1 || $stageNb > 2) {
@@ -89,7 +89,7 @@ class Stage
      * @param int $time
      * @throws Exception
      * @return  self
-     */ 
+     */
     public function setTime(string $timeStage): self
     {
         $pattern = self::PATTERN_TIME;
@@ -106,7 +106,7 @@ class Stage
      * Set the value of participantId
      * @param int $participantId
      * @return  self
-     */ 
+     */
     public function setParticipantId($participantId)
     {
         $this->participantId = $this->checkId($participantId);
@@ -118,7 +118,7 @@ class Stage
      * Set the value of raceId
      * @param int $raceId
      * @return  self
-     */ 
+     */
     public function setRaceId($raceId)
     {
         $this->raceId = $this->checkId($raceId);
@@ -131,7 +131,7 @@ class Stage
      * @param int $int
      * @throws Exception
      * @return  int
-     */ 
+     */
     private function checkId(int $int): int
     {
         if (! is_int($int) || $int < 0) {
@@ -139,5 +139,4 @@ class Stage
         }
         return $int;
     }
-
 }

@@ -11,17 +11,17 @@ use Twig\Loader\FilesystemLoader;
 
 final class CategoryController
 {
-   private CategoryRepository $categoryRepository;
-   public object $loader;
-   public object $twig;
+    private CategoryRepository $categoryRepository;
+    public object $loader;
+    public object $twig;
 
 
-   public function __construct()
-   {
-       $this->loader = new FilesystemLoader('src/View');
-       $this->twig = new Environment($this->loader, []);
-       $this->categoryRepository = new CategoryRepository();
-   }
+    public function __construct()
+    {
+        $this->loader = new FilesystemLoader('src/View');
+        $this->twig = new Environment($this->loader, []);
+        $this->categoryRepository = new CategoryRepository();
+    }
 
 
     public function categoryPage(): void
@@ -37,7 +37,7 @@ final class CategoryController
         $newCategory = new Category();
         $newCategory->setName($name);
         $checkCategory = $this->categoryRepository->findbyName($newCategory);
-        if(empty($checkCategory)){
+        if (empty($checkCategory)) {
             $addCategory = $this->categoryRepository->add($newCategory);
         }
         $response = new RedirectResponse('http://127.1.2.3/category');
@@ -60,7 +60,7 @@ final class CategoryController
         $updateCategory->setName($request->get('name'));
         $updateCategory->setId($request->get('nameId'));
         $checkCategory = $this->categoryRepository->findbyName($updateCategory);
-        if(empty($checkCategory)){
+        if (empty($checkCategory)) {
             $addCategory = $this->categoryRepository->update($updateCategory);
         }
         $response = new RedirectResponse('http://127.1.2.3/category');
@@ -75,5 +75,4 @@ final class CategoryController
         $response = new RedirectResponse('http://127.1.2.3/category');
         $response->send();
     }
-
 }

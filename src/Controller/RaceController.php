@@ -65,7 +65,8 @@ final class RaceController extends AbstractController
     {
         $params = explode('/', $_GET['url']);
         $race = $this->raceRepository->find($params[2]);
-        echo $this->twig->render('raceDetail.html.twig', ['races' => $race]);
+        var_dump($race);
+        echo $this->twig->render('raceDetail.html.twig', ['race' => $race]);
     }
 
     public function raceStart(): void
@@ -73,15 +74,14 @@ final class RaceController extends AbstractController
         $params = explode('/', $_GET['url']);
         $race = $this->raceRepository->find($params[2]);
         $newRace = new Race();
-        $newRace->setId($race[0]['id']);
-        $newRace->setLocation($race[0]['location']);
-        $newRace->setDate($race[0]['date']);
+        $newRace->setId($race['id']);
+        $newRace->setLocation($race['location']);
+        $newRace->setDate($race['date']);
         $newRace->setStatus(1);
         $race = $this->raceRepository->update($newRace);
 
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/'.$params[2]);
+        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
         $response->send();
-
     }
 
     public function raceFinish(): void
@@ -89,15 +89,14 @@ final class RaceController extends AbstractController
         $params = explode('/', $_GET['url']);
         $race = $this->raceRepository->find($params[2]);
         $newRace = new Race();
-        $newRace->setId($race[0]['id']);
-        $newRace->setLocation($race[0]['location']);
-        $newRace->setDate($race[0]['date']);
+        $newRace->setId($race['id']);
+        $newRace->setLocation($race['location']);
+        $newRace->setDate($race['date']);
         $newRace->setStatus(2);
         $race = $this->raceRepository->update($newRace);
         
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/'.$params[2]);
+        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
         $response->send();
-
     }
 
     public function raceCancel(): void
@@ -105,16 +104,13 @@ final class RaceController extends AbstractController
         $params = explode('/', $_GET['url']);
         $race = $this->raceRepository->find($params[2]);
         $newRace = new Race();
-        $newRace->setId($race[0]['id']);
-        $newRace->setLocation($race[0]['location']);
-        $newRace->setDate($race[0]['date']);
+        $newRace->setId($race['id']);
+        $newRace->setLocation($race['location']);
+        $newRace->setDate($race['date']);
         $newRace->setStatus(3);
         $race = $this->raceRepository->update($newRace);
         
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/'.$params[2]);
+        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
         $response->send();
-
     }
-
-
 }
