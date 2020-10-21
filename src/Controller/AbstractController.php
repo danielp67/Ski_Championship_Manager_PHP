@@ -5,7 +5,7 @@ namespace App\Controller;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-abstract class ManagerController
+abstract class AbstractController
 {
     public object $loader;
     public object $twig;

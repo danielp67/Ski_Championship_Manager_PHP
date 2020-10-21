@@ -1,18 +1,18 @@
 <?php
 
-use App\Repository\Category;
+use App\Repository\CategoryRepository;
 
 beforeEach(function (){
-       $this->categoryModel = new Category();
+       $this->categoryModel = new CategoryRepository();
       });
       
 it('test of instance', function(){
-        $this->expect($this->categoryModel)->toBeInstanceOf(Category::class);
+        $this->expect($this->categoryModel)->toBeInstanceOf(CategoryRepository::class);
         });
 
 
 it('should had properties', function(){
-      $this->assertClassHasAttribute('dataBase', Category::class);
+      $this->assertClassHasAttribute('dataBase', CategoryRepository::class);
 });
 
 it('should had methods', function(){

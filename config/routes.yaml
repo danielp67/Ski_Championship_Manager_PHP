@@ -8,9 +8,27 @@ home:
 race:
     path: /race
     controller: App\Controller\RaceController::racePage
+race_list:
+    path: /race/list
+    controller: App\Controller\RaceController::raceList
+race_detail:
+    path: /race/detail/{id<\d+>}
+    controller: App\Controller\RaceController::raceDetail
+race_start:
+    path: /race/detail/{id<\d+>}/start
+    controller: App\Controller\RaceController::raceStart
+race_finish:
+    path: /race/detail/{id<\d+>}/finish
+    controller: App\Controller\RaceController::raceFinish
+race_cancel:
+    path: /race/detail/{id<\d+>}/cancel
+    controller: App\Controller\RaceController::raceCancel
 race_add:
     path: /race/add
     controller: App\Controller\RaceController::raceAdd
+race_form:
+    path: /race/form
+    controller: App\Controller\RaceController::raceForm
 race_check:
     path: /race/check
     controller: App\Controller\RaceController::raceCheck
@@ -51,9 +69,6 @@ profile_add:
 profile_update:
     path: /profile/update
     controller: App\Controller\ProfileController::profileUpdate
-profile_check:
-    path: /profile/check
-    controller: App\Controller\ProfileController::profileCheck
 profile_delete:
     path: /profile/delete
     controller: App\Controller\ProfileController::profileDelete

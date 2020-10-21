@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Exception;
 
-abstract class Group
+abstract class AbstractGroup
 {
     protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
     protected int $id;

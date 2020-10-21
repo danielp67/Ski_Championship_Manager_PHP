@@ -27,7 +27,7 @@ final class CategoryController
     public function categoryPage(): void
     {
         $allCategory = $this->categoryRepository->findAll();
-        echo $this->twig->render('categoryView.html.twig', ['categories' => $allCategory , 'foo' => null]);
+        echo $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
     }
 
     public function categoryAdd(): void

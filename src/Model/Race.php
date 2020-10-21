@@ -8,11 +8,12 @@ use Exception;
 
 final class Race
 {
-    protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
+    private const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
     private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
-    protected int $id;
-    protected string $location;
-    protected DateTimeInterface $date;
+    private int $id;
+    private string $location;
+    private DateTimeInterface $date;
+    private int $status;
 
     /**
      * Get the value of id
@@ -39,6 +40,14 @@ final class Race
     }
 
     /**
+     * Get the value of status
+     */ 
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    /**
      * Set the value of id
      * @param int $id
      * @throws Exception
@@ -46,7 +55,7 @@ final class Race
      */ 
     public function setId(int $id): self
     {
-        if (! is_int($id) || $id < 0) {
+        if (! is_int($id) || $id < 0 ) {
             throw new Exception('Id invalide');
         }
         $this->id = $id;
@@ -88,4 +97,21 @@ final class Race
 
         return $this;
     }
+
+    /**
+     * Set the value of status
+     * @param int $status
+     * @throws Exception
+     * @return  self
+     */ 
+    public function setStatus(int $status): self
+    {
+        if (! is_int($status) || $status < 0 || $status > 3) {
+            throw new Exception('Status invalide');
+        }
+        $this->status = $status;
+
+        return $this;
+    }
+
 }

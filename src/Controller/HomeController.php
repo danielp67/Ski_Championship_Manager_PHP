@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-final class HomeController extends ManagerController
+final class HomeController extends AbstractController
 {
 
     public function homePage($request, $response): void

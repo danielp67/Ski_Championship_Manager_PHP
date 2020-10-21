@@ -25,7 +25,7 @@ final class ProfileController
     public function profilePage(): void
     {
         $allProfile = $this->profileRepository->findAll();
-        echo $this->twig->render('profileView.html.twig', ['profiles' => $allProfile , 'foo' => null]);
+        echo $this->twig->render('profileView.html.twig', ['profiles' => $allProfile]);
     }
 
     public function profileAdd(): void

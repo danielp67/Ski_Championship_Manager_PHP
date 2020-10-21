@@ -1,14 +1,14 @@
 --
 -- Base de données :  `championnat_ski`
 --
-
-DROP TABLE IF EXISTS `profile`;
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `stage`;
+DROP TABLE IF EXISTS `race_participant`;
 DROP TABLE IF EXISTS `participant`;
 
 DROP TABLE IF EXISTS `race`;
-DROP TABLE IF EXISTS `race_participant`;
-DROP TABLE IF EXISTS `stage`;
+DROP TABLE IF EXISTS `profile`;
+DROP TABLE IF EXISTS `category`;
+
 DROP TABLE IF EXISTS `result`;
 
 -- --------------------------------------------------------
@@ -64,10 +64,16 @@ INSERT INTO `profile` (`id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `race` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB;
 
+INSERT INTO `race` (`id`, `location`, `date`, `status`) VALUES
+(1, 'Chamonix', '2019-01-12', 2),
+(2, 'Isola 2000', '2020-01-12', 3),
+(3, "Alpes d'Huez", '2020-02-17', 2),
+(4, 'Courchevel', '2020-12-12', 1),
+(5, 'La Bresse', '2021-01-25', 0);
 
 -- --------------------------------------------------------
 

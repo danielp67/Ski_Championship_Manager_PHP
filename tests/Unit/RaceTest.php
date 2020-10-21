@@ -14,6 +14,7 @@ it('should had properties', function(){
         $this->assertClassHasAttribute('id', Race::class);
         $this->assertClassHasAttribute('location', Race::class);
         $this->assertClassHasAttribute('date', Race::class);
+        $this->assertClassHasAttribute('status', Race::class);
         });
 
 it('has setId', function($id){
@@ -57,3 +58,15 @@ it('has setDate throw exception', function($date){
 ])->throws(Exception::class);
 
 
+it('has setStatus', function($status){
+    $result = $this->race->setStatus($status);
+    $this->expect($result->getStatus())->toEqual($status);
+})->with([
+    0,1,2,3
+]);
+
+it('has setStatus throw exception', function($status){
+    $this->race->setStatus($status);
+})->with([
+    -1,4,5,-25
+])->throws(Exception::class);

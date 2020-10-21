@@ -57,11 +57,8 @@ try
            call_user_func_array([$controller,$action], [$request, $response]);
 
         } else {
-            // On envoie le code réponse 404
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $error = "La page recherchée n'existe pas";
-            $controller = new HomeController();
-            $controller->errorPage($error);
+            messageError($error);
         }
 
     } else {
@@ -73,8 +70,14 @@ try
     }
 }
 catch (Exception $error) { // S'il y a eu une erreur, alors...
-    $response->setStatusCode(Response::HTTP_NOT_FOUND);
-    $error = $error->getMessage();
-    $controller = new HomeController();
-    $controller->errorPage($error);
+    messageError($error);
+    
+}
+
+
+function messageError($error){
+            $response = new Response();
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $controller = new HomeController();
+            $controller->errorPage($error);
 }

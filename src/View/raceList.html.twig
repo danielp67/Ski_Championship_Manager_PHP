@@ -2,25 +2,52 @@
 {% extends 'template.html.twig' %}
 
 {% block title %}
-Home
+Liste des épreuves
 {% endblock %}
 
 
 {% block content %}
 <div class="row mx-auto">
-    <div class="col-6 offset-3">
+    <div class="col-10 offset-1">
         <h1>Epreuves</h1>
-         <div>    
-                    <ul id="nav_menu">
-                        <li><a href="race/getAll">Liste des Epreuves</a></li>
-                        <li><a href="race/add">Créer une Epreuve</a></li>
-                        <li><a href="race/get">Rechercher une Epreuve</a></li>
 
+        {% for race in races %}
+                    <div class="card">
+                        <div class="card-header">
+                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date }}
+                        </div>
+                        <div class="card-body">
+                     
+                        {% if  race.status == 0 %}
+                        <div class="btn btn-secondary">Non démarré</div>
+                         {% elseif  race.status == 1 %}
+                        <div class="btn btn-primary">En cours</div>
+                        {% elseif  race.status == 2 %}
+                        <div class="btn btn-success">Terminé</div>
+                        {% else %}
+                        <div class="btn btn-danger">Annulé</div>
+                        {% endif %}
 
-                    </ul>   
-            </div>
-
-
+                        </div>
+                        <div class="card-footer">
+                        {% if  race.status == 2 %}
+                       <button  class="btn btn-primary"  disabled >
+                        Gérer l'épreuve
+                        </button>
+                        <a  href="/race/detail/{{ race.id }}/result" class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        Voir les résultats
+                        </a>
+                        {% else %}
+                        <a href="/race/detail/{{ race.id }}" class="btn btn-primary"  id="buttonManage{{ race.id }}" >
+                        Gérer l'épreuve
+                        </a>
+                        <button type="button" class="btn btn-success"  disabled >
+                        Voir les résultats
+                        </button>
+                        {% endif %}
+                        </div>
+                     </div>
+        {% endfor %}
 
     </div>
 </div>

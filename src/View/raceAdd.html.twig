@@ -7,9 +7,10 @@ Nouvelle Epreuve
 
 
 {% block content %}
+<form method="post" action="/race/add">
 <div class="row mx-auto">
     <div class="col-6 offset-3">
-        <form method="post" action="/race/check" class="card">
+     <div class="card">
             <legend class="card-header text-secondary">Créer une nouvelle épreuve :</legend>
             <div class="form-inline mt-2">
                 <label for="location" class="col-5 offset-1 text-right ">
@@ -34,7 +35,8 @@ Nouvelle Epreuve
             <div class="card-footer">
                 <a href="/race" id="raceView">Retour ?</a>
             </div>
-        </form>
+            </div>
+        
 
     </div>
 </div>
@@ -56,16 +58,16 @@ Nouvelle Epreuve
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-       <form method="post" action="/race/check" dialog>
+      
         <input type="submit" class="btn btn-primary"  value="Confirmer"/>
-        </form>
+        
       </div>
 
 
     </div>
   </div>
 </div>
-
+</form>
 {% endblock %}
 
 

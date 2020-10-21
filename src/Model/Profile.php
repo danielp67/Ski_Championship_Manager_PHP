@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
-use App\Model\Group;
+use App\Model\AbstractGroup;
 
-final class Profile extends Group
+final class Profile extends AbstractGroup
 {
     
 }

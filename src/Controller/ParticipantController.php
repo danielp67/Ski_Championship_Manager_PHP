@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-final class ParticipantController extends ManagerController
+final class ParticipantController extends AbstractController
 {
     public function participantPage(): void
     {

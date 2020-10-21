@@ -1,0 +1,77 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Epreuve - 
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-10 offset-1">
+        <h1>Epreuves</h1>
+        
+        {% for race in races %}
+                    <div class="card">
+                        <div class="card-header">
+                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date }}
+                        - {% if  race.status == 0 %}
+                        <div class="btn btn-secondary">Non démarré</div>
+                         {% elseif  race.status == 1 %}
+                        <div class="btn btn-primary">En cours</div>
+                        {% elseif  race.status == 2 %}
+                        <div class="btn btn-success">Terminé</div>
+                        {% else %}
+                        <div class="btn btn-danger">Annulé</div>
+                        {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-6">
+                                <a href="/race/detail/{{ race.id }}/update" class="btn btn-primary"   >
+                                Modifier l'épreuve
+                                </a>
+                                <a href="/race/detail/{{ race.id }}/addParticipant" class="btn btn-primary"  >
+                                Ajouter/Modifier Participants
+                                </a>
+                                <a href="/race/detail/{{ race.id }}/delete" class="btn btn-primary"   >
+                                Annuler l'épreuve
+                                </a>
+                                </div>
+                                <div class="col-6">
+                                {% if  race.status == 0 %}
+                                <a href="/race/detail/{{ race.id }}/start" class="btn btn-primary"   >
+                                Démarrer l'épreuve →
+                                </a>
+                                {% elseif  race.status == 1 %}
+                                    <a href="/race/detail/{{ race.id }}/export" class="btn btn-primary"  >
+                                Exporter feuille de chronométrage
+                                </a>
+                                    <a href="/race/detail/{{ race.id }}/import" class="btn btn-primary"  >
+                                Importer feuille de chronométrage
+                                </a>
+                                <a href="/race/detail/{{ race.id }}/finish" class="btn btn-primary"  >
+                                Terminer l'épreuve
+                                </a>
+                                {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                        <a type="button" class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        Voir les résultats
+                        </a>
+                        <a href="/race/list" class="btn btn-primary"   >
+                        Retour
+                        </a>
+                        </div>
+                     </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+
+

@@ -2,9 +2,9 @@
 
 namespace App\Model;
 
-use App\Model\Group;
+use App\Model\AbstractGroup;
 
-final class Category extends Group
+final class Category extends AbstractGroup
 {
     
 }
