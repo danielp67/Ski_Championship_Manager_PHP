@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: php-actions/composer@v1
       - name: Run phpunit
-        run: ./vendor/bin/pest
+        run: phpunit-watcher
 
       - name: Run phpcs
         run: ./vendor/bin/phpcs
