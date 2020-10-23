@@ -4,28 +4,21 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 
-final class ParticipantRepository implements ParticipantInterface
+final class ParticipantRepository extends AbstractRepository implements ParticipantInterface
 {
-    private object $dataBase;
-
-    public function __construct()
-    {
-        $pdo = new ConnectRepository();
-        $this->dataBase = $pdo->dbConnect();
-    }
 
     public function find(int $id): array
     {
-        $getParticipant = $this->dataBase->prepare('SELECT *
+        $getParticipant = $this->pdo->prepare('SELECT *
         FROM participant WHERE id = ?');
         $getParticipant->execute(array($id));
 
-        return $getParticipant->fetchAll();
+        return $getParticipant->fetch();
     }
 
     public function findByName(Participant $participant): array
     {
-        $getAllParticipants = $this->dataBase->prepare('SELECT *
+        $getAllParticipants = $this->pdo->prepare('SELECT *
         FROM participant');
         $getAllParticipants->execute();
 
@@ -34,7 +27,7 @@ final class ParticipantRepository implements ParticipantInterface
 
     public function findAll(): array
     {
-        $getAllParticipants = $this->dataBase->prepare('SELECT *
+        $getAllParticipants = $this->pdo->prepare('SELECT *
         FROM participant');
         $getAllParticipants->execute();
 
@@ -43,7 +36,7 @@ final class ParticipantRepository implements ParticipantInterface
 
     public function add(Participant $participant): array
     {
-        $addParticipant = $this->dataBase->prepare('INSERT INTO 
+        $addParticipant = $this->pdo->prepare('INSERT INTO 
         participant (last_name, first_name, mail, birth_date, img_link, categories_id, profils_id) 
         VALUES(?, ?, ?, ?, ?, ?, ?)');
         
@@ -60,7 +53,7 @@ final class ParticipantRepository implements ParticipantInterface
 
     public function update(Participant $participant): array
     {
-        $updateParticipant = $this->dataBase->prepare('UPDATE participant 
+        $updateParticipant = $this->pdo->prepare('UPDATE participant 
         SET last_name = :last_name,
             first_name = :first_name,
             mail = :mail,
@@ -84,7 +77,7 @@ final class ParticipantRepository implements ParticipantInterface
 
     public function delete(int $id): array
     {
-        $deleteParticipant = $this->dataBase->prepare('DELETE FROM participant WHERE id = :id');
+        $deleteParticipant = $this->pdo->prepare('DELETE FROM participant WHERE id = :id');
 
         return $deleteParticipant->execute(array('id' => $id));
     }

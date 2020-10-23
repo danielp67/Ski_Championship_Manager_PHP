@@ -142,6 +142,5 @@ class Stage
 
     public function buildFromDb($dataStage)
     {
-
     }
 }

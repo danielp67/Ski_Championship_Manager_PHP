@@ -2,16 +2,12 @@
 
 namespace App\Repository;
 
-use App\Container\FactoryContainer;
-
-
 abstract class AbstractRepository
 {
     protected object $pdo;
 
-    public function __construct()
+    public function __construct($pdo)
     {
-        $this->pdo = FactoryContainer::pdoInitializer();
-        
+        $this->pdo = $pdo;
     }
 }

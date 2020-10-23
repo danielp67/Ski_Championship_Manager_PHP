@@ -269,6 +269,4 @@ final class Participant
        
         return $this;
     }
-
-
 }

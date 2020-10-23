@@ -6,19 +6,12 @@ use App\Factory\ProfileFactory;
 use App\Repository\ProfileInterface;
 use App\Entity\Profile;
 
-final class ProfileRepository implements ProfileInterface
+final class ProfileRepository extends AbstractRepository implements ProfileInterface
 {
-    private object $dataBase;
-
-    public function __construct()
-    {
-        $pdo = new ConnectRepository();
-        $this->dataBase = $pdo->dbConnect();
-    }
 
     public function find(int $id): object
     {
-        $getProfile = $this->dataBase->prepare('SELECT *
+        $getProfile = $this->pdo->prepare('SELECT *
         FROM profile WHERE id = ?');
         $getProfile->execute(array($id));
 
@@ -27,7 +20,7 @@ final class ProfileRepository implements ProfileInterface
 
     public function findbyName(Profile $profile): array
     {
-        $getProfiles = $this->dataBase->prepare('SELECT *
+        $getProfiles = $this->pdo->prepare('SELECT *
         FROM profile WHERE name = ?');
         $getProfiles->execute(array($profile->getName()));
         $dataProfile = $getProfiles->fetchAll();
@@ -37,7 +30,7 @@ final class ProfileRepository implements ProfileInterface
 
     public function findAll(): array
     {
-        $getProfiles = $this->dataBase->prepare('SELECT *
+        $getProfiles = $this->pdo->prepare('SELECT *
         FROM profile');
         $getProfiles->execute();
         $dataProfile = $getProfiles->fetchAll();
@@ -47,7 +40,7 @@ final class ProfileRepository implements ProfileInterface
 
     public function add(Profile $profile): bool
     {
-        $addProfile = $this->dataBase->prepare('INSERT INTO 
+        $addProfile = $this->pdo->prepare('INSERT INTO 
         profile (name) VALUES(?)');
         
         return $addProfile->execute(array($profile->getName()));
@@ -55,7 +48,7 @@ final class ProfileRepository implements ProfileInterface
 
     public function update(Profile $profile): bool
     {
-        $updateProfile = $this->dataBase->prepare('UPDATE profile SET name = :name WHERE id = :id');
+        $updateProfile = $this->pdo->prepare('UPDATE profile SET name = :name WHERE id = :id');
 
         return $updateProfile->execute(array(
             'name' => $profile->getName(),
@@ -65,7 +58,7 @@ final class ProfileRepository implements ProfileInterface
 
     public function delete(int $id): bool
     {
-        $deleteProfile = $this->dataBase->prepare('DELETE FROM profile WHERE id = :id');
+        $deleteProfile = $this->pdo->prepare('DELETE FROM profile WHERE id = :id');
 
         return $deleteProfile->execute(array('id' => $id));
     }

@@ -12,18 +12,17 @@ final class CategoryController extends AbstractController
 
     public function categoryPage(): void
     {
-        $categoryRepository = new CategoryRepository();
+        $categoryRepository = new CategoryRepository($this->pdo);
         $allCategory = $categoryRepository->findAll();
         echo $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
     }
 
     public function categoryAdd($request): void
     {
-        $categoryRepository = new CategoryRepository();
+        $categoryRepository = new CategoryRepository($this->pdo);
         $newCategory = CategoryFactory::fromRequestAdd($request);
         $checkCategory = $categoryRepository->findbyName($newCategory);
         if (! empty($checkCategory)) {
-            
         }
         $addCategory = $categoryRepository->add($newCategory);
         $response = new RedirectResponse('http://127.1.2.3/category');
@@ -32,7 +31,7 @@ final class CategoryController extends AbstractController
 
     public function categoryUpdate($request): void
     {
-        $categoryRepository = new CategoryRepository();
+        $categoryRepository = new CategoryRepository($this->pdo);
 
         $updateCategory = CategoryFactory::fromRequestUdpate($request);
         $checkCategory = $categoryRepository->findbyName($updateCategory);
@@ -46,7 +45,7 @@ final class CategoryController extends AbstractController
 
     public function categoryDelete($request): void
     {
-        $categoryRepository = new CategoryRepository();
+        $categoryRepository = new CategoryRepository($this->pdo);
 
         $deleteCategory = $categoryRepository->delete($request->get('nameId'));
         $response = new RedirectResponse('http://127.1.2.3/category');

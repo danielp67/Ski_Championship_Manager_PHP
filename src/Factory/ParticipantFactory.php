@@ -4,9 +4,9 @@ namespace App\Factory;
 
 use App\Entity\Participant;
 
-final class ParticipantFactory
+abstract class ParticipantFactory
 {
-    static function fromDbCollection(array $dataParticipant): object
+    public static function fromDbCollection(array $dataParticipant): object
     {
         $Participant = new Participant();
         $Participant->buildFromDb($dataParticipant);
@@ -14,14 +14,14 @@ final class ParticipantFactory
         return $Participant;
     }
 
-    static function arrayFromDbCollection(array $dataParticipants): array
+    public static function arrayFromDbCollection(array $dataParticipants): array
     {
-        $dataParticipants = array_map('self::fromDbCollection', $dataParticipants); 
+        $dataParticipants = array_map('self::fromDbCollection', $dataParticipants);
 
         return $dataParticipants;
     }
 
-    static function fromRequestAdd(object $request): object
+    public static function fromRequestAdd(object $request): object
     {
         $Participant = new Participant();
         $Participant->buildFromRequestAdd($request);
@@ -29,7 +29,7 @@ final class ParticipantFactory
         return $Participant;
     }
 
-    static function fromRequestUdpate(object $request): object
+    public static function fromRequestUdpate(object $request): object
     {
         $Participant = new Participant();
         $Participant->buildFromRequestUpdate($request);

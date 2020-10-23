@@ -12,7 +12,7 @@ final class FactoryContainer
     public static function twigInitializer()
     {
         $container = new Container();
-        $container['twig'] = function(){
+        $container['twig'] = function () {
             $loader = new FilesystemLoader('src/View');
             return new Environment($loader, []);
         };
@@ -22,11 +22,10 @@ final class FactoryContainer
     public static function pdoInitializer()
     {
         $container = new Container();
-        $container['pdo'] = function(){
+        $container['pdo'] = function () {
             $pdo = new ConnectRepository();
             return $pdo->dbConnect();
         };
         return $container['pdo'];
     }
-
 }

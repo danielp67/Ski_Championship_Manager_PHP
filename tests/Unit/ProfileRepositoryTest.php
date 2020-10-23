@@ -3,7 +3,8 @@
 use App\Repository\ProfileRepository;
 
 beforeEach(function (){
-       $this->profileRepository = new ProfileRepository();
+      $pdo =  new stdClass;
+       $this->profileRepository = new ProfileRepository($pdo);
       });
 
 
@@ -13,7 +14,7 @@ it('test of instance', function(){
 
         
 it('should had properties', function(){
-      $this->assertClassHasAttribute('dataBase', ProfileRepository::class);
+      $this->assertClassHasAttribute('pdo', ProfileRepository::class);
 });
 
 it('should had methods', function(){

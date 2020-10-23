@@ -3,7 +3,8 @@
 use App\Repository\CategoryRepository;
 
 beforeEach(function (){
-       $this->categoryRepository = new CategoryRepository();
+      $pdo =  new stdClass;
+       $this->categoryRepository = new CategoryRepository($pdo);
       });
       
 it('test of instance', function(){
@@ -12,7 +13,7 @@ it('test of instance', function(){
 
 
 it('should had properties', function(){
-      $this->assertClassHasAttribute('dataBase', CategoryRepository::class);
+      $this->assertClassHasAttribute('pdo', CategoryRepository::class);
 });
 
 it('should had methods', function(){

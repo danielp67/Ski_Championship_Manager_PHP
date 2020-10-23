@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Race;
 use App\Factory\RaceFactory;
 use App\Repository\RaceRepository;
 use Exception;
@@ -23,13 +22,13 @@ final class RaceController extends AbstractController
 
     public function raceAdd($request): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $newRace = RaceFactory::fromRequestAdd($request);
         $checkRace = $raceRepository->findbyName($newRace);
-        if(! empty($checkRace)){
+        if (! empty($checkRace)) {
             throw new Exception('Epreuve déjà éxistante');
-        }  
+        }
         $addRace = $raceRepository->add($newRace);
         $response = new RedirectResponse('http://127.1.2.3/race/list');
         $response->send();
@@ -37,13 +36,13 @@ final class RaceController extends AbstractController
 
     public function raceUpdate($request): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $newRace = RaceFactory::fromRequestUdpate($request);
         $checkRace = $raceRepository->findbyName($newRace);
-        if(! empty($checkRace)){
+        if (! empty($checkRace)) {
             throw new Exception('Epreuve déjà éxistante');
-        }  
+        }
         $updateRace = $raceRepository->update($newRace);
         $response = new RedirectResponse('http://127.1.2.3/race/list');
         $response->send();
@@ -51,7 +50,7 @@ final class RaceController extends AbstractController
 
     public function raceDelete($request): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
         $deleteRace = $raceRepository->delete($params[3]);
@@ -66,7 +65,7 @@ final class RaceController extends AbstractController
 
     public function raceList(): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $allRaces = $raceRepository->findAll();
         echo $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
@@ -74,7 +73,7 @@ final class RaceController extends AbstractController
 
     public function raceDetail($request): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
         $race = $raceRepository->find($params[3]);
@@ -99,7 +98,7 @@ final class RaceController extends AbstractController
 
     private function raceStatus($request, $status): void
     {
-        $raceRepository = new RaceRepository();
+        $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
         $race = $raceRepository->find($params[3]);

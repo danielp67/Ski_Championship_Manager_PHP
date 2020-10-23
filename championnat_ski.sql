@@ -2,14 +2,12 @@
 -- Base de données :  `championnat_ski`
 --
 DROP TABLE IF EXISTS `stage`;
-DROP TABLE IF EXISTS `race_participant`;
+DROP TABLE IF EXISTS `result`;
 DROP TABLE IF EXISTS `participant`;
 
 DROP TABLE IF EXISTS `race`;
 DROP TABLE IF EXISTS `profile`;
 DROP TABLE IF EXISTS `category`;
-
-DROP TABLE IF EXISTS `result`;
 
 -- --------------------------------------------------------
 
@@ -73,7 +71,8 @@ INSERT INTO `race` (`id`, `location`, `date`, `status`) VALUES
 (2, 'Isola 2000', '2020-01-12', 3),
 (3, "Alpes d'Huez", '2020-02-17', 2),
 (4, 'Courchevel', '2020-12-12', 1),
-(5, 'La Bresse', '2021-01-25', 0);
+(5, 'La Bresse', '2021-01-25', 0),
+(6, 'Chamonix', '2020-12-12', 0);
 
 -- --------------------------------------------------------
 
@@ -101,13 +100,14 @@ CREATE TABLE IF NOT EXISTS `participant` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `race_participant`
+-- Structure de la table `result`
 --
 
-CREATE TABLE IF NOT EXISTS `race_participant` (
+CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) PRIMARY KEY NOT NULL,
   `race_id` int(11) NOT NULL,
   `participant_id` int(11) NOT NULL,
+  `average_time` time NOT NULL,
 CONSTRAINT fk_race_id         -- On donne un nom à notre clé
         FOREIGN KEY (race_id)             -- Colonne sur laquelle on crée la clé
         REFERENCES race(id),        -- Colonne de référence
@@ -126,12 +126,12 @@ CONSTRAINT fk_participant_id         -- On donne un nom à notre clé
 
 CREATE TABLE IF NOT EXISTS `stage` (
   `id` int(11) PRIMARY KEY NOT NULL,
+  `result_id` int(11) NOT NULL,
   `stage_nb` int(11) NOT NULL,
   `time` time DEFAULT NULL,
-  `race_participant_id` int(11) NOT NULL,
-CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
-        FOREIGN KEY (race_participant_id)             -- Colonne sur laquelle on crée la clé
-        REFERENCES race_participant(id)        -- Colonne de référence
+CONSTRAINT fk_result_id         -- On donne un nom à notre clé
+        FOREIGN KEY (result_id)             -- Colonne sur laquelle on crée la clé
+        REFERENCES result(id)        -- Colonne de référence
 ) ENGINE=InnoDB;
 
 
@@ -141,13 +141,13 @@ CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
 --
 -- Structure de la table `result`
 --
-
+/*
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `average_time` time NOT NULL,
   `race_participant_id` int(11) NOT NULL,
+  `average_time` time NOT NULL,
 CONSTRAINT fk_race_participant_id         -- On donne un nom à notre clé
         FOREIGN KEY (race_participant_id)             -- Colonne sur laquelle on crée la clé
         REFERENCES race_participant(id)        -- Colonne de référence
 ) ENGINE=InnoDB;
-
+*/

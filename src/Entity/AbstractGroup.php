@@ -55,7 +55,6 @@ abstract class AbstractGroup
         if (! preg_match($pattern, $name)) {
             throw new Exception('nom est invalide');
         }
-        var_dump($name);
         $this->name = $name;
 
         return $this;

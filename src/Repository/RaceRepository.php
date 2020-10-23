@@ -2,24 +2,15 @@
 
 namespace App\Repository;
 
-use App\Repository\ConnectRepository;
 use App\Entity\Race;
 use App\Factory\RaceFactory;
-use PDO;
 
-final class RaceRepository implements RaceInterface
+final class RaceRepository extends AbstractRepository implements RaceInterface
 {
-    private object $dataBase;
-
-    public function __construct()
-    {
-        $pdo = new ConnectRepository();
-        $this->dataBase = $pdo->dbConnect();
-    }
 
     public function find(int $id): object
     {
-        $getRace = $this->dataBase->prepare('SELECT *
+        $getRace = $this->pdo->prepare('SELECT *
         FROM race WHERE id = ? ');
         $getRace->execute(array($id));
         
@@ -28,7 +19,7 @@ final class RaceRepository implements RaceInterface
 
     public function findByName(Race $race): array
     {
-        $getRaces = $this->dataBase->prepare('SELECT *
+        $getRaces = $this->pdo->prepare('SELECT *
         FROM  race WHERE location = ? AND date = ?');
         $getRaces->execute(array(
             $race->getLocation(),
@@ -42,7 +33,7 @@ final class RaceRepository implements RaceInterface
 
     public function findAll(): array
     {
-        $getRaces = $this->dataBase->prepare('SELECT *
+        $getRaces = $this->pdo->prepare('SELECT *
         FROM race ORDER BY date DESC');
         $getRaces->execute();
 
@@ -53,7 +44,7 @@ final class RaceRepository implements RaceInterface
 
     public function add(Race $race): bool
     {
-        $addRace = $this->dataBase->prepare('INSERT INTO 
+        $addRace = $this->pdo->prepare('INSERT INTO 
         race (location, date, status) VALUES(?, ?, ?)');
         
         return $addRace->execute(array(
@@ -65,7 +56,7 @@ final class RaceRepository implements RaceInterface
 
     public function update(Race $race): bool
     {
-        $updateRace = $this->dataBase->prepare('UPDATE race 
+        $updateRace = $this->pdo->prepare('UPDATE race 
         SET location = :location, 
             date = :date, 
             status = :status 
@@ -81,7 +72,7 @@ final class RaceRepository implements RaceInterface
 
     public function delete(int $id): bool
     {
-        $deleteRace = $this->dataBase->prepare('DELETE FROM race WHERE id = :id');
+        $deleteRace = $this->pdo->prepare('DELETE FROM race WHERE id = :id');
 
         return $deleteRace->execute(array('id' => $id));
     }

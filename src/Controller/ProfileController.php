@@ -12,14 +12,14 @@ final class ProfileController extends AbstractController
 
     public function profilePage(): void
     {
-        $profileRepository = new ProfileRepository();
+        $profileRepository = new ProfileRepository($this->pdo);
         $allProfile = $profileRepository->findAll();
         echo $this->twig->render('profileView.html.twig', ['profiles' => $allProfile]);
     }
 
     public function profileAdd($request): void
     {
-        $profileRepository = new ProfileRepository();
+        $profileRepository = new ProfileRepository($this->pdo);
 
         $newProfile = ProfileFactory::fromRequestAdd($request);
         $checkProfile = $profileRepository->findbyName($newProfile);
@@ -33,7 +33,7 @@ final class ProfileController extends AbstractController
 
     public function profileUpdate($request): void
     {
-        $profileRepository = new ProfileRepository();
+        $profileRepository = new ProfileRepository($this->pdo);
 
         $updateProfile = ProfileFactory::fromRequestUdpate($request);
         $checkProfile = $profileRepository->findbyName($updateProfile);
@@ -47,7 +47,7 @@ final class ProfileController extends AbstractController
 
     public function profileDelete($request): void
     {
-        $profileRepository = new ProfileRepository();
+        $profileRepository = new ProfileRepository($this->pdo);
 
         $deleteProfile = $profileRepository->delete($request->get('nameId'));
         $response = new RedirectResponse('http://127.1.2.3/profile');

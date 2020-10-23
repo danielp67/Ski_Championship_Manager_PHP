@@ -3,7 +3,8 @@
 use App\Repository\ParticipantRepository;
 
 beforeEach(function (){
-       $this->participantRepository = new ParticipantRepository();
+      $pdo =  new stdClass;
+       $this->participantRepository = new ParticipantRepository($pdo);
       });
 
 it('test of instance', function(){
@@ -11,7 +12,7 @@ it('test of instance', function(){
         });
 
 it('should had properties', function(){
-      $this->assertClassHasAttribute('dataBase', ParticipantRepository::class);
+      $this->assertClassHasAttribute('pdo', ParticipantRepository::class);
 });
 
 it('should had methods', function(){
