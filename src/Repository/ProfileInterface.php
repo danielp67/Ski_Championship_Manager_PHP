@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Model\Profile;
+use App\Entity\Profile;
 
 interface ProfileInterface
 {

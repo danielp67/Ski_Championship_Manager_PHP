@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
 use PDO;
 use PDOException;
 
-final class ConnectModel
+final class ConnectRepository
 {
     public function dbConnect()
     {

@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
+use App\Factory\ProfileFactory;
 use App\Repository\ProfileInterface;
-use App\Model\ConnectModel;
-use App\Model\Profile;
+use App\Entity\Profile;
 
 final class ProfileRepository implements ProfileInterface
 {
@@ -12,26 +12,27 @@ final class ProfileRepository implements ProfileInterface
 
     public function __construct()
     {
-        $pdo = new ConnectModel();
+        $pdo = new ConnectRepository();
         $this->dataBase = $pdo->dbConnect();
     }
 
-    public function find(int $id): array
+    public function find(int $id): object
     {
         $getProfile = $this->dataBase->prepare('SELECT *
         FROM profile WHERE id = ?');
         $getProfile->execute(array($id));
 
-        return $getProfile->fetch();
+        return ProfileFactory::FromDbCollection($getProfile->fetch());
     }
 
     public function findbyName(Profile $profile): array
     {
-        $getCategory = $this->dataBase->prepare('SELECT *
+        $getProfiles = $this->dataBase->prepare('SELECT *
         FROM profile WHERE name = ?');
-        $getCategory->execute(array($profile->getName()));
+        $getProfiles->execute(array($profile->getName()));
+        $dataProfile = $getProfiles->fetchAll();
 
-        return $getCategory->fetchAll();
+        return ProfileFactory::arrayFromDbCollection($dataProfile);
     }
 
     public function findAll(): array
@@ -39,8 +40,9 @@ final class ProfileRepository implements ProfileInterface
         $getProfiles = $this->dataBase->prepare('SELECT *
         FROM profile');
         $getProfiles->execute();
+        $dataProfile = $getProfiles->fetchAll();
 
-        return $getProfiles->fetchAll();
+        return ProfileFactory::arrayFromDbCollection($dataProfile);
     }
 
     public function add(Profile $profile): bool

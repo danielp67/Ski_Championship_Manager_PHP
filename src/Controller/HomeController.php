@@ -5,9 +5,9 @@ namespace App\Controller;
 final class HomeController extends AbstractController
 {
 
-    public function homePage($request, $response): void
+    public function homePage(): void
     {
-        echo $this->twig->render('homeView.html.twig', ['newUser' => false ]);
+        echo $this->twig->render('homeView.html.twig');
     }
 
     public function errorPage($error): void

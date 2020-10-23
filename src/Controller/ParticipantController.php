@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ParticipantController extends AbstractController
 {
+    
     public function participantPage(): void
     {
         echo $this->twig->render('participantView.html.twig');

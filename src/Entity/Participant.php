@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
 use DateInterval;
 use DateTime;
@@ -10,7 +10,7 @@ use Exception;
 final class Participant
 {
     private const PATTERN_MAIL = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
-    private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{2,16}$/';
+    private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{1,20}$/';
     private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
     private const PATTERN_IMG = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
     private int $id;
@@ -219,4 +219,56 @@ final class Participant
         }
         return $string;
     }
+
+    /**
+     * Set the object from Db
+     * @param array $dataParticipant
+     * @return  self
+     */
+    public function buildFromDb(array $dataParticipant): self
+    {
+        $this->id = $dataParticipant['id'];
+        $this->lastName = $dataParticipant['lastName'];
+        $this->firstName = $dataParticipant['firstName'];
+        $this->mail = $dataParticipant['mail'];
+        $this->birthDate = $dataParticipant['birthDate'];
+        $this->imgLink = $dataParticipant['imgLink'];
+        $this->categoryId = $dataParticipant['categoryId'];
+        $this->profileId = $dataParticipant['profileId'];
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestAdd
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestAdd(object $request): self
+    {
+        $this->setLastName($request->get('lastName'));
+        $this->setFirstName($request->get('firstName'));
+        $this->setMail($request->get('mail'));
+        $this->setBirthDate($request->get('birthDate'));
+        $this->setImgLink($request->get('imgLink'));
+        $this->setCategoryId($request->get('categoryId'));
+        $this->setProfileId($request->get('profileId'));
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestUpdate
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestUpdate(object $request): self
+    {
+        $this->setId($request->get('id'));
+        $this->buildFromRequestUpdate($request);
+       
+        return $this;
+    }
+
+
 }

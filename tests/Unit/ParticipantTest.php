@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Participant;
+use App\Entity\Participant;
 
 beforeEach(function (){
        $this->participant = new Participant();

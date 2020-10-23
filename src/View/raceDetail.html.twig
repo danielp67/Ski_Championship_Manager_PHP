@@ -14,7 +14,7 @@ Epreuve -
 
                     <div class="card">
                         <div class="card-header">
-                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date }}
+                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
                         - {% if  race.status == 0 %}
                         <div class="btn btn-secondary">Non démarré</div>
                          {% elseif  race.status == 1 %}

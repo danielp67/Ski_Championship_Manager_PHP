@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Result;
+use App\Entity\Result;
 
 beforeEach(function (){
        $this->result = new Result();

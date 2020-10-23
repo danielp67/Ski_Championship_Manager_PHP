@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
-use App\Model\ConnectModel;
-use App\Model\Race;
+use App\Repository\ConnectRepository;
+use App\Entity\Race;
+use App\Factory\RaceFactory;
+use PDO;
 
 final class RaceRepository implements RaceInterface
 {
@@ -11,38 +13,42 @@ final class RaceRepository implements RaceInterface
 
     public function __construct()
     {
-        $pdo = new ConnectModel();
+        $pdo = new ConnectRepository();
         $this->dataBase = $pdo->dbConnect();
     }
 
-    public function find(int $id): array
+    public function find(int $id): object
     {
         $getRace = $this->dataBase->prepare('SELECT *
-        FROM race WHERE id = ?');
+        FROM race WHERE id = ? ');
         $getRace->execute(array($id));
-
-        return $getRace->fetch();
+        
+        return RaceFactory::FromDbCollection($getRace->fetch());
     }
 
     public function findByName(Race $race): array
     {
-        $getRace = $this->dataBase->prepare('SELECT *
+        $getRaces = $this->dataBase->prepare('SELECT *
         FROM  race WHERE location = ? AND date = ?');
-        $getRace->execute(array(
+        $getRaces->execute(array(
             $race->getLocation(),
-            $race->getDate()
+            $race->getDate()->format('Y-m-d')
         ));
 
-        return $getRace->fetchAll();
+        $dataProfile = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataProfile);
     }
 
     public function findAll(): array
     {
         $getRaces = $this->dataBase->prepare('SELECT *
-        FROM race');
+        FROM race ORDER BY date DESC');
         $getRaces->execute();
 
-        return $getRaces->fetchAll();
+        $dataProfile = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataProfile);
     }
 
     public function add(Race $race): bool

@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Model;
+namespace App\Repository;
 
-final class ParticipantModel
+use App\Entity\Participant;
+
+final class ParticipantRepository implements ParticipantInterface
 {
     private object $dataBase;
 
     public function __construct()
     {
-        $pdo = new ConnectModel();
+        $pdo = new ConnectRepository();
         $this->dataBase = $pdo->dbConnect();
     }
 
-    public function get(int $id): array
+    public function find(int $id): array
     {
         $getParticipant = $this->dataBase->prepare('SELECT *
         FROM participant WHERE id = ?');
@@ -21,7 +23,16 @@ final class ParticipantModel
         return $getParticipant->fetchAll();
     }
 
-    public function getAll(): array
+    public function findByName(Participant $participant): array
+    {
+        $getAllParticipants = $this->dataBase->prepare('SELECT *
+        FROM participant');
+        $getAllParticipants->execute();
+
+        return $getAllParticipants->fetchAll();
+    }
+
+    public function findAll(): array
     {
         $getAllParticipants = $this->dataBase->prepare('SELECT *
         FROM participant');

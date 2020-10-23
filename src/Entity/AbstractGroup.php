@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
 use Exception;
 
 abstract class AbstractGroup
 {
-    protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
+    protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 \(\).-]{1,20}$/';
     protected int $id;
     protected string $name;
 
@@ -55,7 +55,46 @@ abstract class AbstractGroup
         if (! preg_match($pattern, $name)) {
             throw new Exception('nom est invalide');
         }
+        var_dump($name);
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Set the object from Db
+     * @param array $dataGroup
+     * @return  self
+     */
+    public function buildFromDb(array $dataGroup): self
+    {
+        $this->id = $dataGroup['id'];
+        $this->name = $dataGroup['name'];
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestAdd
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestAdd(object $request): self
+    {
+        $this->setName($request->get('name'));
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestUpdate
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestUpdate(object $request): self
+    {
+        $this->setId($request->get('nameId'));
+        $this->buildFromRequestAdd($request);
 
         return $this;
     }

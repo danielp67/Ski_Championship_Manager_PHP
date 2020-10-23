@@ -52,9 +52,6 @@ category_add:
 category_update:
     path: /category/update
     controller: App\Controller\CategoryController::categoryUpdate
-category_check:
-    path: /category/check
-    controller: App\Controller\CategoryController::categoryCheck
 category_delete:
     path: /category/delete
     controller: App\Controller\CategoryController::categoryDelete

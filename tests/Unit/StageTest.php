@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Stage;
+use App\Entity\Stage;
 
 beforeEach(function (){
        $this->stage = new Stage();

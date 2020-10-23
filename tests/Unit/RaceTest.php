@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Race;
+use App\Entity\Race;
 
 beforeEach(function(){
        $this->race = new Race();

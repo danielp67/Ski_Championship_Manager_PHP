@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Model\Category;
+use App\Entity\Category;
 
 interface CategoryInterface
 {

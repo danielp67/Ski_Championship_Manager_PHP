@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Model\Race;
+use App\Entity\Race;
 
 interface RaceInterface
 {

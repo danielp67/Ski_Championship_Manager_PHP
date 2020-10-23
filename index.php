@@ -2,6 +2,7 @@
 
 use App\Controller\HomeController;
 use JsonSchema\Exception\ResourceNotFoundException;
+use Pimple\Container;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -11,6 +12,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -28,8 +31,8 @@ try
     $request =  Request::createFromGlobals();
     $context = new RequestContext();
 
-  // var_dump($request);
-   // var_dump($context);
+    //var_dump($request);
+
     $context->fromRequest($request);
 
     // Init UrlMatcher object

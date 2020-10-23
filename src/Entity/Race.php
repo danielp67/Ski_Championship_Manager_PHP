@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
@@ -8,7 +8,7 @@ use Exception;
 
 final class Race
 {
-    private const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 .-]{2,16}$/';
+    private const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 \(\).-]{1,20}$/';
     private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
     private int $id;
     private string $location;
@@ -110,6 +110,48 @@ final class Race
             throw new Exception('Status invalide');
         }
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Set the object from Db
+     * @param array $dataGroup
+     * @return  self
+     */
+    public function buildFromDb(array $dataRace): self
+    {
+        $this->id = $dataRace['id'];
+        $this->location = $dataRace['location'];
+        $this->date = DateTime::createFromFormat('Y-m-d', $dataRace['date']);
+        $this->status = $dataRace['status'];
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestAdd
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestAdd(object $request): self
+    {
+        $this->setLocation($request->get('location'));
+        $this->setDate($request->get('date'));
+        $this->setStatus(0);
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestUpdate
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestUpdate(object $request): self
+    {
+        $this->setId($request->get('raceId'));
+        $this->buildFromRequestAdd($request);
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
@@ -138,5 +138,10 @@ class Stage
             throw new Exception('Id invalide');
         }
         return $int;
+    }
+
+    public function buildFromDb($dataStage)
+    {
+
     }
 }
