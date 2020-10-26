@@ -32,7 +32,7 @@ Epreuve -
                                 <a href="/race/detail/{{ race.id }}/update" class="btn btn-primary"   >
                                 Modifier l'épreuve
                                 </a>
-                                <a href="/race/detail/{{ race.id }}/addParticipant" class="btn btn-primary"  >
+                                <a href="/result/{{ race.id }}/participantList" class="btn btn-primary"  >
                                 Ajouter/Modifier Participants
                                 </a>
                                 <a href="/race/detail/{{ race.id }}/delete" class="btn btn-primary"   >
@@ -45,12 +45,24 @@ Epreuve -
                                 Démarrer l'épreuve →
                                 </a>
                                 {% elseif  race.status == 1 %}
-                                    <a href="/race/detail/{{ race.id }}/export" class="btn btn-primary"  >
+                                    <a href="/result/{{ race.id }}/export" class="btn btn-primary"  >
                                 Exporter feuille de chronométrage
                                 </a>
-                                    <a href="/race/detail/{{ race.id }}/import" class="btn btn-primary"  >
+                                    <a href="/result/{{ race.id }}/import" class="btn btn-primary"  >
                                 Importer feuille de chronométrage
                                 </a>
+                                <form method="post" enctype="multipart/form-data" action="/result/{{ race.id }}/import">
+                                    <div class="form-inline mt-2">
+                                        <label for="file" class="col-1 text-right "></label>
+                                        <input class="btn btn-success col-4" type="file" name="file"
+                                        id="file" required minlength="4" value="Import" />
+                                        
+                                        <input type="submit" class="btn btn-success col-4 offset-3"
+                                        value="Télécharger" />
+                                    </div>
+        
+                                </form>
+
                                 <a href="/race/detail/{{ race.id }}/finish" class="btn btn-primary"  >
                                 Terminer l'épreuve
                                 </a>
@@ -60,7 +72,7 @@ Epreuve -
 
                         </div>
                         <div class="card-footer">
-                        <a type="button" class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
                         Voir les résultats
                         </a>
                         <a href="/race/list" class="btn btn-primary"   >

@@ -11,7 +11,7 @@ final class Participant
 {
     private const PATTERN_MAIL = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
     private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{1,20}$/';
-    private const PATTERN_DATE = '/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/';
+    private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
     private const PATTERN_IMG = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
     private int $id;
     private string $lastName;
@@ -144,7 +144,7 @@ final class Participant
     public function setBirthDate(string $birthDate): self
     {
         $checkDate = $this->checkStringMatchPattern(self::PATTERN_DATE, $birthDate);
-        $date = DateTime::createFromFormat('d/m/Y', $checkDate);
+        $date = DateTime::createFromFormat('Y-m-d', $checkDate);
         $maxAge100 = (new DateTime())->sub(new DateInterval('P100Y'));
         $minAge3 = (new DateTime())->sub(new DateInterval('P3Y'));
         if ($date < $maxAge100 || $date > $minAge3) {
@@ -228,13 +228,13 @@ final class Participant
     public function buildFromDb(array $dataParticipant): self
     {
         $this->id = $dataParticipant['id'];
-        $this->lastName = $dataParticipant['lastName'];
-        $this->firstName = $dataParticipant['firstName'];
+        $this->lastName = $dataParticipant['last_name'];
+        $this->firstName = $dataParticipant['first_name'];
         $this->mail = $dataParticipant['mail'];
-        $this->birthDate = $dataParticipant['birthDate'];
-        $this->imgLink = $dataParticipant['imgLink'];
-        $this->categoryId = $dataParticipant['categoryId'];
-        $this->profileId = $dataParticipant['profileId'];
+        $this->birthDate = DateTime::createFromFormat('Y-m-d', $dataParticipant['birth_date']);
+        $this->imgLink = $dataParticipant['img_link'];
+        $this->categoryId = $dataParticipant['category_id'];
+        $this->profileId = $dataParticipant['profile_id'];
 
         return $this;
     }

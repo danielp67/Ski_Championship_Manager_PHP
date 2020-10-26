@@ -17,7 +17,7 @@ final class RaceController extends AbstractController
 
     public function raceForm(): void
     {
-        echo $this->twig->render('raceAdd.html.twig');
+        echo $this->twig->render('raceForm.html.twig');
     }
 
     public function raceAdd($request): void

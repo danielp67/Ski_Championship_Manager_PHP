@@ -10,10 +10,10 @@ class Stage
 {
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     private int $id;
+    private int $resultId;
     private int $stageNb;
-    private DateTimeInterface $time;
-    private int $participantId;
-    private int $raceId;
+    private ?DateTimeInterface $time;
+    
 
 
     /**
@@ -22,6 +22,14 @@ class Stage
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * Get the value of resultId
+     */
+    public function getResultId(): ?int
+    {
+        return $this->resultId;
     }
 
     /**
@@ -41,22 +49,6 @@ class Stage
     }
 
     /**
-     * Get the value of participantId
-     */
-    public function getParticipantId(): ?int
-    {
-        return $this->participantId;
-    }
-
-    /**
-     * Get the value of raceId
-     */
-    public function getRaceId(): ?int
-    {
-        return $this->raceId;
-    }
-
-    /**
      * Set the value of id
      * @param int $id
      * @return  self
@@ -64,6 +56,18 @@ class Stage
     public function setId(int $id): self
     {
         $this->id = $this->checkId($id);
+
+        return $this;
+    }
+
+    /**
+     * Set the value of resultId
+     * @param int $resultId
+     * @return  self
+     */
+    public function setResultId($resultId)
+    {
+        $this->resultId = $this->checkId($resultId);
 
         return $this;
     }
@@ -96,32 +100,8 @@ class Stage
         if (! preg_match($pattern, $timeStage)) {
             throw new Exception('temps est invalide');
         }
-        $date = DateTime::createFromFormat('i:s.u', $timeStage);
-        $this->time = $date;
-
-        return $this;
-    }
-
-    /**
-     * Set the value of participantId
-     * @param int $participantId
-     * @return  self
-     */
-    public function setParticipantId($participantId)
-    {
-        $this->participantId = $this->checkId($participantId);
-
-        return $this;
-    }
-
-    /**
-     * Set the value of raceId
-     * @param int $raceId
-     * @return  self
-     */
-    public function setRaceId($raceId)
-    {
-        $this->raceId = $this->checkId($raceId);
+        $time = DateTime::createFromFormat('i:s.u', $timeStage);
+        $this->time = $time;
 
         return $this;
     }
@@ -141,6 +121,20 @@ class Stage
     }
 
     public function buildFromDb($dataStage)
+    {
+        $this->id = $dataStage['id'];
+        $this->resultId = $dataStage['result_id'];
+        $this->stageNb = $dataStage['stage_nb'];
+        $this->time = is_null($dataStage['time']) ? null : DateTime::createFromFormat('i:s.u', $dataStage['time']);
+
+        return $this;
+    }
+
+    public function buildFromRequestAdd($dataStage)
+    {
+    }
+
+    public function buildFromRequestUpdate($dataStage)
     {
     }
 }

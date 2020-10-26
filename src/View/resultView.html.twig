@@ -1,0 +1,106 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-10 offset-1">
+        <h1>Résultats</h1>
+
+          <div class="card">
+                        <div class="card-header">
+                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
+                        - {% if  race.status == 0 %}
+                        <div class="btn btn-secondary">Non démarré</div>
+                         {% elseif  race.status == 1 %}
+                        <div class="btn btn-primary">En cours</div>
+                        {% elseif  race.status == 2 %}
+                        <div class="btn btn-success">Terminé</div>
+                        {% else %}
+                        <div class="btn btn-danger">Annulé</div>
+                        {% endif %}
+                        </div>
+                        <div class="card-body">
+    <div class="row">
+    <div class="col-3">
+        <form method="post" action="/profile/delete">
+            <div class="form-inline mt-2">
+                <label for="nameId" class="col-1 offset-1 text-right "></label>
+                     <select class="form-control" name="nameId" id="groupList"
+                     size = "{% for category in categories %}
+                     {{ loop.length +1 }}
+                     {% endfor %}">
+                        <option value="0">0 - Général</option>
+
+                     {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.id }} - {{ category.name }}</option>
+                    {% endfor %}
+                    </select>
+
+            </div>
+
+            <div class="form-group mt-3">
+
+
+                <input type="submit" class="btn btn-danger inactive"
+                value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled />
+            </div>
+        </form>
+    </div>
+<div class="col-9">
+    
+  {% for result in results %}
+  <div class="card">
+  <img class=""
+     src={{ result[0].imgLink }}
+     alt="">
+     Nom : {{ result[0].lastName }}
+    Prénom : {{ result[0].firstName }}
+    Temps Total : {{ result[1].averageTime|date("i:s.u") }}
+    </div>
+
+    {% endfor %}
+
+
+    {% for categoryResult in categoryResults %}
+        <div id="category{{categories[loop.index0].id }}" >
+            <h3>Catégorie : {{ categories[loop.index0].name }}</h3>
+        
+        {% for result in categoryResult %}
+            
+            <div class="card">
+                <img class="" src={{ result[0].imgLink }} alt="">
+                Nom : {{ result[0].lastName }}
+                Prénom : {{ result[0].firstName }}
+                Temps Total : {{ result[1].averageTime|date("i:s.u") }}
+            </div>
+           
+        {% endfor %}
+        
+        </div>
+
+    {% endfor %}
+
+ </div>
+ </div>
+                         </div>
+                        <div class="card-footer">
+                        <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        Voir les résultats
+                        </a>
+                        <a href="/race/list" class="btn btn-primary"   >
+                        Retour
+                        </a>
+                        </div>
+                     </div>
+
+ 
+    </div>
+</div>
+{% endblock %}
+
+

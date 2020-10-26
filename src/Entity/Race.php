@@ -116,7 +116,7 @@ final class Race
 
     /**
      * Set the object from Db
-     * @param array $dataGroup
+     * @param array $dataRace
      * @return  self
      */
     public function buildFromDb(array $dataRace): self

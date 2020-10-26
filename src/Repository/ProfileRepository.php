@@ -23,9 +23,9 @@ final class ProfileRepository extends AbstractRepository implements ProfileInter
         $getProfiles = $this->pdo->prepare('SELECT *
         FROM profile WHERE name = ?');
         $getProfiles->execute(array($profile->getName()));
-        $dataProfile = $getProfiles->fetchAll();
+        $dataProfiles = $getProfiles->fetchAll();
 
-        return ProfileFactory::arrayFromDbCollection($dataProfile);
+        return ProfileFactory::arrayFromDbCollection($dataProfiles);
     }
 
     public function findAll(): array
@@ -33,9 +33,9 @@ final class ProfileRepository extends AbstractRepository implements ProfileInter
         $getProfiles = $this->pdo->prepare('SELECT *
         FROM profile');
         $getProfiles->execute();
-        $dataProfile = $getProfiles->fetchAll();
+        $dataProfiles = $getProfiles->fetchAll();
 
-        return ProfileFactory::arrayFromDbCollection($dataProfile);
+        return ProfileFactory::arrayFromDbCollection($dataProfiles);
     }
 
     public function add(Profile $profile): bool

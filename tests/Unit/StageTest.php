@@ -13,16 +13,20 @@ it('test of instance', function(){
 
 it('should has properties', function(){
         $this->assertClassHasAttribute('id', Stage::class);
+        $this->assertClassHasAttribute('resultId', Stage::class);
         $this->assertClassHasAttribute('stageNb', Stage::class);
         $this->assertClassHasAttribute('time', Stage::class);
-        $this->assertClassHasAttribute('participantId', Stage::class);
-        $this->assertClassHasAttribute('raceId', Stage::class);
         });
 
 
 it('should getId', function(){
     $this->stage->setId(4);
     $this->expect($this->stage->getId())->toBeInt();
+});
+
+it('should getResultId', function(){
+    $this->stage->setResultId(4);
+    $this->expect($this->stage->getResultId())->toBeInt();
 });
 
 it('should getStageNb', function(){
@@ -37,16 +41,6 @@ it('should getTime', function(){
     $this->expect($this->stage->getTime())->toEqual($date);
 });
 
-it('should getParticipantId', function(){
-    $this->stage->setParticipantId(4);
-    $this->expect($this->stage->getParticipantId())->toBeInt();
-});
-
-it('should getRaceId', function(){
-    $this->stage->setRaceId(4);
-    $this->expect($this->stage->getRaceId())->toBeInt();
-});
-
 
 
 it('has setId', function($id){
@@ -58,6 +52,19 @@ it('has setId', function($id){
 
 it('has setId throw exception', function($id){
     $this->stage->setId($id);
+})->with([
+    -1,-25
+])->throws(Exception::class);
+
+it('has setResultId', function($resultId){
+    $result = $this->stage->setResultId($resultId);
+    $this->expect($result->getResultId())->toEqual($resultId);
+})->with([
+    0,1,3,5,7,10
+]);
+
+it('has setResultId throw exception', function($resultId){
+    $this->stage->setResultId($resultId);
 })->with([
     -1,-25
 ])->throws(Exception::class);
@@ -94,30 +101,3 @@ it('has setTime throw exception', function($time){
     '99:60:99'
 ])->throws(Exception::class);
 
-
-it('has setParticipantId', function($participantId){
-    $result = $this->stage->setParticipantId($participantId);
-    $this->expect($result->getParticipantId())->toEqual($participantId);
-})->with([
-    0,1,3,5,7,10
-]);
-
-it('has setParticipantId throw exception', function($participantId){
-    $this->stage->setParticipantId($participantId);
-})->with([
-    -1,-25
-])->throws(Exception::class);
-
-
-it('has setRaceId', function($raceId){
-    $result = $this->stage->setRaceId($raceId);
-    $this->expect($result->getRaceId())->toEqual($raceId);
-})->with([
-    0,1,3,5,7,10
-]);
-
-it('has setRaceId throw exception', function($raceId){
-    $this->stage->setRaceId($raceId);
-})->with([
-    -1,-25
-])->throws(Exception::class);

@@ -23,6 +23,9 @@ race_finish:
 race_cancel:
     path: /race/detail/{id<\d+>}/cancel
     controller: App\Controller\RaceController::raceCancel
+race_update:
+    path: /race/detail/{id<\d+>}/update
+    controller: App\Controller\RaceController::raceUpdate
 race_add:
     path: /race/add
     controller: App\Controller\RaceController::raceAdd
@@ -33,15 +36,45 @@ race_check:
     path: /race/check
     controller: App\Controller\RaceController::raceCheck
 
+
+result_import:
+    path: /result/{id<\d+>}/import
+    controller: App\Controller\ResultController::resultImport
+result_export:
+    path: /result/{id<\d+>}/export
+    controller: App\Controller\ResultController::resultExport
+result_detail:
+    path: /result/{id<\d+>}
+    controller: App\Controller\ResultController::resultPage
+result_participant_list:
+    path: /result/{id<\d+>}/participantList
+    controller: App\Controller\ResultController::resultParticipantList
+
+
 participant:
     path: /participant
     controller: App\Controller\ParticipantController::participantPage
-participant_add:
-    path: /participant/add
-    controller: App\Controller\ParticipantController::participantAdd
 participant_check:
     path: /participant/check
     controller: App\Controller\ParticipantController::participantCheck
+participant_list:
+    path: /participant/list
+    controller: App\Controller\ParticipantController::participantList
+participant_form:
+    path: /participant/form
+    controller: App\Controller\ParticipantController::participantForm
+participant_add:
+    path: /participant/add
+    controller: App\Controller\ParticipantController::participantAdd
+participant_update:
+    path: /participant/update
+    controller: App\Controller\ParticipantController::participantUpdate
+participant_delete:
+    path: /participant/delete
+    controller: App\Controller\ParticipantController::participantDelete
+participant_img:
+    path: /participant/img/{id}
+    controller: App\Controller\ParticipantController::participantImg
 
 category:
     path: /category

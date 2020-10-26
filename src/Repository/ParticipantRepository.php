@@ -3,35 +3,37 @@
 namespace App\Repository;
 
 use App\Entity\Participant;
+use App\Factory\ParticipantFactory;
 
 final class ParticipantRepository extends AbstractRepository implements ParticipantInterface
 {
 
-    public function find(int $id): array
+    public function find(int $id): object
     {
         $getParticipant = $this->pdo->prepare('SELECT *
         FROM participant WHERE id = ?');
         $getParticipant->execute(array($id));
-
-        return $getParticipant->fetch();
+        return ParticipantFactory::fromDbCollection($getParticipant->fetch());
     }
 
     public function findByName(Participant $participant): array
     {
         $getAllParticipants = $this->pdo->prepare('SELECT *
-        FROM participant');
+        FROM participant WHERE last_name = "" AND first_name = "" AND birth_date = "" ');
         $getAllParticipants->execute();
+        $dataParticipants = $getAllParticipants->fetchAll();
 
-        return $getAllParticipants->fetchAll();
+        return ParticipantFactory::arrayFromDbCollection($dataParticipants);
     }
 
     public function findAll(): array
     {
         $getAllParticipants = $this->pdo->prepare('SELECT *
-        FROM participant');
+        FROM participant ORDER BY last_name ');
         $getAllParticipants->execute();
+        $dataParticipants = $getAllParticipants->fetchAll();
 
-        return $getAllParticipants->fetchAll();
+        return ParticipantFactory::arrayFromDbCollection($dataParticipants);
     }
 
     public function add(Participant $participant): array

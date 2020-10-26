@@ -26,9 +26,9 @@ final class RaceRepository extends AbstractRepository implements RaceInterface
             $race->getDate()->format('Y-m-d')
         ));
 
-        $dataProfile = $getRaces->fetchAll();
+        $dataRaces = $getRaces->fetchAll();
 
-        return RaceFactory::arrayFromDbCollection($dataProfile);
+        return RaceFactory::arrayFromDbCollection($dataRaces);
     }
 
     public function findAll(): array
@@ -37,9 +37,9 @@ final class RaceRepository extends AbstractRepository implements RaceInterface
         FROM race ORDER BY date DESC');
         $getRaces->execute();
 
-        $dataProfile = $getRaces->fetchAll();
+        $dataRaces = $getRaces->fetchAll();
 
-        return RaceFactory::arrayFromDbCollection($dataProfile);
+        return RaceFactory::arrayFromDbCollection($dataRaces);
     }
 
     public function add(Race $race): bool

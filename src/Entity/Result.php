@@ -8,11 +8,11 @@ use Exception;
 
 class Result
 {
-    private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
+    private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,6})$/';
     private int $id;
-    private int $participantId;
     private int $raceId;
-    private DateTimeInterface $averageTime;
+    private int $participantId;
+    private ?DateTimeInterface $averageTime;
 
     /**
      * Get the value of id
@@ -113,5 +113,46 @@ class Result
             throw new Exception('Id invalide');
         }
         return $int;
+    }
+
+    /**
+     * Set the object from Db
+     * @param array $dataResult
+     * @return  self
+     */
+    public function buildFromDb(array $dataResult): self
+    {
+        $this->id = $dataResult['id'];
+        $this->raceId = $dataResult['race_id'];
+        $this->participantId = $dataResult['participant_id'];
+        $this->averageTime = is_null($dataResult['average_time']) ? null : DateTime::createFromFormat('i:s.u', $dataResult['average_time']);
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestAdd
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestAdd(object $request): self
+    {
+        $this->setRaceId($request->get('raceId'));
+        $this->setParticipantId($request->get('participantId'));
+
+        return $this;
+    }
+
+    /**
+     * Set the object from RequestUpdate
+     * @param object $request
+     * @return  self
+     */
+    public function buildFromRequestUpdate(object $request): self
+    {
+        $this->setId($request->get('resultId'));
+        $this->buildFromRequestAdd($request);
+
+        return $this;
     }
 }

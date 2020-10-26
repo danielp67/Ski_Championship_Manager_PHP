@@ -1,0 +1,32 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Liste des Participants
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-10 offset-1">
+        <h1>Liste des Participants Existants</h1>
+
+        {% for participant in participants %}
+                    <div class="card">
+                        <div class="card-header">
+                        Id : {{ participant.id }} - Nom : {{ participant.lastName }} - Date : {{ participant.birthDate|date("d/m/Y")}}
+                        </div>
+                        <div class="card-body">
+                     
+                        </div>
+                        <div class="card-footer">
+                       
+                        </div>
+                     </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+
+

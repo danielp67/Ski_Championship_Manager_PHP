@@ -8,10 +8,10 @@ abstract class ParticipantFactory
 {
     public static function fromDbCollection(array $dataParticipant): object
     {
-        $Participant = new Participant();
-        $Participant->buildFromDb($dataParticipant);
+        $participant = new Participant();
+        $participant->buildFromDb($dataParticipant);
         
-        return $Participant;
+        return $participant;
     }
 
     public static function arrayFromDbCollection(array $dataParticipants): array
@@ -23,17 +23,17 @@ abstract class ParticipantFactory
 
     public static function fromRequestAdd(object $request): object
     {
-        $Participant = new Participant();
-        $Participant->buildFromRequestAdd($request);
+        $participant = new Participant();
+        $participant->buildFromRequestAdd($request);
 
-        return $Participant;
+        return $participant;
     }
 
     public static function fromRequestUdpate(object $request): object
     {
-        $Participant = new Participant();
-        $Participant->buildFromRequestUpdate($request);
+        $participant = new Participant();
+        $participant->buildFromRequestUpdate($request);
 
-        return $Participant;
+        return $participant;
     }
 }

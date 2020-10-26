@@ -97,6 +97,11 @@ CREATE TABLE IF NOT EXISTS `participant` (
         REFERENCES profile(id)        -- Colonne de référence
 ) ENGINE=InnoDB;
 
+INSERT INTO `participant` (`id`, `last_name`, `first_name`, `mail`, `birth_date`, `img_link`, `category_id`, `profile_id`) VALUES
+(1, 'Macon', 'Emmanuel', 'manu.macon@president.fr', '1970-01-12', 'img/macon.jpg', 1, 2),
+(2, 'Philippe', 'Edouard', 'ed.phil@president.fr', '1960-10-12', 'img/philippe.jpg', 3, 1),
+(3, 'Francois', 'Philippe', 'phil.francois@president.fr', '1960-10-12', 'img/francois.jpg', 7, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -104,10 +109,10 @@ CREATE TABLE IF NOT EXISTS `participant` (
 --
 
 CREATE TABLE IF NOT EXISTS `result` (
-  `id` int(11) PRIMARY KEY NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL  AUTO_INCREMENT,
   `race_id` int(11) NOT NULL,
   `participant_id` int(11) NOT NULL,
-  `average_time` time NOT NULL,
+  `average_time` time DEFAULT NULL,
 CONSTRAINT fk_race_id         -- On donne un nom à notre clé
         FOREIGN KEY (race_id)             -- Colonne sur laquelle on crée la clé
         REFERENCES race(id),        -- Colonne de référence
@@ -117,7 +122,12 @@ CONSTRAINT fk_participant_id         -- On donne un nom à notre clé
 ) ENGINE=InnoDB;
 
 
-
+INSERT INTO `result` (`id`, `race_id`, `participant_id`, `average_time`) VALUES
+(1, 4, 1, null),
+(2,  4, 2, null),
+(3,  5, 2, null),
+(4,  5, 1, null),
+(5, 5, 3, null);
 -- --------------------------------------------------------
 
 --
@@ -125,7 +135,7 @@ CONSTRAINT fk_participant_id         -- On donne un nom à notre clé
 --
 
 CREATE TABLE IF NOT EXISTS `stage` (
-  `id` int(11) PRIMARY KEY NOT NULL,
+  `id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `result_id` int(11) NOT NULL,
   `stage_nb` int(11) NOT NULL,
   `time` time DEFAULT NULL,
