@@ -11,22 +11,71 @@ Liste des Participants
     <div class="col-10 offset-1">
         <h1>Liste des Participants Existants</h1>
 
-        {% for participant in participants %}
-                    <div class="card">
-                        <div class="card-header">
-                        Id : {{ participant.id }} - Nom : {{ participant.lastName }} - Date : {{ participant.birthDate|date("d/m/Y")}}
-                        </div>
-                        <div class="card-body">
-                     
-                        </div>
-                        <div class="card-footer">
-                       
-                        </div>
-                     </div>
-        {% endfor %}
+       
+
+        <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Date de Naissance</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Profil</th>
+                    <th scope="col" colspan="2">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for participant in participants %}
+                    <tr>
+                    <th scope="row">{{ participant.participant.id }}</th>
+                    <td><img class="imgParticipant" src="/participant/img/{{ participant.participant.id }}" alt=""></td>
+                    <td>{{ participant.participant.lastName }}</td>
+                    <td>{{ participant.participant.firstName }}</td>
+                    <td>{{ participant.participant.birthDate|date("d/m/Y")}}</td>
+                    <td>{{ participant.participant.mail }}</td>
+                    <td>{{ participant.category.name }}</td>
+                    <td>{{ participant.profile.name }}</td>
+                    <td><a href="/participant/{{ participant.participant.id }}/formUpdate" class="btn btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </a>
+                    </td>
+                    <td ><a href="/participant/{{ participant.participant.id }}/delete" class="btn btn-danger">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                    </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+        </table>
+                 <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>   
 
     </div>
 </div>
+
+
 {% endblock %}
 
 

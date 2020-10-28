@@ -6,3 +6,21 @@
 .inactive{
     display: none;
 }
+
+.podium{
+    width: 100%;
+}
+
+.imgParticipant{
+    max-width: 50px;
+    max-height: 50px;
+}
+
+tr td a{
+   background-color: red;
+}
+
+tr td a tr:hover{
+    display: contents;
+
+}

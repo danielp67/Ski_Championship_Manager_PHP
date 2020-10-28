@@ -21,6 +21,14 @@ abstract class ProfileFactory
         return $dataProfiles;
     }
 
+    public static function fromDbCollectionParticipant(array $dataParticipant): object
+    {
+        $profile = new Profile();
+        $profile->buildFromDbParticipant($dataParticipant);
+
+        return $profile;
+    }
+
     public static function fromRequestAdd(object $request): object
     {
         $profile = new Profile();

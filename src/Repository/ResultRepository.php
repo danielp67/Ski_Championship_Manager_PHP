@@ -36,7 +36,7 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         $getResults = $this->pdo->prepare('SELECT *
         FROM participant
         WHERE id NOT IN 
-        (select participant_id from result where race_id =  ?)');
+        (select participant_id from result where race_id =  ?) ORDER BY last_name');
         $getResults->execute(array($raceId));
         
         $dataResults = $getResults->fetchAll();
@@ -112,14 +112,14 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         INNER JOIN category c ON p.category_id = c.id
         WHERE r.race_id = :raceId AND p.category_id = :categoryId 
         ORDER BY r.average_time LIMIT 0, 3');
-        $getResults->execute(array(  
+        $getResults->execute(array(
            "raceId" => $raceId,
            "categoryId" => $categoryId));
 
         $dataResults = $getResults->fetchAll();
         //var_dump($dataResults);
        // return ResultFactory::arrayFromDbCollection($dataResults);
-       return $dataResults;
+        return $dataResults;
     }
 
     public function findAll(): array

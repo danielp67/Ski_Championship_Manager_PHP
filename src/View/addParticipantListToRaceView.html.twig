@@ -1,0 +1,103 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Ajouter des participants
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-10 offset-1">
+        <h1>Ajouter des participants</h1>
+
+          <div class="card">
+            <legend class="card-header text-secondary">Liste des catégories :</legend>
+
+              <div class="card-body">
+                  <form  method="post" action="/result/{{ raceId }}/addParticipantList">
+                    <div class="row">
+                      
+                      <div class="col-6 form-inline mt-2">
+                          <label for="nameId" class="text-right "></label>
+                              <select class="form-control" name="nameId" id="notParticipants"
+                              size ="10" >
+                              {% for notParticipants in notParticipants %}
+                                  <option value="{{ notParticipants.id }}">{{ notParticipants.id }} - {{ notParticipants.lastName }} - {{ notParticipants.firstName }}</option>
+                              {% endfor %}
+                              </select>
+                      </div>
+
+                      <div class="col-1">
+                        <div class="form-group mt-3">
+                            <button href="" class="btn btn-success" id="buttonAdd"  >>></button>
+                            <button href="" class="btn btn-primary" id="buttonUpdate" >&lt;&lt;</button>
+                        </div>
+                     </div>
+
+                      <div class="col-5">
+                      <div class="form-inline mt-2">
+                          <label for="nameId" class="text-right "></label>
+                              <select class="form-control" name="nameId" id="participants"
+                              size ="10" >
+                              {% for participant in participants %}
+                                  <option value="{{ participant.id }}">{{ participant.id }} - {{ participant.lastName }} - {{ participant.firstName }}</option>
+                              {% endfor %}
+                              </select>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                          <input type="submit" class="col-2 offset-5 btn btn-success"
+                            value="Valider" data-toggle="modal" data-target="#modalDelete"/>
+                    </div>
+
+
+                  </form>
+          
+        
+                </div>
+
+                  <div class="card-footer">
+                      <a href="/home" id="raceView">Retour</a>
+                  </div>
+            </div>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmer la suppression ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <form method="post" action="/category/delete" dialog>
+      <label for="nameId" class="text-left col-10"></label>
+        <input class="form-control col-10 inactive" type="number" name="nameId"
+         id="nameIdmod" value="" required />
+      <div class="modal-body">
+        Etes vous sûr de vouloir supprimer la catégorie ?
+        Cela affectera les épreuves et les participants enregistrés !
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <input type="submit" class="btn btn-primary"  value="Confirmer"/>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+

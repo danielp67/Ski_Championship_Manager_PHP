@@ -6,12 +6,17 @@ use App\Entity\Participant;
 
 abstract class ParticipantFactory
 {
-    public static function fromDbCollection(array $dataParticipant): object
+    public static function fromDbCollection(array $dataParticipant): array
     {
         $participant = new Participant();
         $participant->buildFromDb($dataParticipant);
-        
-        return $participant;
+
+        $category = CategoryFactory::fromDbCollectionParticipant($dataParticipant);
+        $profile = ProfileFactory::fromDbCollectionParticipant($dataParticipant);
+
+        return ['participant' => $participant,
+                'category' => $category,
+                'profile' => $profile];
     }
 
     public static function arrayFromDbCollection(array $dataParticipants): array
@@ -29,7 +34,7 @@ abstract class ParticipantFactory
         return $participant;
     }
 
-    public static function fromRequestUdpate(object $request): object
+    public static function fromRequestUpdate(object $request): object
     {
         $participant = new Participant();
         $participant->buildFromRequestUpdate($request);

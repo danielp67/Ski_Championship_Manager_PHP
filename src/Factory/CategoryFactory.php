@@ -21,6 +21,14 @@ abstract class CategoryFactory
         return $dataCategories;
     }
 
+    public static function fromDbCollectionParticipant(array $dataParticipant): object
+    {
+        $category = new Category();
+        $category->buildFromDbParticipant($dataParticipant);
+
+        return $category;
+    }
+
     public static function fromRequestAdd(object $request): object
     {
         $category = new Category();

@@ -125,7 +125,8 @@ class Result
         $this->id = $dataResult['id'];
         $this->raceId = $dataResult['race_id'];
         $this->participantId = $dataResult['participant_id'];
-        $this->averageTime = is_null($dataResult['average_time']) ? null : DateTime::createFromFormat('i:s.u', $dataResult['average_time']);
+        $this->averageTime = is_null($dataResult['average_time'])
+        ? null : DateTime::createFromFormat('i:s.u', $dataResult['average_time']);
 
         return $this;
     }

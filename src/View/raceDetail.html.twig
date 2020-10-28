@@ -10,8 +10,6 @@ Epreuve -
 <div class="row mx-auto">
     <div class="col-10 offset-1">
         <h1>Epreuves</h1>
-        
-
                     <div class="card">
                         <div class="card-header">
                         Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
@@ -29,26 +27,32 @@ Epreuve -
                             <div class="row">
 
                                 <div class="col-6">
-                                <a href="/race/detail/{{ race.id }}/update" class="btn btn-primary"   >
+                                 {% if  race.status == 3 %}
+                                <a href="/race/{{ race.id }}/delete" class="btn btn-danger" >
+                                Supprimer l'épreuve
+                                </a>
+                                {% else %}
+                                <a href="/race/{{ race.id }}/formUpdate" class="btn btn-primary" >
                                 Modifier l'épreuve
                                 </a>
-                                <a href="/result/{{ race.id }}/participantList" class="btn btn-primary"  >
+                                <a href="/result/{{ race.id }}/formParticipantList" class="btn btn-primary" >
                                 Ajouter/Modifier Participants
                                 </a>
-                                <a href="/race/detail/{{ race.id }}/delete" class="btn btn-primary"   >
+                                 <a href="/race/{{ race.id }}/cancel" class="btn btn-primary" >
                                 Annuler l'épreuve
                                 </a>
+                                {% endif %}
                                 </div>
                                 <div class="col-6">
                                 {% if  race.status == 0 %}
-                                <a href="/race/detail/{{ race.id }}/start" class="btn btn-primary"   >
+                                <a href="/race/{{ race.id }}/start" class="btn btn-primary" >
                                 Démarrer l'épreuve →
                                 </a>
                                 {% elseif  race.status == 1 %}
-                                    <a href="/result/{{ race.id }}/export" class="btn btn-primary"  >
+                                    <a href="/result/{{ race.id }}/export" class="btn btn-primary" >
                                 Exporter feuille de chronométrage
                                 </a>
-                                    <a href="/result/{{ race.id }}/import" class="btn btn-primary"  >
+                                    <a href="/result/{{ race.id }}/import" class="btn btn-primary" >
                                 Importer feuille de chronométrage
                                 </a>
                                 <form method="post" enctype="multipart/form-data" action="/result/{{ race.id }}/import">
@@ -63,7 +67,7 @@ Epreuve -
         
                                 </form>
 
-                                <a href="/race/detail/{{ race.id }}/finish" class="btn btn-primary"  >
+                                <a href="/race/{{ race.id }}/finish" class="btn btn-primary"  >
                                 Terminer l'épreuve
                                 </a>
                                 {% endif %}
@@ -72,9 +76,15 @@ Epreuve -
 
                         </div>
                         <div class="card-footer">
+                        {% if  race.status == 1 or race.status == 2 %}
                         <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
                         Voir les résultats
                         </a>
+                        {% else %}
+                        <button type="button" class="btn btn-success"  disabled >
+                        Voir les résultats
+                        </button>
+                        {% endif %}
                         <a href="/race/list" class="btn btn-primary"   >
                         Retour
                         </a>

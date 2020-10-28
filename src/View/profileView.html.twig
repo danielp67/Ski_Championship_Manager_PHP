@@ -19,9 +19,7 @@ Home
             <div class="form-inline mt-2">
                 <label for="nameId" class="col-1 offset-1 text-right "></label>
                      <select class="form-control" name="nameId" id="groupList"
-                     size = "{% for profile in profiles %}
-                     {{ loop.length }}
-                     {% endfor %}">
+                     size = "{{ profiles|length}}">
                      {% for profile in profiles %}
                         <option value="{{ profile.id }}">{{ profile.id }} - {{ profile.name }}</option>
                     {% endfor %}

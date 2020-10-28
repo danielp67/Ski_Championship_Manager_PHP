@@ -30,10 +30,8 @@ Home
         <form method="post" action="/profile/delete">
             <div class="form-inline mt-2">
                 <label for="nameId" class="col-1 offset-1 text-right "></label>
-                     <select class="form-control" name="nameId" id="groupList"
-                     size = "{% for category in categories %}
-                     {{ loop.length +1 }}
-                     {% endfor %}">
+                     <select class="form-control" name="nameId" id="resultList"
+                     size = "{{ categories|length +1}}">
                         <option value="0">0 - Général</option>
 
                      {% for category in categories %}
@@ -52,22 +50,23 @@ Home
         </form>
     </div>
 <div class="col-9">
+
+    <div id="resultList0" class="rankingList" >
+        <h3>Classement Général</h3>
+    {% for result in results %}
     
-  {% for result in results %}
-  <div class="card">
-  <img class=""
-     src={{ result[0].imgLink }}
-     alt="">
-     Nom : {{ result[0].lastName }}
-    Prénom : {{ result[0].firstName }}
-    Temps Total : {{ result[1].averageTime|date("i:s.u") }}
+    <div class="card">
+    <img class="" src={{ result[0].imgLink }} alt="">
+        Nom : {{ result[0].lastName }}
+        Prénom : {{ result[0].firstName }}
+        Temps Total : {{ result[1].averageTime|date("i:s.u") }}
+        </div>
+
+        {% endfor %}
     </div>
 
-    {% endfor %}
-
-
     {% for categoryResult in categoryResults %}
-        <div id="category{{categories[loop.index0].id }}" >
+        <div id="resultList{{categories[loop.index0].id }}" class="rankingList" >
             <h3>Catégorie : {{ categories[loop.index0].name }}</h3>
         
         {% for result in categoryResult %}
@@ -78,9 +77,9 @@ Home
                 Prénom : {{ result[0].firstName }}
                 Temps Total : {{ result[1].averageTime|date("i:s.u") }}
             </div>
-           
+          
         {% endfor %}
-        
+         <img class="podium" src="/result/podium" alt="">
         </div>
 
     {% endfor %}

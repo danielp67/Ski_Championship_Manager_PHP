@@ -13,7 +13,7 @@ final class Participant
     private const PATTERN_NAME = '/^[a-zA-ZÀ-ÿ .-]{1,20}$/';
     private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
     private const PATTERN_IMG = '/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/';
-    private int $id;
+    private ?int $id = null;
     private string $lastName;
     private string $firstName;
     private string $mail;
@@ -264,9 +264,8 @@ final class Participant
      */
     public function buildFromRequestUpdate(object $request): self
     {
-        $this->setId($request->get('id'));
-        $this->buildFromRequestUpdate($request);
-       
-        return $this;
+        $this->buildFromRequestAdd($request);
+
+        return $this->setId($request->get('id'));
     }
 }

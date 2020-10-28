@@ -2,27 +2,42 @@
 {% extends 'template.html.twig' %}
 
 {% block title %}
+{% if race %}
+Modifier Epreuve
+{% else %}
 Nouvelle Epreuve
+{% endif %}
 {% endblock %}
 
 
 {% block content %}
-<form method="post" action="/race/add">
+<form method="post" 
+            {% if race %}
+            action="/race/{{race.id}}/update"
+            {% else %}
+            action="/race/add"            
+            {% endif %}>
 <div class="row mx-auto">
     <div class="col-6 offset-3">
      <div class="card">
-            <legend class="card-header text-secondary">Créer une nouvelle épreuve :</legend>
+            <legend class="card-header text-secondary">
+            {% if race %}
+            Modifier épreuve :
+            {% else %}
+            Créer une nouvelle épreuve :
+            {% endif %}
+            </legend>
             <div class="form-inline mt-2">
                 <label for="location" class="col-5 offset-1 text-right ">
                     Lieu : </label>
                 <input class="form-control col-5" type="text" name="location"
-                id="location" required minlength="4">
+                id="location" value="{{race.location}}" required minlength="4">
             </div>
             <div class="form-inline mt-2">
                 <label for="date" class="col-5 offset-1 text-right ">
                     Date : </label>
                 <input class="form-control col-5" type="date" name="date"
-                id="date" placeholder="10/10/2020">
+                id="date" value="{{race.date|date("Y-m-d")}}" placeholder="10/10/2020">
             </div>
     
             <div class="form-group mt-3">

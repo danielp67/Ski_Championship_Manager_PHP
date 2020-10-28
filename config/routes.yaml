@@ -12,29 +12,32 @@ race_list:
     path: /race/list
     controller: App\Controller\RaceController::raceList
 race_detail:
-    path: /race/detail/{id<\d+>}
+    path: /race/{id<\d+>}/detail
     controller: App\Controller\RaceController::raceDetail
 race_start:
-    path: /race/detail/{id<\d+>}/start
+    path: /race/{id<\d+>}/start
     controller: App\Controller\RaceController::raceStart
 race_finish:
-    path: /race/detail/{id<\d+>}/finish
+    path: /race/{id<\d+>}/finish
     controller: App\Controller\RaceController::raceFinish
 race_cancel:
-    path: /race/detail/{id<\d+>}/cancel
+    path: /race/{id<\d+>}/cancel
     controller: App\Controller\RaceController::raceCancel
-race_update:
-    path: /race/detail/{id<\d+>}/update
-    controller: App\Controller\RaceController::raceUpdate
-race_add:
-    path: /race/add
-    controller: App\Controller\RaceController::raceAdd
+race_delete:
+    path: /race/{id<\d+>}/delete
+    controller: App\Controller\RaceController::raceDelete
 race_form:
     path: /race/form
     controller: App\Controller\RaceController::raceForm
-race_check:
-    path: /race/check
-    controller: App\Controller\RaceController::raceCheck
+race_add:
+    path: /race/add
+    controller: App\Controller\RaceController::raceAdd
+race_update:
+    path: /race/{id<\d+>}/update
+    controller: App\Controller\RaceController::raceUpdate
+race_form_update:
+    path: /race/{id<\d+>}/formUpdate
+    controller: App\Controller\RaceController::raceFormUpdate
 
 
 result_import:
@@ -46,17 +49,20 @@ result_export:
 result_detail:
     path: /result/{id<\d+>}
     controller: App\Controller\ResultController::resultPage
-result_participant_list:
-    path: /result/{id<\d+>}/participantList
-    controller: App\Controller\ResultController::resultParticipantList
+result_form_participant_list:
+    path: /result/{id<\d+>}/formParticipantList
+    controller: App\Controller\ResultController::resultFormParticipantList
+result_add_participant_list:
+    path: /result/{id<\d+>}/addParticipantList
+    controller: App\Controller\ResultController::resultAddParticipantList
+result_podium:
+    path: /result/podium
+    controller: App\Controller\ResultController::resultPodium
 
 
 participant:
     path: /participant
     controller: App\Controller\ParticipantController::participantPage
-participant_check:
-    path: /participant/check
-    controller: App\Controller\ParticipantController::participantCheck
 participant_list:
     path: /participant/list
     controller: App\Controller\ParticipantController::participantList
@@ -66,15 +72,19 @@ participant_form:
 participant_add:
     path: /participant/add
     controller: App\Controller\ParticipantController::participantAdd
+participant_form_update:
+    path: /participant/{id<\d+>}/formUpdate
+    controller: App\Controller\ParticipantController::participantFormUpdate
 participant_update:
-    path: /participant/update
+    path: /participant/{id<\d+>}/update
     controller: App\Controller\ParticipantController::participantUpdate
 participant_delete:
-    path: /participant/delete
+    path: /participant/{id<\d+>}/delete
     controller: App\Controller\ParticipantController::participantDelete
 participant_img:
     path: /participant/img/{id}
     controller: App\Controller\ParticipantController::participantImg
+
 
 category:
     path: /category

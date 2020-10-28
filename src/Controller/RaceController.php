@@ -6,6 +6,7 @@ use App\Factory\RaceFactory;
 use App\Repository\RaceRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 final class RaceController extends AbstractController
 {
@@ -17,10 +18,10 @@ final class RaceController extends AbstractController
 
     public function raceForm(): void
     {
-        echo $this->twig->render('raceForm.html.twig');
+        echo $this->twig->render('raceForm.html.twig', ['race' => null]);
     }
 
-    public function raceAdd($request): void
+    public function raceAdd(Request $request): void
     {
         $raceRepository = new RaceRepository($this->pdo);
 
@@ -34,33 +35,44 @@ final class RaceController extends AbstractController
         $response->send();
     }
 
-    public function raceUpdate($request): void
+    public function raceFormUpdate(Request $request): void
     {
         $raceRepository = new RaceRepository($this->pdo);
+        $params = explode('/', $request->getPathInfo());
+        $race = $raceRepository->find($params[2]);
+        echo $this->twig->render('raceForm.html.twig', ['race' => $race]);
+    }
+
+    public function raceUpdate(Request $request): void
+    {
+        $params = explode('/', $request->getPathInfo());
+
+        $raceRepository = new RaceRepository($this->pdo);
+        $race = $raceRepository->find($params[2]);
+        $request->request->add(['status' => $race->getStatus()]);
+        $request->request->add(['id' => $params[2]]);
 
         $newRace = RaceFactory::fromRequestUdpate($request);
+
         $checkRace = $raceRepository->findbyName($newRace);
+
         if (! empty($checkRace)) {
             throw new Exception('Epreuve déjà éxistante');
         }
         $updateRace = $raceRepository->update($newRace);
+        
         $response = new RedirectResponse('http://127.1.2.3/race/list');
         $response->send();
     }
 
-    public function raceDelete($request): void
+    public function raceDelete(Request $request): void
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
-        $deleteRace = $raceRepository->delete($params[3]);
+        $deleteRace = $raceRepository->delete($params[2]);
         $response = new RedirectResponse('http://127.1.2.3/race/list');
         $response->send();
-    }
-
-    public function raceCheck($request): void
-    {
-        var_dump($request);
     }
 
     public function raceList(): void
@@ -71,41 +83,41 @@ final class RaceController extends AbstractController
         echo $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
     }
 
-    public function raceDetail($request): void
+    public function raceDetail(Request $request): void
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
-        $race = $raceRepository->find($params[3]);
+        $race = $raceRepository->find($params[2]);
         
         echo $this->twig->render('raceDetail.html.twig', ['race' => $race]);
     }
 
-    public function raceStart($request): void
+    public function raceStart(Request $request): void
     {
         $this->raceStatus($request, 1);
     }
 
-    public function raceFinish($request): void
+    public function raceFinish(Request $request): void
     {
         $this->raceStatus($request, 2);
     }
 
-    public function raceCancel($request): void
+    public function raceCancel(Request $request): void
     {
         $this->raceStatus($request, 3);
     }
 
-    private function raceStatus($request, $status): void
+    private function raceStatus(Request $request, $status): void
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
-        $race = $raceRepository->find($params[3]);
+        $race = $raceRepository->find($params[2]);
         $race->setStatus($status);
         $updateRace = $raceRepository->update($race);
         
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[3]);
+        $response = new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
         $response->send();
     }
 }

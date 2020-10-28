@@ -34,11 +34,11 @@ Liste des épreuves
                        <button  class="btn btn-primary"  disabled >
                         Gérer l'épreuve
                         </button>
-                        <a  href="/race/detail/{{ race.id }}/result" class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        <a  href="/result/{{ race.id }}" class="btn btn-success"  id="buttonResult{{ race.id }}" >
                         Voir les résultats
                         </a>
                         {% else %}
-                        <a href="/race/detail/{{ race.id }}" class="btn btn-primary"  id="buttonManage{{ race.id }}" >
+                        <a href="/race/{{ race.id }}/detail" class="btn btn-primary"  id="buttonManage{{ race.id }}" >
                         Gérer l'épreuve
                         </a>
                         <button type="button" class="btn btn-success"  disabled >

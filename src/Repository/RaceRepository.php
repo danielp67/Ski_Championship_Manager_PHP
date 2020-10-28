@@ -20,10 +20,11 @@ final class RaceRepository extends AbstractRepository implements RaceInterface
     public function findByName(Race $race): array
     {
         $getRaces = $this->pdo->prepare('SELECT *
-        FROM  race WHERE location = ? AND date = ?');
+        FROM  race WHERE location = ? AND date = ? AND id <> ?');
         $getRaces->execute(array(
             $race->getLocation(),
-            $race->getDate()->format('Y-m-d')
+            $race->getDate()->format('Y-m-d'),
+            $race->getId()
         ));
 
         $dataRaces = $getRaces->fetchAll();
