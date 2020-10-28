@@ -48,7 +48,10 @@ final class ResultController extends AbstractController
         $categoryResults = $this->rankingByCategory($allCategories, $params[2]);
 
         var_dump($categoryResults[0]);
-        echo $this->twig->render('resultView.html.twig', ['results' => $results,  'categoryResults' =>  $categoryResults, 'categories' => $allCategories, 'race' => $race]);
+        echo $this->twig->render('resultView.html.twig', ['results' => $results,
+                                                        'categoryResults' =>  $categoryResults,
+                                                        'categories' => $allCategories,
+                                                        'race' => $race]);
     }
 
     public function generalRanking()
@@ -140,13 +143,9 @@ final class ResultController extends AbstractController
 
         var_dump($notParticipants);
         
-        echo $this->twig->render(
-            'addParticipantListToRaceView.html.twig',
-            ['notParticipants' => $notParticipants,
-            'participants' =>  $participants,
-            'raceId' => $params[2]
-            ]
-        );
+        echo $this->twig->render('addParticipantListToRaceView.html.twig', ['notParticipants' => $notParticipants,
+                                                                            'participants' =>  $participants,
+                                                                            'raceId' => $params[2]]);
 
 
 
@@ -216,7 +215,12 @@ final class ResultController extends AbstractController
         $encoders = [new CsvEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
-        $dataToNormalizer = [$serializer->normalize($dataToCsv, null, [AbstractNormalizer::ATTRIBUTES => ['id','lastName', 'firstName']])];
+        $dataToNormalizer = [$serializer->normalize(
+            $dataToCsv,
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['id','lastName', 'firstName']]
+        )
+                        ];
         $context = ['no_headers' => true , 'output_utf8_bom' => false];
         $dataToCsv = $serializer->serialize($dataToNormalizer, 'csv', $context);
         return  [$dataToCsv];
@@ -335,14 +339,16 @@ final class ResultController extends AbstractController
         $serializer = new Serializer($normalizers, $encoders);
 
         var_dump(file_get_contents($data));
-       // $result =  $serializer->decode(file_get_contents($data), 'csv',[AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']] );
+       // $result =  $serializer->decode(file_get_contents($data), 'csv',
+       [AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']] );
       //  var_dump($result);
         //var_dump(array_splice($result[0],3,2));
        // unset($result[0]['nom'], $result['prenom']);
       //  var_dump(  $result );
 
         $result2 = $serializer->deserialize(file_get_contents($data) ,'App\Entity\Stage[]', 'csv');
-      //  $result3 = $serializer->denormalize($result,'App\Entity\Stage[]', null, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']]);
+      //  $result3 = $serializer->denormalize($result,'App\Entity\Stage[]', null,
+       [AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']]);
 
        // $result3 = array_map('self::deserialize', $result);
 
