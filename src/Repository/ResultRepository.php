@@ -18,32 +18,6 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         return ResultFactory::FromDbCollection($getResult->fetch());
     }
 
-    public function findParticipantByRace(int $raceId): array
-    {
-        $getResults = $this->pdo->prepare('SELECT *
-        FROM result r
-        INNER JOIN participant p
-        WHERE r.race_id = ? AND r.participant_id = p.id ORDER BY p.last_name');
-        $getResults->execute(array($raceId));
-        
-        $dataResults = $getResults->fetchAll();
-       // var_dump($dataResults);
-        return ParticipantFactory::arrayFromDbCollection($dataResults);
-    }
-
-    public function findParticipantByNotRace(int $raceId): array
-    {
-        $getResults = $this->pdo->prepare('SELECT *
-        FROM participant
-        WHERE id NOT IN 
-        (select participant_id from result where race_id =  ?) ORDER BY last_name');
-        $getResults->execute(array($raceId));
-        
-        $dataResults = $getResults->fetchAll();
-
-        return ParticipantFactory::arrayFromDbCollection($dataResults);
-    }
-
     public function findByName(Result $result): array
     {
         $getResults = $this->pdo->prepare('SELECT *
@@ -58,33 +32,21 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         return ResultFactory::arrayFromDbCollection($dataResults);
     }
 
-    public function findAllParticipantsByRaceId(int $raceId): array
+    public function findParticipantByNotRace(int $raceId): array
     {
-        $getResults = $this->pdo->prepare('SELECT *
-        FROM  result WHERE race_id = ?');
-        $getResults->execute(array($raceId));
-
-        $dataResults = $getResults->fetchAll();
-
-        return ResultFactory::arrayFromDbCollection($dataResults);
-    }
-
-    public function findResultsByRaceId(int $raceId): array
-    {
-        $getResults = $this->pdo->prepare('SELECT *
-        FROM  result r
-        INNER JOIN participant p ON r.participant_id = p.id
-        INNER JOIN profile pr ON p.profile_id = pr.id
+        $getResults = $this->pdo->prepare('SELECT         
+         p.id, p.last_name, p.first_name, p.mail, p.birth_date, p.img_link, 
+        p.category_id, c.name as category, p.profile_id, pr.name as profile
+        FROM participant p
         INNER JOIN category c ON p.category_id = c.id
-        WHERE r.race_id = ? ORDER BY r.average_time');
+        INNER JOIN profile pr ON p.profile_id = pr.id
+        WHERE p.id NOT IN 
+        (select participant_id from result where race_id =  ?) ORDER BY p.last_name, p.first_name, p.birth_date');
         $getResults->execute(array($raceId));
-
+        
         $dataResults = $getResults->fetchAll();
-       // var_dump($dataResults);
-      //  $results = ResultFactory::arrayFromDbCollectionWithParticipant($dataResults);
-       // $participants = ParticipantFactory::arrayFromDbCollection($dataResults);
 
-        return $dataResults;
+        return ParticipantFactory::arrayFromDbCollection($dataResults);
     }
 
     public function findStageByRaceId(int $raceId): array
@@ -103,9 +65,33 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         return $dataResults;
     }
 
+    public function findResultsByRaceId(int $raceId): array
+    {
+        $getResults = $this->pdo->prepare('SELECT
+        r.id as result_id, r.race_id, 
+        r.participant_id as id ,
+        r.average_time,
+        p.last_name, p.first_name, p.mail, p.birth_date, p.img_link, 
+        p.category_id, c.name as category, p.profile_id, pr.name as profile
+        FROM  result r
+        INNER JOIN participant p ON r.participant_id = p.id
+        INNER JOIN profile pr ON p.profile_id = pr.id
+        INNER JOIN category c ON p.category_id = c.id
+        WHERE r.race_id = ? ORDER BY r.average_time, p.last_name, p.first_name, p.birth_date');
+        $getResults->execute(array($raceId));
+
+        $dataResults = $getResults->fetchAll();
+
+        return ResultFactory::arrayFromDbCollectionParticipant($dataResults);
+    }
+
     public function findResultsByRaceIdAndCategory(int $raceId, int $categoryId)
     {
-        $getResults = $this->pdo->prepare('SELECT *
+        $getResults = $this->pdo->prepare('SELECT r.id as result_id, r.race_id, 
+        r.participant_id as id ,
+        r.average_time,
+        p.last_name, p.first_name, p.mail, p.birth_date, p.img_link, 
+        p.category_id, c.name as category, p.profile_id, pr.name as profile
         FROM  result r
         INNER JOIN participant p ON r.participant_id = p.id
         INNER JOIN profile pr ON p.profile_id = pr.id
@@ -117,9 +103,8 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
            "categoryId" => $categoryId));
 
         $dataResults = $getResults->fetchAll();
-        //var_dump($dataResults);
-       // return ResultFactory::arrayFromDbCollection($dataResults);
-        return $dataResults;
+
+        return ResultFactory::arrayFromDbCollectionParticipant($dataResults);
     }
 
     public function findAll(): array

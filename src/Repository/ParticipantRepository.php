@@ -51,7 +51,7 @@ final class ParticipantRepository extends AbstractRepository implements Particip
         FROM participant p
         INNER JOIN category c ON p.category_id = c.id
         INNER JOIN profile pr ON p.profile_id = pr.id
-        ORDER BY p.last_name');
+        ORDER BY p.last_name, p.first_name, p.birth_date');
         $getAllParticipants->execute();
         $dataParticipants = $getAllParticipants->fetchAll();
 

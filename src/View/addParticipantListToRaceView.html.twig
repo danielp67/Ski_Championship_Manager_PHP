@@ -15,33 +15,35 @@ Ajouter des participants
             <legend class="card-header text-secondary">Liste des catégories :</legend>
 
               <div class="card-body">
-                  <form  method="post" action="/result/{{ raceId }}/addParticipantList">
+                  <form  method="post" action="">
                     <div class="row">
                       
                       <div class="col-6 form-inline mt-2">
-                          <label for="nameId" class="text-right "></label>
-                              <select class="form-control" name="nameId" id="notParticipants"
+                          <label for="notParticipants" class="text-right "></label>
+                              <select class="form-control" name="notParticipants" id="notParticipants"
                               size ="10" >
                               {% for notParticipants in notParticipants %}
-                                  <option value="{{ notParticipants.id }}">{{ notParticipants.id }} - {{ notParticipants.lastName }} - {{ notParticipants.firstName }}</option>
+                                  <option value="{{ notParticipants.participant.id }}">
+                                  {{ notParticipants.participant.id }} - {{ notParticipants.participant.lastName }} - {{ notParticipants.participant.firstName }}</option>
                               {% endfor %}
                               </select>
                       </div>
 
                       <div class="col-1">
                         <div class="form-group mt-3">
-                            <button href="" class="btn btn-success" id="buttonAdd"  >>></button>
-                            <button href="" class="btn btn-primary" id="buttonUpdate" >&lt;&lt;</button>
+                            <button class="btn btn-success" id="buttonAdd"  >>></button>
+                            <button class="btn btn-primary" id="buttonRemove" >&lt;&lt;</button>
                         </div>
                      </div>
 
                       <div class="col-5">
                       <div class="form-inline mt-2">
-                          <label for="nameId" class="text-right "></label>
-                              <select class="form-control" name="nameId" id="participants"
+                          <label for="participants" class="text-right "></label>
+                              <select class="form-control" name="participants" id="participants"
                               size ="10" >
                               {% for participant in participants %}
-                                  <option value="{{ participant.id }}">{{ participant.id }} - {{ participant.lastName }} - {{ participant.firstName }}</option>
+                                  <option value="{{ participant.participant.id }}">
+                                  {{ participant.participant.id }} - {{ participant.participant.lastName }} - {{ participant.participant.firstName }}</option>
                               {% endfor %}
                               </select>
 
@@ -51,7 +53,7 @@ Ajouter des participants
 
                     <div class="row">
                           <input type="submit" class="col-2 offset-5 btn btn-success"
-                            value="Valider" data-toggle="modal" data-target="#modalDelete"/>
+                            value="Valider" id="buttonSubmit" data-toggle="modal" data-target="#modalDeletee"/>
                     </div>
 
 

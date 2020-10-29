@@ -122,9 +122,9 @@ class Result
      */
     public function buildFromDb(array $dataResult): self
     {
-        $this->id = $dataResult['id'];
+        $this->id = $dataResult['result_id'];
         $this->raceId = $dataResult['race_id'];
-        $this->participantId = $dataResult['participant_id'];
+        $this->participantId = $dataResult['id'];
         $this->averageTime = is_null($dataResult['average_time'])
         ? null : DateTime::createFromFormat('i:s.u', $dataResult['average_time']);
 

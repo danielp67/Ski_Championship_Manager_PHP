@@ -70,8 +70,7 @@ if(formAdd !== null || formUpdate !== null){
 // For Result View
 
 let rankingList = document.getElementsByClassName('rankingList');
-
-console.log(rankingList);
+let resultList = document.getElementById('resultList');
 
 function remove(){
     for(let i = 0; i<rankingList.length; i++){
@@ -80,15 +79,91 @@ function remove(){
     }
 }
 
-remove();
+if(resultList !== null){
 
-
-let resultList = document.getElementById('resultList');
-
-resultList.addEventListener("click", function(e) {
-    let i = e.target.value
     remove();
-    rankingList[i].classList.add("active");
-    rankingList[i].classList.remove("inactive");
-    console.log(e.target.value);
+
+    resultList.addEventListener("click", function(e) {
+        let i = e.target.value;
+        remove();
+        rankingList[i].classList.add("active");
+        rankingList[i].classList.remove("inactive");
+        console.log(e.target.value);
+    });
+
+}
+
+// For Add participant List View
+
+let notParticipants = document.getElementById('notParticipants');
+let participants = document.getElementById('participants');
+
+let listNotParticipants = notParticipants.getElementsByTagName('option');
+let listParticipants = participants.getElementsByTagName('option');
+
+let addParticipant = document.getElementById('buttonAdd');
+let removeParticipant = document.getElementById('buttonRemove');
+let submitParticipant = document.getElementById('buttonSubmit');
+
+let selectedIdNotParticipant = '';
+let selectedIdParticipant = '';
+
+participants.addEventListener("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        selectedIdParticipant = e.target;
+});
+
+notParticipants.addEventListener("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    selectedIdNotParticipant = e.target;
+});
+
+addParticipant.addEventListener("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    addParticipantList(selectedIdNotParticipant);
+});
+
+removeParticipant.addEventListener("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    removeParticipantList(selectedIdParticipant);
+});
+
+function addParticipantList(id){
+    participants.append(id);
+}
+
+function removeParticipantList(id){
+    notParticipants.append(id);
+}
+
+
+submitParticipant.addEventListener("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+//let idNotParticipants = [];
+let idParticipants = [];
+/*
+for(let i = 0; i<listNotParticipants.length; i++){
+    idNotParticipants.push(listNotParticipants[i].value);
+}
+*/
+for(let i = 0; i<listParticipants.length; i++){
+    idParticipants.push(listParticipants[i].value);
+}
+
+idParticipants.sort(function(a, b) {
+  return a - b;
+});
+
+console.log(idParticipants);
+let formData = new FormData();
+formData.append('participantId', idParticipants);
+fetch('http://127.1.2.3/result/5/addParticipantList', {method: 'POST', body: formData})
+.then(res => console.log(res) );
+
 });

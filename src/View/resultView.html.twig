@@ -11,7 +11,7 @@ Home
     <div class="col-10 offset-1">
         <h1>Résultats</h1>
 
-          <div class="card">
+          <div class="card result">
                         <div class="card-header">
                         Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
                         - {% if  race.status == 0 %}
@@ -31,19 +31,18 @@ Home
             <div class="form-inline mt-2">
                 <label for="nameId" class="col-1 offset-1 text-right "></label>
                      <select class="form-control" name="nameId" id="resultList"
-                     size = "{{ categories|length +1}}">
+                     size = "{{ categories|length + 2}}">
                         <option value="0">0 - Général</option>
-
+                    <optgroup label="Catégories">
                      {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.id }} - {{ category.name }}</option>
                     {% endfor %}
+                    </optgroup>
                     </select>
 
             </div>
 
             <div class="form-group mt-3">
-
-
                 <input type="submit" class="btn btn-danger inactive"
                 value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled />
             </div>
@@ -53,16 +52,55 @@ Home
 
     <div id="resultList0" class="rankingList" >
         <h3>Classement Général</h3>
-    {% for result in results %}
-    
-    <div class="card">
-    <img class="" src={{ result[0].imgLink }} alt="">
-        Nom : {{ result[0].lastName }}
-        Prénom : {{ result[0].firstName }}
-        Temps Total : {{ result[1].averageTime|date("i:s.u") }}
-        </div>
+        
+        <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Profil</th>
+                    <th scope="col">Temps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for result in results %}
+                    <tr>
+                    <th scope="row">{{loop.index }}</th>
+                    <td><img class="imgParticipant" src="/participant/img/{{ result.participant.id }}" alt=""></td>
+                    <td>{{ result.participant.lastName }}</td>
+                    <td>{{ result.participant.firstName }}</td>
+                    <td>{{ result.category.name }}</td>
+                    <td>{{ result.profile.name }}</td>
+                    <td>{{ result.result.averageTime|date("i:s.u") }}</td>
 
-        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+        </table>
+                                <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    </li>
+                </ul>
+                </nav>   
+
     </div>
 
     {% for categoryResult in categoryResults %}
@@ -71,11 +109,12 @@ Home
         
         {% for result in categoryResult %}
             
-            <div class="card">
-                <img class="" src={{ result[0].imgLink }} alt="">
-                Nom : {{ result[0].lastName }}
-                Prénom : {{ result[0].firstName }}
-                Temps Total : {{ result[1].averageTime|date("i:s.u") }}
+            <div class="card rank rank{{ loop.index }}" id="">
+                <img class="imgParticipant" src="/participant/img/{{ result.participant.id }}" alt="">
+                {{ result.participant.lastName }} {{ result.participant.firstName }}<br>
+                Temps Total : {{ result.result.averageTime|date("i:s.u") }}<br>
+                Catégorie : {{ result.category.name }}<br>
+                Profil : {{ result.profile.name }}<br>
             </div>
           
         {% endfor %}
@@ -86,14 +125,20 @@ Home
 
  </div>
  </div>
-                         </div>
+                    </div>
                         <div class="card-footer">
-                        <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
-                        Voir les résultats
+                        <a href="/result/{{ race.id }}/toPdf"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                        Exporter les résultats
                         </a>
-                        <a href="/race/list" class="btn btn-primary"   >
+                        {% if  race.status == 2 %}
+                        <a href="/race/list" class="btn btn-primary">
                         Retour
                         </a>
+                        {% else %}
+                        <a href="/race/{{ race.id }}/detail" class="btn btn-primary">
+                        Retour
+                        </a>
+                        {% endif %}
                         </div>
                      </div>
 

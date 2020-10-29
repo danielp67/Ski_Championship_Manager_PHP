@@ -14,13 +14,24 @@ Epreuve -
                         <div class="card-header">
                         Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
                         - {% if  race.status == 0 %}
-                        <div class="btn btn-secondary">Non démarré</div>
+                        <div class="btn btn-outline-secondary">Non démarré</div>
                          {% elseif  race.status == 1 %}
-                        <div class="btn btn-primary">En cours</div>
+                        <div class="btn  btn-outline-primary">En cours</div>
                         {% elseif  race.status == 2 %}
-                        <div class="btn btn-success">Terminé</div>
+                        <div class="btn btn-outline-success">Terminé</div>
                         {% else %}
-                        <div class="btn btn-danger">Annulé</div>
+                        <div class="btn btn-outline-danger">Annulé</div>
+                        <a href="/race/{{ race.id }}/delete" class="btn btn-danger" >
+                               <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                        {% endif %}
+                        {% if  race.status != 3 %}
+                        <a  href="/race/{{ race.id }}/formUpdate" class="btn btn-secondary" >
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>
+                        <a href="/race/{{ race.id }}/cancel" class="btn btn-danger" >
+                                Annuler l'épreuve X
+                                </a>
                         {% endif %}
                         </div>
                         <div class="card-body">
@@ -32,15 +43,10 @@ Epreuve -
                                 Supprimer l'épreuve
                                 </a>
                                 {% else %}
-                                <a href="/race/{{ race.id }}/formUpdate" class="btn btn-primary" >
-                                Modifier l'épreuve
-                                </a>
                                 <a href="/result/{{ race.id }}/formParticipantList" class="btn btn-primary" >
                                 Ajouter/Modifier Participants
                                 </a>
-                                 <a href="/race/{{ race.id }}/cancel" class="btn btn-primary" >
-                                Annuler l'épreuve
-                                </a>
+
                                 {% endif %}
                                 </div>
                                 <div class="col-6">
@@ -52,20 +58,27 @@ Epreuve -
                                     <a href="/result/{{ race.id }}/export" class="btn btn-primary" >
                                 Exporter feuille de chronométrage
                                 </a>
-                                    <a href="/result/{{ race.id }}/import" class="btn btn-primary" >
-                                Importer feuille de chronométrage
-                                </a>
+
                                 <form method="post" enctype="multipart/form-data" action="/result/{{ race.id }}/import">
                                     <div class="form-inline mt-2">
                                         <label for="file" class="col-1 text-right "></label>
-                                        <input class="btn btn-success col-4" type="file" name="file"
+                                        <input type="file" name="file" class="col-4 text-right "
                                         id="file" required minlength="4" value="Import" />
                                         
-                                        <input type="submit" class="btn btn-success col-4 offset-3"
-                                        value="Télécharger" />
+                                        <button type="submit" class="btn btn-success col-2">
+                                        <i class="fa fa-upload" aria-hidden="true"></i></button>
                                     </div>
         
                                 </form>
+                                {% if  race.status == 1 or race.status == 2 %}
+                                <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                                Voir les résultats
+                                </a>
+                                {% else %}
+                                <button type="button" class="btn btn-success"  disabled >
+                                Voir les résultats
+                                </button>
+                                {% endif %}
 
                                 <a href="/race/{{ race.id }}/finish" class="btn btn-primary"  >
                                 Terminer l'épreuve
@@ -76,16 +89,8 @@ Epreuve -
 
                         </div>
                         <div class="card-footer">
-                        {% if  race.status == 1 or race.status == 2 %}
-                        <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
-                        Voir les résultats
-                        </a>
-                        {% else %}
-                        <button type="button" class="btn btn-success"  disabled >
-                        Voir les résultats
-                        </button>
-                        {% endif %}
-                        <a href="/race/list" class="btn btn-primary"   >
+                        
+                        <a href="/race/list" class=""   >
                         Retour
                         </a>
                         </div>

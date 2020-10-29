@@ -7,6 +7,7 @@ use Pimple\Container;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Twig\Environment;
@@ -38,8 +39,9 @@ final class FactoryContainer
     {
         $container = new Container();
         $container['csvSerializer'] = function () {
+            $dateContext = array(DateTimeNormalizer::FORMAT_KEY => 'd/m/Y');
             $encoders = [new CsvEncoder(), new JsonEncoder()];
-            $normalizers = [new ObjectNormalizer(), new ArrayDenormalizer()];
+            $normalizers = [new DateTimeNormalizer($dateContext), new ObjectNormalizer(), new ArrayDenormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
             return $serializer;
         };

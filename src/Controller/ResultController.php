@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -26,7 +28,6 @@ final class ResultController extends AbstractController
 
         $resultRepository = new ResultRepository($this->pdo);
         $raceRepository = new RaceRepository($this->pdo);
-        $participantRepository = new ParticipantRepository($this->pdo);
         $categoryRepository = new CategoryRepository($this->pdo);
 
         $allCategories = $categoryRepository->findAll();
@@ -34,28 +35,15 @@ final class ResultController extends AbstractController
         $race = $raceRepository->find($params[2]);
         $results = $resultRepository->findResultsByRaceId($params[2]);
         var_dump($results);
-        /*
-        $result2 = $this->serializer->denormalize($results ,'App\Entity\Participant[]');
-        $result3 = $this->serializer->denormalize($results ,'App\Entity\Result[]');
-        var_dump($result2);
-        var_dump($result3);
-*/
-        $results = array_map("self::test", $results);
-
-        var_dump($results);
-        var_dump($results[0][1]->getId());
 
         $categoryResults = $this->rankingByCategory($allCategories, $params[2]);
 
-        var_dump($categoryResults[0]);
+        var_dump($categoryResults);
         echo $this->twig->render('resultView.html.twig', ['results' => $results,
                                                         'categoryResults' =>  $categoryResults,
                                                         'categories' => $allCategories,
                                                         'race' => $race]);
-    }
-
-    public function generalRanking()
-    {
+        
     }
 
     public function rankingByCategory($allCategories, $raceId)
@@ -66,8 +54,6 @@ final class ResultController extends AbstractController
         foreach ($allCategories as $allCategory) {
             $categoryId = $allCategory->getId();
             $resultByCategory = $resultRepository->findResultsByRaceIdAndCategory($raceId, $categoryId);
-            $resultByCategory = array_map("self::test", $resultByCategory);
-            
             array_push($resultsByCategories, $resultByCategory);
         }
 
@@ -79,15 +65,15 @@ final class ResultController extends AbstractController
     {
     }
 
-    public function test($result)
+    public function resultPodium()
     {
-            $resultRepository = new ResultRepository($this->pdo);
-     
-            $result4 = $this->serializer->denormalize($result, 'App\Entity\Participant');
-            $result5 = $this->serializer->denormalize($result, 'App\Entity\Result');
-            $result = [$result4 , $result5];
+        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/podium.png';
+        $response = new Response();
+
+        $response->headers->set('content-type', 'image/jpeg');
+        $response->setContent(file_get_contents($theImage));
         
-        return $result;
+        return $response->send();
     }
 
     public function resultAdd($request): void
@@ -135,13 +121,13 @@ final class ResultController extends AbstractController
 
         $params = explode('/', $request->getPathInfo());
 
-        $participants = $resultRepository->findParticipantByRace($params[2]);
+        $participants = $resultRepository->findResultsByRaceId($params[2]);
 
         $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
 
-        var_dump($participants);
+      //  var_dump($participants);
 
-        var_dump($notParticipants);
+      //  var_dump($notParticipants);
         
         echo $this->twig->render('addParticipantListToRaceView.html.twig', ['notParticipants' => $notParticipants,
                                                                             'participants' =>  $participants,
@@ -154,45 +140,45 @@ final class ResultController extends AbstractController
 
     public function resultAddParticipantList($request)
     {
-        $participantRepository = new ParticipantRepository($this->pdo);
         $resultRepository = new ResultRepository($this->pdo);
-
         $params = explode('/', $request->getPathInfo());
 
-        $participants = $resultRepository->findParticipantByRace($params[2]);
+        $participantList = $request->request->get('participantId');
+        var_dump($request->request->get('participantId'));
 
-        $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
+        $resultList = ResultFactory::arrayFromDbCollection([$participantList]);
 
-        var_dump($participants);
+        var_dump( $resultList);
 
-        var_dump($notParticipants);
+        foreach($participantList as $participant){
+           
+            // $checkResult = $resultRepository->findByName()
+        }
+        
+
         
         return $params;
     }
 
+      //Export to CSV
     public function resultExport($request)
     {
-        $participantList = $this->resultAddParticipantList($request);
-       // var_dump($participantList);
+        $params = explode('/', $request->getPathInfo());
+        $resultRepository = new ResultRepository($this->pdo);
+        $results = $resultRepository->findResultsByRaceId($params[2]);
 
-        $participantList = array_map('self::serializeToCsv', $participantList);
+        $participantList = array_map('self::serializeToCsv', $results);
         
-       //var_dump($participantList);
-        $list =  $participantList;
-        $csvHeader = array('id,Nom,Prenom,Temps de passage 1, Temps de passage 2');
-        array_unshift($list, $csvHeader);
-       /*
-        $list = array(
-            //these are the columns
-            array('Firstname', 'Lastname',),
-            //these are the rows
-            $participantList,
-        );*/
-       //var_dump($list);
+        $chronometerSheet = $this->addStageNb($participantList);
+
+        $csvHeader = array('result_id,Nom,Prenom,Date de naissance,Categorie,Profile,stage_nb,time');
+        array_unshift($chronometerSheet, $csvHeader );
+       // var_dump($chronometerSheet);
+
         $filename = 'users.csv';
         $fp = fopen('php://output', 'w', 'w');
     
-        foreach ($list as $fields) {
+        foreach ($chronometerSheet as $fields) {
             fputcsv($fp, $fields);
         }
     
@@ -205,28 +191,62 @@ final class ResultController extends AbstractController
        
         $response->sendHeaders();
 
-       // var_dump($response);
         return $response;
     }
 
     public function serializeToCsv($dataToCsv)
     {
-
+        $dateContext = array(DateTimeNormalizer::FORMAT_KEY => 'd/m/Y');
         $encoders = [new CsvEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
+        $normalizers = [new DateTimeNormalizer($dateContext), new ObjectNormalizer(), new ArrayDenormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
-        $dataToNormalizer = [$serializer->normalize(
-            $dataToCsv,
+        $dataResult = $serializer->normalize(
+            $dataToCsv['result'],
             null,
-            [AbstractNormalizer::ATTRIBUTES => ['id','lastName', 'firstName']]
-        )
-                        ];
-        $context = ['no_headers' => true , 'output_utf8_bom' => false];
-        $dataToCsv = $serializer->serialize($dataToNormalizer, 'csv', $context);
-        return  [$dataToCsv];
+            [AbstractNormalizer::ATTRIBUTES => ['id'] ]
+        );
+
+        $dataParticipant = $serializer->normalize(
+            $dataToCsv['participant'],
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['lastName', 'firstName', 'birthDate'] ]
+        );
+
+        $dataCategory = $serializer->normalize(
+            $dataToCsv['category'],
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['name'] ]
+        );
+
+        $dataProfile = $serializer->normalize(
+            $dataToCsv['profile'],
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['name'] ]
+        );
+       
+        $dataNormalized = ['result' => $dataResult,
+                            'pparticipant' => $dataParticipant,
+                            'category' => $dataCategory,
+                            'profile' =>  $dataProfile];
+
+        $context = ['no_headers' => true, 'csv_escape_char' => false, 'as_collection' => true];
+
+      //  var_dump( $dataNormalized);
+       $dataToCsv = $serializer->serialize($dataNormalized, 'csv', $context);
+       // var_dump( $dataToCsv);
+       return $dataToCsv;
     }
 
-    
+    public function addStageNb($participantList)
+    {
+        $dataWithNbStage = [];
+        foreach($participantList as $participant){
+            array_push($dataWithNbStage, [substr($participant, 0, -1).',1'],[substr($participant, 0, -1).',2']);
+        }
+        return $dataWithNbStage;
+    }
+
+    // Import CSV
     public function resultImport($request)
     {
         $stages = $this->deserializeFromCsv($request);
@@ -235,25 +255,25 @@ final class ResultController extends AbstractController
         foreach ($stages as $stage) {
             $addStage = $this->insertResultIntoStageTable($stage, $stageRepository);
         }
-
         if ($addStage) {
             $addResult = $this->insertResultIntoResultTable($request);
         }
-        $params = explode('/', $request->getPathInfo());
+        $params = explode('/', $request->getPathInfo());/*
         $response = new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
-        $response->send();
+        $response->send();*/
     }
 
     public function deserializeFromCsv($request)
     {
         $data = $request->files->get('file');
-        /*   $encoders = [new CsvEncoder(), new JsonEncoder()];
-           $normalizers = [new ObjectNormalizer(), new ArrayDenormalizer()];
-           $serializer = new Serializer($normalizers, $encoders);
-        */
+        $dateContext = array(DateTimeNormalizer::FORMAT_KEY => 'd/m/Y');
+        $encoders = [new CsvEncoder(), new JsonEncoder()];
+        $normalizers = [new DateTimeNormalizer($dateContext), new ObjectNormalizer(), new ArrayDenormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
            var_dump(file_get_contents($data));
-   
-           $result2 = $this->serializer->deserialize(file_get_contents($data), 'App\Entity\Stage[]', 'csv');
+           $context = ['csv_delimiter' => ';'];
+
+           $result2 = $serializer->deserialize(file_get_contents($data), 'App\Entity\Stage[]', 'csv', $context);
           
            var_dump($result2);
 
@@ -282,11 +302,10 @@ final class ResultController extends AbstractController
         $resultRepository = new ResultRepository($this->pdo);
         $stageRepository = new StageRepository($this->pdo);
         $params = explode('/', $request->getPathInfo());
-        $allResults = $resultRepository->findAllParticipantsByRaceId($params[2]);
-        var_dump($allResults);
+        $allResults = $resultRepository->findResultsByRaceId($params[2]);
         
         foreach ($allResults as $allResult) {
-            $getStages = $stageRepository->findByResultId($allResult->getId());
+            $getStages = $stageRepository->findByResultId($allResult['result']->getId());
             $minutes = 0;
             $seconds = 0;
             $milliseconds = 0;
@@ -308,65 +327,11 @@ final class ResultController extends AbstractController
                 $timeToString = strval($minutes . ':' . $seconds . '.' . $milliseconds);
             }
 
-            $allResult->setAverageTime($timeToString);
-            var_dump($allResult);
-            $updateResult = $resultRepository->update($allResult);
+            $allResult['result']->setAverageTime($timeToString);
+            $updateResult = $resultRepository->update($allResult['result']);
         }
     }
 
-    public function resultPodium()
-    {
-        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/podium.png';
-        $response = new Response();
-
-        $response->headers->set('content-type', 'image/jpeg');
-        $response->setContent(file_get_contents($theImage));
-        
-        return $response->send();
-    }
 
 
-
-/*
-    public function resultImport2($request)
-    {
-      //  var_dump($request->files);
-        var_dump($request->files->get('file'));
-
-        $data = $request->files->get('file');
-        $encoders = [new CsvEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer(), new ArrayDenormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
-        var_dump(file_get_contents($data));
-       // $result =  $serializer->decode(file_get_contents($data), 'csv',
-       [AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']] );
-      //  var_dump($result);
-        //var_dump(array_splice($result[0],3,2));
-       // unset($result[0]['nom'], $result['prenom']);
-      //  var_dump(  $result );
-
-        $result2 = $serializer->deserialize(file_get_contents($data) ,'App\Entity\Stage[]', 'csv');
-      //  $result3 = $serializer->denormalize($result,'App\Entity\Stage[]', null,
-       [AbstractNormalizer::IGNORED_ATTRIBUTES => ['nom']]);
-
-       // $result3 = array_map('self::deserialize', $result);
-
-        var_dump($result2);
-       // var_dump($result3);
-    }
-
-
-
-    public function deserialize($result)
-    {
-        $encoders = [new CsvEncoder(), new JsonEncoder()];
-        $normalizers = [new GetSetMethodNormalizer(), new ArrayDenormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $result = $serializer->denormalize($result,'App\Entity\Stage');
-
-        return $result;
-    }
-    */
 }
