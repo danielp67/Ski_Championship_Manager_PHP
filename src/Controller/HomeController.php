@@ -16,6 +16,15 @@ final class HomeController extends AbstractController
         return $response;
     }
 
+    public function homeLogo(Request $request, Response $response): Response
+    {
+        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/logo-logitud.png';
+        $response->headers->set('content-type', 'image/jpeg');
+        $response->setContent(file_get_contents($theImage));
+        
+        return $response;
+    }
+
     public function errorPage(string $error): Response
     {
         $content = $this->twig->render('errorView.html.twig', ['error' => $error]);

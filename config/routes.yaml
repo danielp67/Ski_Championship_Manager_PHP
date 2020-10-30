@@ -4,10 +4,10 @@
 home:
     path: /home
     controller: App\Controller\HomeController::homePage
+home_logo:
+    path: /home/logo
+    controller: App\Controller\HomeController::homeLogo
 
-race:
-    path: /race
-    controller: App\Controller\RaceController::racePage
 race_list:
     path: /race/list
     controller: App\Controller\RaceController::raceList
@@ -60,9 +60,6 @@ result_podium:
     controller: App\Controller\ResultController::resultPodium
 
 
-participant:
-    path: /participant
-    controller: App\Controller\ParticipantController::participantPage
 participant_list:
     path: /participant/list
     controller: App\Controller\ParticipantController::participantList

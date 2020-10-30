@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class RaceController extends AbstractController
 {
- 
-    public function racePage(Request $request, Response $response): Response
+    public function raceList(Request $request, Response $response): Response
     {
-        $content =  $this->twig->render('raceView.html.twig');
+        $raceRepository = new RaceRepository($this->pdo);
+
+        $allRaces = $raceRepository->findAll();
+        $content = $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
         $response->setContent($content);
 
         return $response;
@@ -81,17 +83,6 @@ final class RaceController extends AbstractController
         $deleteRace = $raceRepository->delete($params[2]);
         
         return new RedirectResponse('http://127.1.2.3/race/list');
-    }
-
-    public function raceList(Request $request, Response $response): Response
-    {
-        $raceRepository = new RaceRepository($this->pdo);
-
-        $allRaces = $raceRepository->findAll();
-        $content = $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
-        $response->setContent($content);
-
-        return $response;
     }
 
     public function raceDetail(Request $request, Response $response): Response

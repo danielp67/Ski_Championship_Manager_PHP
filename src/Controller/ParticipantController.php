@@ -13,14 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ParticipantController extends AbstractController
 {
-    
-    public function participantPage(Request $request, Response $response): Response
-    {
-        $content =  $this->twig->render('participantView.html.twig');
-        $response->setContent($content);
-
-        return $response;
-    }
 
     public function participantList(Request $request, Response $response): Response
     {
