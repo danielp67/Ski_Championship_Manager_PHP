@@ -10,6 +10,7 @@ use App\Repository\ResultRepository;
 use App\Repository\StageRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -22,7 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 final class ResultController extends AbstractController
 {
 
-    public function resultPage($request): void
+    public function resultPage(Request $request, Response $response): Response
     {
         $params = explode('/', $request->getPathInfo());
 
@@ -34,16 +35,16 @@ final class ResultController extends AbstractController
 
         $race = $raceRepository->find($params[2]);
         $results = $resultRepository->findResultsByRaceId($params[2]);
-        var_dump($results);
 
         $categoryResults = $this->rankingByCategory($allCategories, $params[2]);
-
-        var_dump($categoryResults);
-        echo $this->twig->render('resultView.html.twig', ['results' => $results,
-                                                        'categoryResults' =>  $categoryResults,
-                                                        'categories' => $allCategories,
-                                                        'race' => $race]);
         
+        $content =  $this->twig->render('resultView.html.twig', ['results' => $results,
+                                                                'categoryResults' =>  $categoryResults,
+                                                                'categories' => $allCategories,
+                                                                'race' => $race]);
+        $response->setContent($content);
+                                                
+        return $response;
     }
 
     public function rankingByCategory($allCategories, $raceId)
@@ -65,77 +66,30 @@ final class ResultController extends AbstractController
     {
     }
 
-    public function resultPodium()
+    public function resultPodium(Request $request, Response $response): Response
     {
         $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/podium.png';
-        $response = new Response();
-
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
         
-        return $response->send();
+        return $response;
     }
 
-    public function resultAdd($request): void
-    {
-        $resultRepository = new ResultRepository($this->pdo);
-
-        $newResult = ResultFactory::fromRequestAdd($request);
-        $checkResult = $resultRepository->findbyName($newResult);
-        if (! empty($checkResult)) {
-            throw new Exception('Nom déjà existant');
-        }
-        $addResult = $resultRepository->add($newResult);
-        $response = new RedirectResponse('http://127.1.2.3/result');
-        $response->send();
-    }
-
-    public function resultUpdate($request): void
-    {
-        $resultRepository = new ResultRepository($this->pdo);
-
-        $updateResult = ResultFactory::fromRequestUdpate($request);
-        $checkResult = $resultRepository->findbyName($updateResult);
-        if (! empty($checkResult)) {
-            throw new Exception('Nom déjà existant');
-        }
-        $addResult = $resultRepository->update($updateResult);
-        $response = new RedirectResponse('http://127.1.2.3/result');
-        $response->send();
-    }
-
-    public function resultDelete($request): void
-    {
-        $resultRepository = new ResultRepository($this->pdo);
-
-        $deleteResult = $resultRepository->delete($request->get('nameId'));
-        $response = new RedirectResponse('http://127.1.2.3/result');
-        $response->send();
-    }
-
-
-    public function resultFormParticipantList($request)
+    public function resultFormParticipantList(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);
         $resultRepository = new ResultRepository($this->pdo);
-
         $params = explode('/', $request->getPathInfo());
 
         $participants = $resultRepository->findResultsByRaceId($params[2]);
-
         $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
-
-      //  var_dump($participants);
-
-      //  var_dump($notParticipants);
         
-        echo $this->twig->render('addParticipantListToRaceView.html.twig', ['notParticipants' => $notParticipants,
+        $content = $this->twig->render('addParticipantListToRaceView.html.twig', ['notParticipants' => $notParticipants,
                                                                             'participants' =>  $participants,
                                                                             'raceId' => $params[2]]);
+        $response->setContent($content);
 
-
-
-        //return $result;
+        return $response;
     }
 
     public function resultAddParticipantList($request)
@@ -144,20 +98,46 @@ final class ResultController extends AbstractController
         $params = explode('/', $request->getPathInfo());
 
         $participantList = $request->request->get('participantId');
-        var_dump($request->request->get('participantId'));
+        $participantList = explode(',', $participantList);
 
-        $resultList = ResultFactory::arrayFromDbCollection([$participantList]);
+        $participantList = array_map(function ($participant) {
+            return (int) $participant;
+        }, $participantList);
 
-        var_dump( $resultList);
-
-        foreach($participantList as $participant){
-           
-            // $checkResult = $resultRepository->findByName()
+        $participantListWithRaceId = [];
+        foreach ($participantList as $participant) {
+            $participantWithRaceId = ['raceId' => $params[2] , 'participantId' => $participant];
+            array_push($participantListWithRaceId, $participantWithRaceId);
         }
-        
 
-        
-        return $params;
+        $resultList = ResultFactory::arrayfromRequestAdd($participantListWithRaceId);
+
+       // var_dump( $resultList);
+
+        foreach ($resultList as $result) {
+            $checkResult = $resultRepository->findByName($result);
+            if (! $checkResult) {
+                var_dump($result);
+                 $addResult = $resultRepository->add($result);
+            }
+        }
+
+        $checkResultList = $resultRepository->findResultsByRaceId($params[2]);
+       // var_dump( $checkResultList);
+
+        var_dump($participantList);
+
+        foreach ($checkResultList as $checkResult) {
+            var_dump(array_search($checkResult['result']->getParticipantId(), $participantList));
+            var_dump($checkResult['result']->getParticipantId());
+
+            if (array_search($checkResult['result']->getParticipantId(), $participantList) === false) {
+                var_dump('remove');
+                $deleteResult = $resultRepository->delete($checkResult['result']->getParticipantId());
+            }
+        }
+
+        return $params[2];
     }
 
       //Export to CSV
@@ -172,7 +152,7 @@ final class ResultController extends AbstractController
         $chronometerSheet = $this->addStageNb($participantList);
 
         $csvHeader = array('result_id,Nom,Prenom,Date de naissance,Categorie,Profile,stage_nb,time');
-        array_unshift($chronometerSheet, $csvHeader );
+        array_unshift($chronometerSheet, $csvHeader);
        // var_dump($chronometerSheet);
 
         $filename = 'users.csv';
@@ -232,16 +212,16 @@ final class ResultController extends AbstractController
         $context = ['no_headers' => true, 'csv_escape_char' => false, 'as_collection' => true];
 
       //  var_dump( $dataNormalized);
-       $dataToCsv = $serializer->serialize($dataNormalized, 'csv', $context);
+        $dataToCsv = $serializer->serialize($dataNormalized, 'csv', $context);
        // var_dump( $dataToCsv);
-       return $dataToCsv;
+        return $dataToCsv;
     }
 
     public function addStageNb($participantList)
     {
         $dataWithNbStage = [];
-        foreach($participantList as $participant){
-            array_push($dataWithNbStage, [substr($participant, 0, -1).',1'],[substr($participant, 0, -1).',2']);
+        foreach ($participantList as $participant) {
+            array_push($dataWithNbStage, [substr($participant, 0, -1) . ',1'], [substr($participant, 0, -1) . ',2']);
         }
         return $dataWithNbStage;
     }
@@ -304,6 +284,7 @@ final class ResultController extends AbstractController
         $params = explode('/', $request->getPathInfo());
         $allResults = $resultRepository->findResultsByRaceId($params[2]);
         
+        
         foreach ($allResults as $allResult) {
             $getStages = $stageRepository->findByResultId($allResult['result']->getId());
             $minutes = 0;
@@ -331,7 +312,4 @@ final class ResultController extends AbstractController
             $updateResult = $resultRepository->update($allResult['result']);
         }
     }
-
-
-
 }

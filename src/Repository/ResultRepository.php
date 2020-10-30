@@ -121,12 +121,11 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
     public function add(Result $result): bool
     {
         $addResult = $this->pdo->prepare('INSERT INTO 
-        result (race_id, participant_id, average_time) VALUES(?, ?, ?)');
+        result (race_id, participant_id) VALUES(?, ?)');
         
         return $addResult->execute(array(
             $result->getRaceId(),
-            $result->getParticipantId(),
-            $result->getAverageTime()->format('i:s.u')
+            $result->getParticipantId()
             ));
     }
 

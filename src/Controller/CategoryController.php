@@ -6,18 +6,23 @@ use App\Factory\CategoryFactory;
 use App\Repository\CategoryRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class CategoryController extends AbstractController
 {
 
-    public function categoryPage(): void
+    public function categoryPage(Request $request, Response $response): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
         $allCategory = $categoryRepository->findAll();
-        echo $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
+        $content =  $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function categoryAdd($request): void
+    public function categoryAdd(Request $request): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
         $newCategory = CategoryFactory::fromRequestAdd($request);
@@ -25,11 +30,11 @@ final class CategoryController extends AbstractController
         if (! empty($checkCategory)) {
         }
         $addCategory = $categoryRepository->add($newCategory);
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+        
+        return new RedirectResponse('http://127.1.2.3/category');
     }
 
-    public function categoryUpdate($request): void
+    public function categoryUpdate(Request $request): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
 
@@ -39,16 +44,15 @@ final class CategoryController extends AbstractController
             throw new Exception('Nom déjà existant');
         }
         $addCategory = $categoryRepository->update($updateCategory);
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+
+        return new RedirectResponse('http://127.1.2.3/category');
     }
 
-    public function categoryDelete($request): void
+    public function categoryDelete(Request $request): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
-
         $deleteCategory = $categoryRepository->delete($request->get('nameId'));
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+
+        return new RedirectResponse('http://127.1.2.3/category');
     }
 }

@@ -6,18 +6,23 @@ use App\Factory\ProfileFactory;
 use App\Repository\ProfileRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ProfileController extends AbstractController
 {
 
-    public function profilePage(): void
+    public function profilePage(Request $request, Response $response): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);
         $allProfile = $profileRepository->findAll();
-        echo $this->twig->render('profileView.html.twig', ['profiles' => $allProfile]);
+        $content =  $this->twig->render('profileView.html.twig', ['profiles' => $allProfile]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function profileAdd($request): void
+    public function profileAdd(Request $request): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);
 
@@ -27,11 +32,11 @@ final class ProfileController extends AbstractController
             throw new Exception('Nom déjà existant');
         }
         $addProfile = $profileRepository->add($newProfile);
-        $response = new RedirectResponse('http://127.1.2.3/profile');
-        $response->send();
+        
+        return new RedirectResponse('http://127.1.2.3/profile');
     }
 
-    public function profileUpdate($request): void
+    public function profileUpdate(Request $request): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);
 
@@ -41,16 +46,15 @@ final class ProfileController extends AbstractController
             throw new Exception('Nom déjà existant');
         }
         $addProfile = $profileRepository->update($updateProfile);
-        $response = new RedirectResponse('http://127.1.2.3/profile');
-        $response->send();
+        
+        return new RedirectResponse('http://127.1.2.3/profile');
     }
 
-    public function profileDelete($request): void
+    public function profileDelete(Request $request): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);
-
         $deleteProfile = $profileRepository->delete($request->get('nameId'));
-        $response = new RedirectResponse('http://127.1.2.3/profile');
-        $response->send();
+        
+        return new RedirectResponse('http://127.1.2.3/profile');
     }
 }

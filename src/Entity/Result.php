@@ -122,7 +122,8 @@ class Result
      */
     public function buildFromDb(array $dataResult): self
     {
-        $this->id = $dataResult['result_id'];
+        $this->id = array_key_exists('result_id', $dataResult)
+        ? $dataResult['result_id'] : $dataResult['id'];
         $this->raceId = $dataResult['race_id'];
         $this->participantId = $dataResult['id'];
         $this->averageTime = is_null($dataResult['average_time'])
@@ -136,10 +137,10 @@ class Result
      * @param object $request
      * @return  self
      */
-    public function buildFromRequestAdd(object $request): self
+    public function buildFromRequestAdd(array $dataResult): self
     {
-        $this->setRaceId($request->get('raceId'));
-        $this->setParticipantId($request->get('participantId'));
+        $this->setRaceId($dataResult['raceId']);
+        $this->setParticipantId($dataResult['participantId']);
 
         return $this;
     }
@@ -149,10 +150,10 @@ class Result
      * @param object $request
      * @return  self
      */
-    public function buildFromRequestUpdate(object $request): self
+    public function buildFromRequestUpdate(array $dataResult): self
     {
-        $this->setId($request->get('resultId'));
-        $this->buildFromRequestAdd($request);
+        $this->setId($dataResult['resultId']);
+        $this->buildFromRequestAdd($dataResult);
 
         return $this;
     }

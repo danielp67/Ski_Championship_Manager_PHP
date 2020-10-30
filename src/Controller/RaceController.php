@@ -7,21 +7,28 @@ use App\Repository\RaceRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 final class RaceController extends AbstractController
 {
  
-    public function racePage(): void
+    public function racePage(Request $request, Response $response): Response
     {
-        echo $this->twig->render('raceView.html.twig');
+        $content =  $this->twig->render('raceView.html.twig');
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceForm(): void
+    public function raceForm(Request $request, Response $response): Response
     {
-        echo $this->twig->render('raceForm.html.twig', ['race' => null]);
+        $content = $this->twig->render('raceForm.html.twig', ['race' => null]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceAdd(Request $request): void
+    public function raceAdd(Request $request): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
 
@@ -31,19 +38,21 @@ final class RaceController extends AbstractController
             throw new Exception('Epreuve déjà éxistante');
         }
         $addRace = $raceRepository->add($newRace);
-        $response = new RedirectResponse('http://127.1.2.3/race/list');
-        $response->send();
+        return new RedirectResponse('http://127.1.2.3/race/list');
     }
 
-    public function raceFormUpdate(Request $request): void
+    public function raceFormUpdate(Request $request, Response $response): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
         $params = explode('/', $request->getPathInfo());
         $race = $raceRepository->find($params[2]);
-        echo $this->twig->render('raceForm.html.twig', ['race' => $race]);
+        $content = $this->twig->render('raceForm.html.twig', ['race' => $race]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceUpdate(Request $request): void
+    public function raceUpdate(Request $request): Response
     {
         $params = explode('/', $request->getPathInfo());
 
@@ -61,36 +70,41 @@ final class RaceController extends AbstractController
         }
         $updateRace = $raceRepository->update($newRace);
         
-        $response = new RedirectResponse('http://127.1.2.3/race/list');
-        $response->send();
+        return new RedirectResponse('http://127.1.2.3/race/list');
     }
 
-    public function raceDelete(Request $request): void
+    public function raceDelete(Request $request): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
         $deleteRace = $raceRepository->delete($params[2]);
-        $response = new RedirectResponse('http://127.1.2.3/race/list');
-        $response->send();
+        
+        return new RedirectResponse('http://127.1.2.3/race/list');
     }
 
-    public function raceList(): void
+    public function raceList(Request $request, Response $response): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $allRaces = $raceRepository->findAll();
-        echo $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
+        $content = $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceDetail(Request $request): void
+    public function raceDetail(Request $request, Response $response): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
 
         $params = explode('/', $request->getPathInfo());
         $race = $raceRepository->find($params[2]);
         
-        echo $this->twig->render('raceDetail.html.twig', ['race' => $race]);
+        $content = $this->twig->render('raceDetail.html.twig', ['race' => $race]);
+        $response->setContent($content);
+
+        return $response;
     }
 
     public function raceStart(Request $request): void
@@ -108,7 +122,7 @@ final class RaceController extends AbstractController
         $this->raceStatus($request, 3);
     }
 
-    private function raceStatus(Request $request, $status): void
+    private function raceStatus(Request $request, $status): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
 
@@ -117,7 +131,6 @@ final class RaceController extends AbstractController
         $race->setStatus($status);
         $updateRace = $raceRepository->update($race);
         
-        $response = new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
-        $response->send();
+        return new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
     }
 }

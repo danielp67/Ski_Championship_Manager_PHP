@@ -14,19 +14,25 @@ use Symfony\Component\HttpFoundation\Response;
 final class ParticipantController extends AbstractController
 {
     
-    public function participantPage(): void
+    public function participantPage(Request $request, Response $response): Response
     {
-        echo $this->twig->render('participantView.html.twig');
+        $content =  $this->twig->render('participantView.html.twig');
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function participantList(): void
+    public function participantList(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);
         $participantList = $participantRepository->findAll();
-        echo $this->twig->render('participantList.html.twig', ['participants' => $participantList]);
+        $content =  $this->twig->render('participantList.html.twig', ['participants' => $participantList]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function participantImg(Request $request, Response $response)
+    public function participantImg(Request $request, Response $response): Response
     {
         $params = explode('/', $request->getPathInfo());
         $participantRepository = new ParticipantRepository($this->pdo);
@@ -35,27 +41,30 @@ final class ParticipantController extends AbstractController
         $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/' . $file;
         $response->headers->set('content-type', 'image/jpg');
         $response->setContent(file_get_contents($theImage));
-        $response->send();
+
         return $response;
     }
 
-    public function participantForm(): void
+    public function participantForm(Request $request, Response $response): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
         $allCategory = $categoryRepository->findAll();
         $profileRepository = new ProfileRepository($this->pdo);
         $allProfile = $profileRepository->findAll();
 
-        echo $this->twig->render(
+        $content =  $this->twig->render(
             'participantForm.html.twig',
             ['participant' => null,
             'categories' => $allCategory,
             'profiles' => $allProfile
             ]
         );
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function participantAdd(Request $request): void
+    public function participantAdd(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);
         $file = $request->files->get('img');
@@ -76,18 +85,17 @@ final class ParticipantController extends AbstractController
 
         $addParticipant = $participantRepository->add($newParticipant);
 
-        
         if (! $addParticipant) {
             throw new Exception('Echec création participant');
         }
         if ($file !== null) {
             $file->move('C:/wamp64/www/tp15_championnat_ski/data/img', $fileName);
         }
-        $response = new RedirectResponse('http://127.1.2.3/participant/list');
-        $response->send();
+
+        return new RedirectResponse('http://127.1.2.3/participant/list');
     }
 
-    public function participantFormUpdate(Request $request): void
+    public function participantFormUpdate(Request $request, Response $response): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
         $allCategory = $categoryRepository->findAll();
@@ -99,16 +107,19 @@ final class ParticipantController extends AbstractController
         $participantRepository = new ParticipantRepository($this->pdo);
         $participant = $participantRepository->find($params[2]);
 
-        echo $this->twig->render(
+        $content = $this->twig->render(
             'participantForm.html.twig',
             ['participant' => $participant,
             'categories' => $allCategory,
             'profiles' => $allProfile
             ]
         );
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function participantUpdate(Request $request): void
+    public function participantUpdate(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);
 
@@ -139,7 +150,6 @@ final class ParticipantController extends AbstractController
             unlink('C:/wamp64/www/tp15_championnat_ski/data/img/' . $oldImage);
         }
 
-        $response = new RedirectResponse('http://127.1.2.3/participant/list');
-        $response->send();
+        return new RedirectResponse('http://127.1.2.3/participant/list');
     }
 }

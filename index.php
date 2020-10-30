@@ -51,7 +51,12 @@ try
     $controller = new $controller();
     
         if (method_exists($controller, $action)) {
-           call_user_func_array([$controller,$action], [$request, $response]);
+          
+          $responseFromController = call_user_func_array([$controller,$action], [$request, $response]);
+           if(! $responseFromController instanceof Response){
+               throw new Exception('Not a Response instance');
+           }
+          $responseFromController->send();
 
         } else {
             $error = "La page recherchée n'existe pas";
