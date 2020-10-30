@@ -35,7 +35,7 @@ final class ProfileController extends AbstractController
         
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/profile');
+        return new RedirectResponse('http://' . $serverHost . '/profile');
     }
 
     public function profileUpdate(Request $request): Response
@@ -50,7 +50,7 @@ final class ProfileController extends AbstractController
         $addProfile = $profileRepository->update($updateProfile);
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/profile');
+        return new RedirectResponse('http://' . $serverHost . '/profile');
     }
 
     public function profileDelete(Request $request): Response
@@ -59,6 +59,6 @@ final class ProfileController extends AbstractController
         $deleteProfile = $profileRepository->delete($request->get('nameId'));
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/profile');
+        return new RedirectResponse('http://' . $serverHost . '/profile');
     }
 }

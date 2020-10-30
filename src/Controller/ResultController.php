@@ -73,7 +73,7 @@ final class ResultController extends AbstractController
     {
         $localDirectory =  $request->server->get('DOCUMENT_ROOT');
 
-        $theImage = $localDirectory .'/data/img/podium.png';
+        $theImage = $localDirectory . '/data/img/podium.png';
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
         
@@ -251,7 +251,7 @@ final class ResultController extends AbstractController
         $params = explode('/', $request->getPathInfo());
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/race/' . $params[2] . '/detail');
+        return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
     }
 
     public function deserializeFromCsv($request)

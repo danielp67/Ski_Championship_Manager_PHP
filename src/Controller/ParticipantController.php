@@ -32,7 +32,7 @@ final class ParticipantController extends AbstractController
         $file = $participant['participant']->getImgLink();
 
         $localDirectory = $request->server->get('DOCUMENT_ROOT');
-        $theImage = $localDirectory. '/data/img/' . $file;
+        $theImage = $localDirectory . '/data/img/' . $file;
         $response->headers->set('content-type', 'image/jpg');
         $response->setContent(file_get_contents($theImage));
 
@@ -85,12 +85,12 @@ final class ParticipantController extends AbstractController
         if ($file !== null) {
             $localDirectory =  $request->server->get('DOCUMENT_ROOT');
 
-            $file->move($localDirectory.'/data/img', $fileName);
+            $file->move($localDirectory . '/data/img', $fileName);
         }
 
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/participant/list');
+        return new RedirectResponse('http://' . $serverHost . '/participant/list');
     }
 
     public function participantFormUpdate(Request $request, Response $response): Response
@@ -146,12 +146,12 @@ final class ParticipantController extends AbstractController
         if ($file !== null) {
             $localDirectory =  $request->server->get('DOCUMENT_ROOT');
 
-            $file->move($localDirectory .'/data/img', $fileName);
-            unlink($localDirectory .'/data/img/' . $oldImage);
+            $file->move($localDirectory . '/data/img', $fileName);
+            unlink($localDirectory . '/data/img/' . $oldImage);
         }
 
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/participant/list');
+        return new RedirectResponse('http://' . $serverHost . '/participant/list');
     }
 }

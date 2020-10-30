@@ -19,7 +19,7 @@ final class HomeController extends AbstractController
     public function homeLogo(Request $request, Response $response): Response
     {
         $localDirectory =  $request->server->get('DOCUMENT_ROOT');
-        $theImage = $localDirectory .'/data/img/logo-logitud.png';
+        $theImage = $localDirectory . '/data/img/logo-logitud.png';
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
         

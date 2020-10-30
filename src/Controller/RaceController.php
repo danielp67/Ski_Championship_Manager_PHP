@@ -42,7 +42,7 @@ final class RaceController extends AbstractController
         $addRace = $raceRepository->add($newRace);
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/race/list');
+        return new RedirectResponse('http://' . $serverHost . '/race/list');
     }
 
     public function raceFormUpdate(Request $request, Response $response): Response
@@ -75,7 +75,7 @@ final class RaceController extends AbstractController
         $updateRace = $raceRepository->update($newRace);
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/race/list');
+        return new RedirectResponse('http://' . $serverHost . '/race/list');
     }
 
     public function raceDelete(Request $request): Response
@@ -86,7 +86,7 @@ final class RaceController extends AbstractController
         $deleteRace = $raceRepository->delete($params[2]);
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://'.$serverHost.'/race/list');
+        return new RedirectResponse('http://' . $serverHost . '/race/list');
     }
 
     public function raceDetail(Request $request, Response $response): Response
@@ -127,6 +127,6 @@ final class RaceController extends AbstractController
         $updateRace = $raceRepository->update($race);
         $serverHost = $request->server->get('HTTP_HOST');
         
-        return new RedirectResponse('http://' .$serverHost. '/race/' . $params[2] . '/detail');
+        return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
     }
 }
