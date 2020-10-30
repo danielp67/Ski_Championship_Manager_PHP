@@ -38,10 +38,13 @@ final class ResultController extends AbstractController
 
         $categoryResults = $this->rankingByCategory($allCategories, $params[2]);
         
-        $content =  $this->twig->render('resultView.html.twig', ['results' => $results,
-                                                                'categoryResults' =>  $categoryResults,
-                                                                'categories' => $allCategories,
-                                                                'race' => $race]);
+        $content =  $this->twig->render(
+            'resultView.html.twig',
+            ['results' => $results,
+            'categoryResults' =>  $categoryResults,
+            'categories' => $allCategories,
+            'race' => $race]
+        );
         $response->setContent($content);
                                                 
         return $response;
@@ -68,7 +71,9 @@ final class ResultController extends AbstractController
 
     public function resultPodium(Request $request, Response $response): Response
     {
-        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/podium.png';
+        $localDirectory =  $request->server->get('DOCUMENT_ROOT');
+
+        $theImage = $localDirectory .'/data/img/podium.png';
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
         
@@ -84,9 +89,12 @@ final class ResultController extends AbstractController
         $participants = $resultRepository->findResultsByRaceId($params[2]);
         $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
         
-        $content = $this->twig->render('addParticipantListToRaceView.html.twig', ['notParticipants' => $notParticipants,
-                                                                            'participants' =>  $participants,
-                                                                            'raceId' => $params[2]]);
+        $content = $this->twig->render(
+            'addParticipantListToRaceView.html.twig',
+            ['notParticipants' => $notParticipants,
+            'participants' =>  $participants,
+            'raceId' => $params[2]]
+        );
         $response->setContent($content);
 
         return $response;
@@ -205,7 +213,7 @@ final class ResultController extends AbstractController
         );
        
         $dataNormalized = ['result' => $dataResult,
-                            'pparticipant' => $dataParticipant,
+                            'participant' => $dataParticipant,
                             'category' => $dataCategory,
                             'profile' =>  $dataProfile];
 
@@ -241,8 +249,9 @@ final class ResultController extends AbstractController
             $addResult = $this->insertResultIntoResultTable($request);
         }
         $params = explode('/', $request->getPathInfo());
-        $response = new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
-        $response->send();
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/race/' . $params[2] . '/detail');
     }
 
     public function deserializeFromCsv($request)
@@ -288,14 +297,14 @@ final class ResultController extends AbstractController
         
         
         foreach ($allResults as $allResult) {
-            $getStages = $stageRepository->findByResultId($allResult['result']->getId());
+            $stages = $stageRepository->findByResultId($allResult['result']->getId());
             $minutes = 0;
             $seconds = 0;
             $milliseconds = 0;
-            foreach ($getStages as $getStage) {
-                $minutes = $minutes + (int) $getStage->getTime()->format('i');
-                $seconds = $seconds + (int) $getStage->getTime()->format('s');
-                $milliseconds = $milliseconds + ((int) $getStage->getTime()->format('u')) / 1000;
+            foreach ($stages as $stage) {
+                $minutes = $minutes + (int) $stage->getTime()->format('i');
+                $seconds = $seconds + (int) $stage->getTime()->format('s');
+                $milliseconds = $milliseconds + ((int) $stage->getTime()->format('u')) / 1000;
 
                 if ($milliseconds > 999) {
                     $seconds = $seconds + 1;

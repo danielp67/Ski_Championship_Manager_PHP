@@ -10,11 +10,8 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
 
 
 require __DIR__.'/vendor/autoload.php';
-/*
-echo date('Y-m-d H:i:s');
-$params = explode('/', $_GET['url']);
-var_dump($params);
-*/
+
+
 try
 {
     // Load routes from the yaml file
@@ -25,8 +22,6 @@ try
     $request =  Request::createFromGlobals();
     $context = new RequestContext();
 
-    //var_dump($request);
-
     $context->fromRequest($request);
 
     // Init UrlMatcher object
@@ -35,12 +30,6 @@ try
     // Find the current route
     $parameters = $matcher->match($context->getPathInfo());
     
-/*
-    // How to generate a SEO URL
-    $generator = new UrlGenerator($routes, $context);
-    $url = $generator->generate('home');
-    var_dump($generator);
-*/
     $params = explode('::', $parameters['_controller']);
     $response = new Response();
 
@@ -83,3 +72,14 @@ function messageError($error){
             $controller = new HomeController();
             $controller->errorPage($error);
 }
+
+
+//$kernel = new Kernel();
+
+//$kernel->handleRequest();
+
+//init router
+
+//init twig
+
+//init ...

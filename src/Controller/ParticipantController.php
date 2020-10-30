@@ -30,7 +30,9 @@ final class ParticipantController extends AbstractController
         $participantRepository = new ParticipantRepository($this->pdo);
         $participant = $participantRepository->find($params[3]);
         $file = $participant['participant']->getImgLink();
-        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/' . $file;
+
+        $localDirectory = $request->server->get('DOCUMENT_ROOT');
+        $theImage = $localDirectory. '/data/img/' . $file;
         $response->headers->set('content-type', 'image/jpg');
         $response->setContent(file_get_contents($theImage));
 
@@ -81,10 +83,14 @@ final class ParticipantController extends AbstractController
             throw new Exception('Echec création participant');
         }
         if ($file !== null) {
-            $file->move('C:/wamp64/www/tp15_championnat_ski/data/img', $fileName);
+            $localDirectory =  $request->server->get('DOCUMENT_ROOT');
+
+            $file->move($localDirectory.'/data/img', $fileName);
         }
 
-        return new RedirectResponse('http://127.1.2.3/participant/list');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/participant/list');
     }
 
     public function participantFormUpdate(Request $request, Response $response): Response
@@ -138,10 +144,14 @@ final class ParticipantController extends AbstractController
             throw new Exception('Echec création participant');
         }
         if ($file !== null) {
-            $file->move('C:/wamp64/www/tp15_championnat_ski/data/img', $fileName);
-            unlink('C:/wamp64/www/tp15_championnat_ski/data/img/' . $oldImage);
+            $localDirectory =  $request->server->get('DOCUMENT_ROOT');
+
+            $file->move($localDirectory .'/data/img', $fileName);
+            unlink($localDirectory .'/data/img/' . $oldImage);
         }
 
-        return new RedirectResponse('http://127.1.2.3/participant/list');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/participant/list');
     }
 }

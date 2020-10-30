@@ -18,7 +18,8 @@ final class HomeController extends AbstractController
 
     public function homeLogo(Request $request, Response $response): Response
     {
-        $theImage = 'C:/wamp64/www/tp15_championnat_ski/data/img/logo-logitud.png';
+        $localDirectory =  $request->server->get('DOCUMENT_ROOT');
+        $theImage = $localDirectory .'/data/img/logo-logitud.png';
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
         

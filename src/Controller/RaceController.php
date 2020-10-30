@@ -40,7 +40,9 @@ final class RaceController extends AbstractController
             throw new Exception('Epreuve déjà éxistante');
         }
         $addRace = $raceRepository->add($newRace);
-        return new RedirectResponse('http://127.1.2.3/race/list');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/race/list');
     }
 
     public function raceFormUpdate(Request $request, Response $response): Response
@@ -71,8 +73,9 @@ final class RaceController extends AbstractController
             throw new Exception('Epreuve déjà éxistante');
         }
         $updateRace = $raceRepository->update($newRace);
-        
-        return new RedirectResponse('http://127.1.2.3/race/list');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/race/list');
     }
 
     public function raceDelete(Request $request): Response
@@ -81,8 +84,9 @@ final class RaceController extends AbstractController
 
         $params = explode('/', $request->getPathInfo());
         $deleteRace = $raceRepository->delete($params[2]);
-        
-        return new RedirectResponse('http://127.1.2.3/race/list');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/race/list');
     }
 
     public function raceDetail(Request $request, Response $response): Response
@@ -121,7 +125,8 @@ final class RaceController extends AbstractController
         $race = $raceRepository->find($params[2]);
         $race->setStatus($status);
         $updateRace = $raceRepository->update($race);
+        $serverHost = $request->server->get('HTTP_HOST');
         
-        return new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
+        return new RedirectResponse('http://' .$serverHost. '/race/' . $params[2] . '/detail');
     }
 }

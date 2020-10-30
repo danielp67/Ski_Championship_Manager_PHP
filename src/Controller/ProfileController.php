@@ -33,7 +33,9 @@ final class ProfileController extends AbstractController
         }
         $addProfile = $profileRepository->add($newProfile);
         
-        return new RedirectResponse('http://127.1.2.3/profile');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/profile');
     }
 
     public function profileUpdate(Request $request): Response
@@ -46,15 +48,17 @@ final class ProfileController extends AbstractController
             throw new Exception('Nom déjà existant');
         }
         $addProfile = $profileRepository->update($updateProfile);
-        
-        return new RedirectResponse('http://127.1.2.3/profile');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/profile');
     }
 
     public function profileDelete(Request $request): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);
         $deleteProfile = $profileRepository->delete($request->get('nameId'));
-        
-        return new RedirectResponse('http://127.1.2.3/profile');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://'.$serverHost.'/profile');
     }
 }

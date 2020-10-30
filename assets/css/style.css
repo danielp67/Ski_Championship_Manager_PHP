@@ -16,15 +16,6 @@
     max-height: 50px;
 }
 
-tr td a{
-   background-color: red;
-}
-
-tr td a tr:hover{
-    display: contents;
-
-}
-
 .rankingList{
     position: relative;
 
@@ -38,28 +29,28 @@ tr td a tr:hover{
 
 .rank1{
     position: absolute;
-    top : 30%;
+    top : 20%;
     left : 40%;
 
 }
 
 .rank2{
     position: absolute;
-    top : 45%;
+    top : 35%;
     left : 10%;
 
 }
 
 .rank3{
     position: absolute;
-    top : 55%;
+    top : 45%;
     left : 70%;
 
 }
 
 .podium{
     position: absolute;
-    top : 150%;
+    bottom : -50%;
     left : 0%;
 
 }
@@ -103,6 +94,11 @@ header{
     transition: 0.3s;
 }
 
+#nav_logitud a:hover
+{
+    color:#543ccc;
+}
+
 a:hover
 {
     color:#543ccc;
@@ -137,6 +133,7 @@ a:hover
     text-decoration: none !important;
     transition: 0.3s;
 }
+
 
 
 body{

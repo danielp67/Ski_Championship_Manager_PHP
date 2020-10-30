@@ -30,8 +30,9 @@ final class CategoryController extends AbstractController
         if (! empty($checkCategory)) {
         }
         $addCategory = $categoryRepository->add($newCategory);
-        
-        return new RedirectResponse('http://127.1.2.3/category');
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 
     public function categoryUpdate(Request $request): Response
@@ -44,15 +45,17 @@ final class CategoryController extends AbstractController
             throw new Exception('Nom déjà existant');
         }
         $addCategory = $categoryRepository->update($updateCategory);
-
-        return new RedirectResponse('http://127.1.2.3/category');
+        $serverHost = $request->server->get('HTTP_HOST');
+        
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 
     public function categoryDelete(Request $request): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);
         $deleteCategory = $categoryRepository->delete($request->get('nameId'));
-
-        return new RedirectResponse('http://127.1.2.3/category');
+        $serverHost = $request->server->get('HTTP_HOST');
+        
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 }

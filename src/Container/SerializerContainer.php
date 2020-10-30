@@ -43,7 +43,7 @@ final class SerializerContainer
         );
        
         $dataNormalized = ['result' => $dataResult,
-                            'pparticipant' => $dataParticipant,
+                           'participant' => $dataParticipant,
                             'category' => $dataCategory,
                             'profile' =>  $dataProfile];
 
