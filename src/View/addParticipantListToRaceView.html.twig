@@ -12,7 +12,7 @@ Ajouter des participants
         <h1>Ajouter des participants</h1>
 
           <div class="card">
-            <legend class="card-header text-secondary">Liste des catégories :</legend>
+            <div class="card-header text-secondary">Epreuve :</div>
 
               <div class="card-body">
                   <form  method="post" action="">
@@ -52,7 +52,7 @@ Ajouter des participants
                         </div>
                       </div>
                     </div>
-
+                    <input type="number" id="raceId" value="{{ raceId }}" hidden />
                     <div class="row">
                         <a href="/participant/form" class="col-2 offset-1">Créer des participants</a>
                           <input type="submit" class="col-2 offset-5 btn btn-success"

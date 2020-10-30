@@ -103,11 +103,18 @@ let listParticipants = participants.getElementsByTagName('option');
 
 let addParticipant = document.getElementById('buttonAdd');
 let removeParticipant = document.getElementById('buttonRemove');
+let addAllParticipant = document.getElementById('buttonAddAll');
+let removeAllParticipant = document.getElementById('buttonRemoveAll');
 let submitParticipant = document.getElementById('buttonSubmit');
+
+let raceId = document.getElementById('raceId').value;
 
 let selectedIdNotParticipant = '';
 let selectedIdParticipant = '';
+let idNotParticipants = [];
+let idParticipants = [];
 
+console.log(idParticipants.length);
 participants.addEventListener("click", function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -123,38 +130,50 @@ notParticipants.addEventListener("click", function(e){
 addParticipant.addEventListener("click", function(e){
     e.preventDefault();
     e.stopPropagation();
+    setListParticipantAndNotParticipant();
+    if(listNotParticipants.length > 0){
     addParticipantList(selectedIdNotParticipant);
+    }
 });
 
 removeParticipant.addEventListener("click", function(e){
     e.preventDefault();
     e.stopPropagation();
-    removeParticipantList(selectedIdParticipant);
+    setListParticipantAndNotParticipant();
+    if(listParticipants.length > 0){
+        removeParticipantList(selectedIdParticipant);
+    }
 });
 
 function addParticipantList(id){
     participants.append(id);
+    console.log(listNotParticipants);
+
 }
 
 function removeParticipantList(id){
     notParticipants.append(id);
+    console.log(listNotParticipants);
+
 }
+
+function setListParticipantAndNotParticipant(){
+    for(let i = 0; i<listNotParticipants.length; i++){
+        idNotParticipants.push(listNotParticipants[i].value);
+    }
+    
+    for(let i = 0; i<listParticipants.length; i++){
+        idParticipants.push(listParticipants[i].value);
+    }
+    
+}
+
 
 
 submitParticipant.addEventListener("click", function(e){
     e.preventDefault();
     e.stopPropagation();
-
-//let idNotParticipants = [];
-let idParticipants = [];
-/*
-for(let i = 0; i<listNotParticipants.length; i++){
-    idNotParticipants.push(listNotParticipants[i].value);
-}
-*/
-for(let i = 0; i<listParticipants.length; i++){
-    idParticipants.push(listParticipants[i].value);
-}
+    setListParticipantAndNotParticipant();
 
 idParticipants.sort(function(a, b) {
   return a - b;
@@ -163,7 +182,17 @@ idParticipants.sort(function(a, b) {
 console.log(idParticipants);
 let formData = new FormData();
 formData.append('participantId', idParticipants);
-fetch('http://127.1.2.3/result/5/addParticipantList', {method: 'POST', body: formData})
-.then(res => console.log(res) );
+fetch('http://127.1.2.3/result/'+raceId+'/addParticipantList', {method: 'POST', body: formData})
+.then(res => {
+    console.log(res);
+    if(res.status === 200){
+        console.log('ok');
+        window.location.replace("http://127.1.2.3/race/"+raceId+'/detail');
+
+    }
+    else{
+        console.log('erreur');
+    }
+} );
 
 });

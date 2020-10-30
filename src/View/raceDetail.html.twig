@@ -8,7 +8,7 @@ Epreuve -
 
 {% block content %}
 <div class="row mx-auto">
-    <div class="col-10 offset-1">
+    <div class="col-8 offset-2">
         <h1>Epreuves</h1>
                     <div class="card">
                         <div class="card-header">
@@ -21,10 +21,8 @@ Epreuve -
                         <div class="btn btn-outline-success">Terminé</div>
                         {% else %}
                         <div class="btn btn-outline-danger">Annulé</div>
-                        <a href="/race/{{ race.id }}/delete" class="btn btn-danger" >
-                               <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
                         {% endif %}
+
                         {% if  race.status != 3 %}
                         <a  href="/race/{{ race.id }}/formUpdate" class="btn btn-secondary" >
                                     <i class="fa fa-edit" aria-hidden="true"></i>

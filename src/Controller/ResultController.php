@@ -137,7 +137,7 @@ final class ResultController extends AbstractController
             }
         }
 
-        return $params[2];
+        return true;
     }
 
       //Export to CSV
@@ -229,6 +229,8 @@ final class ResultController extends AbstractController
     // Import CSV
     public function resultImport($request)
     {
+        $resultFromCsv = $request->files->get('file');
+
         $stages = $this->deserializeFromCsv($request);
         $stageRepository = new StageRepository($this->pdo);
         
@@ -238,9 +240,9 @@ final class ResultController extends AbstractController
         if ($addStage) {
             $addResult = $this->insertResultIntoResultTable($request);
         }
-        $params = explode('/', $request->getPathInfo());/*
+        $params = explode('/', $request->getPathInfo());
         $response = new RedirectResponse('http://127.1.2.3/race/' . $params[2] . '/detail');
-        $response->send();*/
+        $response->send();
     }
 
     public function deserializeFromCsv($request)
