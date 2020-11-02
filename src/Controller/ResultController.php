@@ -82,8 +82,7 @@ final class ResultController extends AbstractController
         $participants = $resultRepository->findResultsByRaceId($params[2]);
         $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
         
-        $content = $this->twig->render(
-            'addParticipantListToRaceView.html.twig',
+        $content = $this->twig->render('addParticipantListToRaceView.html.twig',
             [
                 'notParticipants' => $notParticipants,
                 'participants' =>  $participants,

@@ -34,9 +34,9 @@ final class StageRepository extends AbstractRepository implements StageInterface
 
     /**
      * Get Stages matched $resultId
-     * 
+     *
      * @param int $resultId
-     * 
+     *
      * @return array of Stages
      */
     public function findByResultId(int $resultId): array

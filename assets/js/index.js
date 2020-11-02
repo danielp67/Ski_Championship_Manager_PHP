@@ -136,12 +136,32 @@ addParticipant.addEventListener("click", function(e){
     }
 });
 
+addAllParticipant.addEventListener("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    for(let i = listNotParticipants.length; i>=0; i--){
+        console.log(listNotParticipants.length);
+        addParticipantList(listNotParticipants[i]);
+    }
+});
+
 removeParticipant.addEventListener("click", function(e){
     e.preventDefault();
     e.stopPropagation();
     setListParticipantAndNotParticipant();
     if(listParticipants.length > 0){
         removeParticipantList(selectedIdParticipant);
+    }
+});
+
+
+
+removeAllParticipant.addEventListener("click", function(e){
+    e.preventDefault();
+    setListParticipantAndNotParticipant();
+    for(let i = listParticipants.length; i>=0; i--){
+        console.log(listParticipants.length);
+        removeParticipantList(listParticipants[i]);
     }
 });
 
@@ -161,11 +181,9 @@ function setListParticipantAndNotParticipant(){
     for(let i = 0; i<listNotParticipants.length; i++){
         idNotParticipants.push(listNotParticipants[i].value);
     }
-    
     for(let i = 0; i<listParticipants.length; i++){
         idParticipants.push(listParticipants[i].value);
-    }
-    
+    } 
 }
 
 submitParticipant.addEventListener("click", function(e){

@@ -109,7 +109,13 @@ body{
     display: none;
 }
 
+#notParticipants{
+    width:100%;
+}
 
+#participants{
+    width:100%;
+}
 /*******************/
 /********Results******/
 /*******************/

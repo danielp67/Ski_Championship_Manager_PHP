@@ -11,7 +11,7 @@ final class TimeCalculation
      */
     public static function calculationOfTotalTime(array $stages): string
     {
-        if(! empty($stages)){
+        if (! empty($stages)) {
             $minutes = 0;
             $seconds = 0;
             $milliseconds = 0;
@@ -32,9 +32,8 @@ final class TimeCalculation
                 $seconds = ($seconds < 10) ? strval('0' . $seconds) : strval($seconds);
             }
             $averageTime = strval($minutes . ':' . $seconds . '.' . $milliseconds);
-
         } else {
-            $averageTime ="59:59.99";
+            $averageTime = "59:59.99";
         }
         return $averageTime;
     }
