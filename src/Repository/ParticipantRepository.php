@@ -7,7 +7,6 @@ use App\Factory\ParticipantFactory;
 
 final class ParticipantRepository extends AbstractRepository implements ParticipantInterface
 {
-
     public function find(int $id): array
     {
         $getParticipant = $this->pdo->prepare('SELECT 
@@ -63,7 +62,7 @@ final class ParticipantRepository extends AbstractRepository implements Particip
         $addParticipant = $this->pdo->prepare('INSERT INTO 
         participant (last_name, first_name, mail, birth_date, img_link, category_id, profile_id) 
         VALUES(?, ?, ?, ?, ?, ?, ?)');
-        
+
         return $addParticipant->execute(array(
             $participant->getLastName(),
             $participant->getFirstName(),

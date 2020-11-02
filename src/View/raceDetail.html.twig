@@ -59,12 +59,14 @@ Epreuve -
 
                                 <form method="post" enctype="multipart/form-data" action="/result/{{ race.id }}/import">
                                     <div class="form-inline mt-2">
-                                        <label for="file" class="col-1 text-right "></label>
-                                        <input type="file" name="file" class="col-4 text-right "
+                                        <label for="file" class="col-1"></label>
+                                        <div class="fileUpload">
+                                        <input type="file" name="file" class="upload"
                                         id="file" required minlength="4" value="Import" />
-                                        
-                                        <button type="submit" class="btn btn-success col-2">
-                                        <i class="fa fa-upload" aria-hidden="true"></i></button>
+                                        <span><i class="fa fa-upload" aria-hidden="true"></i></span>
+                                        </div>
+                                        <button type="submit" class="btn btn-success col-4">Importer Résultats
+                                        </button>
                                     </div>
         
                                 </form>

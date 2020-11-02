@@ -2,13 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Factory\CategoryFactory;
 use App\Repository\CategoryInterface;
-use App\Entity\Category;
 
 final class CategoryRepository extends AbstractRepository implements CategoryInterface
 {
-
     public function find(int $id): object
     {
         $getCategory = $this->pdo->prepare('SELECT *
@@ -40,7 +39,7 @@ final class CategoryRepository extends AbstractRepository implements CategoryInt
     {
         $addCategory = $this->pdo->prepare('INSERT INTO 
         category (name) VALUES(?)');
-        
+
         return $addCategory->execute(array($category->getName()));
     }
 

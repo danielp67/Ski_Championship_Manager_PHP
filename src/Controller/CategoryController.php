@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Container\FactoryContainer;
 use App\Factory\CategoryFactory;
 use App\Repository\CategoryRepository;
 use Exception;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CategoryController extends AbstractController
 {
-
     public function categoryPage(Request $request, Response $response): Response
     {
         $categoryRepository = new CategoryRepository($this->pdo);

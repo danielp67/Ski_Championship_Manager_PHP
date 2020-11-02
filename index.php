@@ -1,12 +1,12 @@
 <?php
 
 use App\Controller\HomeController;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 
 
 require __DIR__.'/vendor/autoload.php';
@@ -66,11 +66,12 @@ catch (Exception $error) { // S'il y a eu une erreur, alors...
 }
 
 
-function messageError($error){
-            $response = new Response();
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $controller = new HomeController();
-            $controller->errorPage($error);
+function messageError(string $error): void
+{
+    $response = new Response();
+    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+    $controller = new HomeController();
+    $controller->errorPage($error);
 }
 
 

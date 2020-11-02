@@ -8,13 +8,12 @@ use App\Factory\ResultFactory;
 
 final class ResultRepository extends AbstractRepository implements ResultInterface
 {
-
     public function find(int $id): object
     {
         $getResult = $this->pdo->prepare('SELECT *
         FROM result WHERE id = ? ');
         $getResult->execute(array($id));
-        
+
         return ResultFactory::FromDbCollection($getResult->fetch());
     }
 
@@ -43,7 +42,7 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         WHERE p.id NOT IN 
         (select participant_id from result where race_id =  ?) ORDER BY p.last_name, p.first_name, p.birth_date');
         $getResults->execute(array($raceId));
-        
+
         $dataResults = $getResults->fetchAll();
 
         return ParticipantFactory::arrayFromDbCollection($dataResults);
@@ -99,8 +98,8 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
         WHERE r.race_id = :raceId AND p.category_id = :categoryId 
         ORDER BY r.average_time LIMIT 0, 3');
         $getResults->execute(array(
-           "raceId" => $raceId,
-           "categoryId" => $categoryId));
+           'raceId' => $raceId,
+           'categoryId' => $categoryId));
 
         $dataResults = $getResults->fetchAll();
 
@@ -122,7 +121,7 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
     {
         $addResult = $this->pdo->prepare('INSERT INTO 
         result (race_id, participant_id) VALUES(?, ?)');
-        
+
         return $addResult->execute(array(
             $result->getRaceId(),
             $result->getParticipantId()

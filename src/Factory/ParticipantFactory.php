@@ -21,9 +21,7 @@ abstract class ParticipantFactory
 
     public static function arrayFromDbCollection(array $dataParticipants): array
     {
-        $dataParticipants = array_map('self::fromDbCollection', $dataParticipants);
-
-        return $dataParticipants;
+        return array_map('self::fromDbCollection', $dataParticipants);
     }
 
     public static function fromRequestAdd(object $request): object

@@ -16,9 +16,7 @@ abstract class CategoryFactory
 
     public static function arrayFromDbCollection(array $dataCategories): array
     {
-        $dataCategories = array_map('self::fromDbCollection', $dataCategories);
-
-        return $dataCategories;
+        return array_map('self::fromDbCollection', $dataCategories);
     }
 
     public static function fromDbCollectionParticipant(array $dataParticipant): object

@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProfileController extends AbstractController
 {
-
     public function profilePage(Request $request, Response $response): Response
     {
         $profileRepository = new ProfileRepository($this->pdo);

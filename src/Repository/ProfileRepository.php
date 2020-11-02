@@ -2,13 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Profile;
 use App\Factory\ProfileFactory;
 use App\Repository\ProfileInterface;
-use App\Entity\Profile;
 
 final class ProfileRepository extends AbstractRepository implements ProfileInterface
 {
-
     public function find(int $id): object
     {
         $getProfile = $this->pdo->prepare('SELECT *
@@ -42,7 +41,7 @@ final class ProfileRepository extends AbstractRepository implements ProfileInter
     {
         $addProfile = $this->pdo->prepare('INSERT INTO 
         profile (name) VALUES(?)');
-        
+
         return $addProfile->execute(array($profile->getName()));
     }
 

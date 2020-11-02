@@ -11,14 +11,12 @@ abstract class ResultFactory
         $result = new Result();
         $result->buildFromDb($dataResult);
 
-        return  $result;
+        return $result;
     }
 
     public static function arrayFromDbCollection(array $dataResults): array
     {
-        $dataResults = array_map('self::fromDbCollection', $dataResults);
-
-        return $dataResults;
+        return array_map('self::fromDbCollection', $dataResults);
     }
 
     public static function fromDbCollectionParticipant(array $dataResult): array
@@ -27,14 +25,12 @@ abstract class ResultFactory
 
         $participant = ParticipantFactory::fromDbCollection($dataResult);
 
-        return  ['result' => $result] + $participant;
+        return ['result' => $result] + $participant;
     }
 
     public static function arrayFromDbCollectionParticipant(array $dataResults): array
     {
-        $dataResults = array_map('self::fromDbCollectionParticipant', $dataResults);
-
-        return $dataResults;
+        return array_map('self::fromDbCollectionParticipant', $dataResults);
     }
 
     public static function fromRequestAdd(array $dataResult): object
@@ -47,9 +43,7 @@ abstract class ResultFactory
 
     public static function arrayfromRequestAdd(array $dataResults): array
     {
-        $dataResults = array_map('self::fromRequestAdd', $dataResults);
-
-        return $dataResults;
+        return array_map('self::fromRequestAdd', $dataResults);
     }
 
     public static function fromRequestUdpate(array $dataResults): object

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-final class FactoryContainer
+abstract class FactoryContainer
 {
     public static function twigInitializer()
     {
@@ -42,8 +42,8 @@ final class FactoryContainer
             $dateContext = array(DateTimeNormalizer::FORMAT_KEY => 'd/m/Y');
             $encoders = [new CsvEncoder(), new JsonEncoder()];
             $normalizers = [new DateTimeNormalizer($dateContext), new ObjectNormalizer(), new ArrayDenormalizer()];
-            $serializer = new Serializer($normalizers, $encoders);
-            return $serializer;
+
+            return new Serializer($normalizers, $encoders);
         };
         return $container['csvSerializer'];
     }

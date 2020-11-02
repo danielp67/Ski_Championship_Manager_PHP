@@ -15,24 +15,6 @@ abstract class StageFactory
 
     public static function arrayFromDbCollection(array $dataStages): array
     {
-        $dataStages = array_map('self::fromDbCollection', $dataStages);
-
-        return $dataStages;
-    }
-
-    public static function fromRequestAdd(object $request): object
-    {
-        $stage = new Stage();
-        $stage->buildFromRequestAdd($request);
-
-        return $stage;
-    }
-
-    public static function fromRequestUdpate(object $request): object
-    {
-        $stage = new Stage();
-        $stage->buildFromRequestUpdate($request);
-
-        return $stage;
+        return array_map('self::fromDbCollection', $dataStages);
     }
 }

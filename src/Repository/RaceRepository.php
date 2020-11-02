@@ -7,13 +7,12 @@ use App\Factory\RaceFactory;
 
 final class RaceRepository extends AbstractRepository implements RaceInterface
 {
-
     public function find(int $id): object
     {
         $getRace = $this->pdo->prepare('SELECT *
         FROM race WHERE id = ? ');
         $getRace->execute(array($id));
-        
+
         return RaceFactory::FromDbCollection($getRace->fetch());
     }
 
@@ -47,7 +46,7 @@ final class RaceRepository extends AbstractRepository implements RaceInterface
     {
         $addRace = $this->pdo->prepare('INSERT INTO 
         race (location, date, status) VALUES(?, ?, ?)');
-        
+
         return $addRace->execute(array(
             $race->getLocation(),
             $race->getDate()->format('Y-m-d'),

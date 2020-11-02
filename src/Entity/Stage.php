@@ -6,15 +6,13 @@ use DateTime;
 use DateTimeInterface;
 use Exception;
 
-class Stage
+final class Stage
 {
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,3})$/';
     private int $id;
     private int $resultId;
     private int $stageNb;
     private ?DateTimeInterface $time;
-    
-
 
     /**
      * Get the value of id
@@ -65,7 +63,7 @@ class Stage
      * @param int $resultId
      * @return  self
      */
-    public function setResultId($resultId)
+    public function setResultId(int $resultId): self
     {
         $this->resultId = $this->checkId($resultId);
 
@@ -120,7 +118,7 @@ class Stage
         return $int;
     }
 
-    public function buildFromDb($dataStage)
+    public function buildFromDb(array $dataStage): Stage
     {
         $this->id = $dataStage['id'];
         $this->resultId = $dataStage['result_id'];
@@ -128,13 +126,5 @@ class Stage
         $this->time = is_null($dataStage['time']) ? null : DateTime::createFromFormat('i:s.u', $dataStage['time']);
 
         return $this;
-    }
-
-    public function buildFromRequestAdd($dataStage)
-    {
-    }
-
-    public function buildFromRequestUpdate($dataStage)
-    {
     }
 }

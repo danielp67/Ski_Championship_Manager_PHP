@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use App\Container\FactoryContainer;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-class Result
+final class Result
 {
     private const PATTERN_TIME = '/^([0-9]{1,2}:[0-5]{1}[0-9]{1}.[0-9]{1,6})$/';
     private int $id;
@@ -100,7 +102,6 @@ class Result
         return $this;
     }
 
-
     /**
      * check the value if is int
      * @param int $int
@@ -156,5 +157,20 @@ class Result
         $this->buildFromRequestAdd($dataResult);
 
         return $this;
+    }
+
+    /**
+     * Normalize an instance of Result to an array
+     * @return  array
+     */
+    public function normalize(): array
+    {
+        $serializer = FactoryContainer::csvSerializerInitializer();
+
+        return $serializer->normalize(
+            $this,
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['id'] ]
+        );
     }
 }

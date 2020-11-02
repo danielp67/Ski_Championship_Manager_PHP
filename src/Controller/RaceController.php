@@ -95,7 +95,7 @@ final class RaceController extends AbstractController
 
         $params = explode('/', $request->getPathInfo());
         $race = $raceRepository->find($params[2]);
-        
+
         $content = $this->twig->render('raceDetail.html.twig', ['race' => $race]);
         $response->setContent($content);
 
@@ -126,7 +126,7 @@ final class RaceController extends AbstractController
         $race->setStatus($status);
         $updateRace = $raceRepository->update($race);
         $serverHost = $request->server->get('HTTP_HOST');
-        
+
         return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
     }
 }

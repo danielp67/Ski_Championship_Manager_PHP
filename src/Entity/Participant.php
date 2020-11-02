@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Container\FactoryContainer;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 final class Participant
 {
@@ -267,5 +269,20 @@ final class Participant
         $this->buildFromRequestAdd($request);
 
         return $this->setId($request->get('id'));
+    }
+
+    /**
+     * Normalize an instance of Participant to an array
+     * @return  array
+     */
+    public function normalize(): array
+    {
+        $serializer = FactoryContainer::csvSerializerInitializer();
+
+        return $serializer->normalize(
+            $this,
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['lastName', 'firstName', 'birthDate'] ]
+        );
     }
 }

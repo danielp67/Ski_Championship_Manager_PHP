@@ -15,9 +15,7 @@ abstract class RaceFactory
 
     public static function arrayFromDbCollection(array $dataRaces): array
     {
-        $dataRaces = array_map('self::fromDbCollection', $dataRaces);
-
-        return $dataRaces;
+        return array_map('self::fromDbCollection', $dataRaces);
     }
 
     public static function fromRequestAdd(object $request): object

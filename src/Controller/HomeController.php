@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class HomeController extends AbstractController
 {
-
     public function homePage(Request $request, Response $response): Response
     {
         $content =  $this->twig->render('homeView.html.twig');

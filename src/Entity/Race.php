@@ -10,7 +10,7 @@ final class Race
 {
     private const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 \(\).-]{1,20}$/';
     private const PATTERN_DATE = '/^\d{4}(\-)(((0)[0-9])|((1)[0-2]))(\-)([0-2][0-9]|(3)[0-1])$/';
-    private ?int $id = null ;
+    private ?int $id = null;
     private string $location;
     private DateTimeInterface $date;
     private int $status;
@@ -153,6 +153,6 @@ final class Race
         $this->buildFromRequestAdd($request);
         $this->setId($request->get('id'));
         
-        return  $this->setStatus($request->get('status'));
+        return $this->setStatus($request->get('status'));
     }
 }

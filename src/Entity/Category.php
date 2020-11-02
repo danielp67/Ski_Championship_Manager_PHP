@@ -6,7 +6,7 @@ use App\Entity\AbstractGroup;
 
 final class Category extends AbstractGroup
 {
-      /**
+    /**
      * Set the object from Db
      * @param array $dataGroup
      * @return  self

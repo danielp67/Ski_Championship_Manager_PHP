@@ -16,9 +16,7 @@ abstract class ProfileFactory
 
     public static function arrayFromDbCollection(array $dataProfiles): array
     {
-        $dataProfiles = array_map('self::fromDbCollection', $dataProfiles);
-
-        return $dataProfiles;
+        return array_map('self::fromDbCollection', $dataProfiles);
     }
 
     public static function fromDbCollectionParticipant(array $dataParticipant): object

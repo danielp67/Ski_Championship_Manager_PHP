@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ParticipantController extends AbstractController
 {
-
     public function participantList(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);

@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
+use App\Container\FactoryContainer;
 use Exception;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 abstract class AbstractGroup
 {
     protected const PATTERN_GROUP = '/^[a-zA-ZÀ-ÿ0-9 \(\).-]{1,20}$/';
     protected int $id;
     protected string $name;
-
 
     /**
      * Get the value of id
@@ -96,5 +97,20 @@ abstract class AbstractGroup
         $this->buildFromRequestAdd($request);
 
         return $this;
+    }
+
+    /**
+     * Normalize an instance of Group to an array
+     * @return  array
+     */
+    public function normalize(): array
+    {
+        $serializer = FactoryContainer::csvSerializerInitializer();
+
+        return $serializer->normalize(
+            $this,
+            null,
+            [AbstractNormalizer::ATTRIBUTES => ['name'] ]
+        );
     }
 }
