@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Container\DeserializerContainer;
 use App\Container\SerializerContainer;
+use App\Dto\TimeCalculation;
 use App\Factory\ResultFactory;
 use App\Repository\CategoryRepository;
 use App\Repository\ParticipantRepository;
@@ -190,6 +191,7 @@ final class ResultController extends AbstractController
     public function resultImport($request)
     {
         $resultFromCsv = $request->files->get('file');
+        $params = explode('/', $request->getPathInfo());
 
         if ($resultFromCsv === null) {
             throw new Exception('Pas de fichier trouvé !');
@@ -207,17 +209,15 @@ final class ResultController extends AbstractController
 
         $stages = DeserializerContainer::deserializeStagesFromCsv($fileContent);
         $stageRepository = new StageRepository($this->pdo);
-        
         foreach ($stages as $stage) {
             $insertedStage = $this->insertResultIntoStageTable($stage, $stageRepository);
         }
         if ($insertedStage) {
-            $insertedResult = $this->insertResultIntoResultTable($request);
+            $insertedResult = $this->insertResultIntoResultTable($params[2]);
         }
-        $params = explode('/', $request->getPathInfo());
         $serverHost = $request->server->get('HTTP_HOST');
 
-       // return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
+        return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
     }
 
     public function insertResultIntoStageTable($stage, $stageRepository)
@@ -237,39 +237,17 @@ final class ResultController extends AbstractController
             return true;
     }
 
-    public function insertResultIntoResultTable($request)
+    public function insertResultIntoResultTable($raceId)
     {
         $resultRepository = new ResultRepository($this->pdo);
         $stageRepository = new StageRepository($this->pdo);
-        $params = explode('/', $request->getPathInfo());
-        $allResults = $resultRepository->findResultsByRaceId($params[2]);
-        
+        $allResults = $resultRepository->findResultsByRaceId($raceId);
         
         foreach ($allResults as $allResult) {
             $stages = $stageRepository->findByResultId($allResult['result']->getId());
-            $minutes = 0;
-            $seconds = 0;
-            $milliseconds = 0;
-            foreach ($stages as $stage) {
-                $minutes = $minutes + (int) $stage->getTime()->format('i');
-                $seconds = $seconds + (int) $stage->getTime()->format('s');
-                $milliseconds = $milliseconds + ((int) $stage->getTime()->format('u')) / 1000;
-
-                if ($milliseconds > 999) {
-                    $seconds = $seconds + 1;
-                    $milliseconds = $milliseconds - 1000;
-                }
-                if ($seconds > 59) {
-                    $minutes = $minutes + 1;
-                    $seconds = $seconds - 60;
-                }
-                $minutes = ($minutes < 10) ? strval('0' . $minutes) : strval($minutes);
-                $seconds = ($seconds < 10) ? strval('0' . $seconds) : strval($seconds);
-                $timeToString = strval($minutes . ':' . $seconds . '.' . $milliseconds);
-            }
-
-            $allResult['result']->setAverageTime($timeToString);
-            $updateResult = $resultRepository->update($allResult['result']);
+            $averageTime = TimeCalculation::calculationOfTotalTime($stages);
+            $allResult['result']->setAverageTime($averageTime);
+            $updatedResult = $resultRepository->update($allResult['result']);
         }
     }
 }

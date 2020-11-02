@@ -46,7 +46,7 @@ final class StageRepository extends AbstractRepository implements StageInterface
         $getStages->execute([$resultId]);
 
         $dataStages = $getStages->fetchAll();
-        var_dump($dataStages);
+
         return StageFactory::arrayFromDbCollection($dataStages);
     }
 
