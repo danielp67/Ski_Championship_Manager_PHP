@@ -75,7 +75,6 @@ Home
                     <td>{{ result.category.name }}</td>
                     <td>{{ result.profile.name }}</td>
                     <td>{{ result.result.averageTime|date("i:s.u") }}</td>
-
                     </tr>
                     {% endfor %}
 
@@ -110,7 +109,7 @@ Home
         {% for result in categoryResult %}
             
             <div class="card rank rank{{ loop.index }}" id="">
-                <img class="imgParticipant" src="/participant/img/{{ result.participant.id }}" alt="">
+                <img class="card-img-top" src="/participant/img/{{ result.participant.id }}" alt="">
                 {{ result.participant.lastName }} {{ result.participant.firstName }}<br>
                 Temps Total : {{ result.result.averageTime|date("i:s.u") }}<br>
                 Catégorie : {{ result.category.name }}<br>

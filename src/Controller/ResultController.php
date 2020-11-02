@@ -114,28 +114,18 @@ final class ResultController extends AbstractController
 
         $resultList = ResultFactory::arrayfromRequestAdd($participantListWithRaceId);
 
-       // var_dump( $resultList);
-
         foreach ($resultList as $result) {
             $checkResult = $resultRepository->findByName($result);
-            if (! $checkResult) {
-                var_dump($result);
+            if (! $checkResult && $participantList[0] !== 0) {
                  $addResult = $resultRepository->add($result);
             }
         }
 
         $checkResultList = $resultRepository->findResultsByRaceId($params[2]);
-       // var_dump( $checkResultList);
-
-        var_dump($participantList);
 
         foreach ($checkResultList as $checkResult) {
-            var_dump(array_search($checkResult['result']->getParticipantId(), $participantList));
-            var_dump($checkResult['result']->getParticipantId());
-
             if (array_search($checkResult['result']->getParticipantId(), $participantList) === false) {
-                var_dump('remove');
-                $deleteResult = $resultRepository->delete($checkResult['result']->getParticipantId());
+                $deleteResult = $resultRepository->delete($checkResult['result']->getId());
             }
         }
 

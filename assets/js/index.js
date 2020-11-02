@@ -114,7 +114,6 @@ let selectedIdParticipant = '';
 let idNotParticipants = [];
 let idParticipants = [];
 
-console.log(idParticipants.length);
 participants.addEventListener("click", function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -154,8 +153,6 @@ removeParticipant.addEventListener("click", function(e){
     }
 });
 
-
-
 removeAllParticipant.addEventListener("click", function(e){
     e.preventDefault();
     setListParticipantAndNotParticipant();
@@ -165,19 +162,22 @@ removeAllParticipant.addEventListener("click", function(e){
     }
 });
 
+
+
 function addParticipantList(id){
     participants.append(id);
-    console.log(listNotParticipants);
-
+    console.log(idNotParticipants);
 }
 
 function removeParticipantList(id){
     notParticipants.append(id);
-    console.log(listNotParticipants);
-
+    console.log(idParticipants);
 }
 
+
 function setListParticipantAndNotParticipant(){
+    idNotParticipants = [];
+    idParticipants = [];
     for(let i = 0; i<listNotParticipants.length; i++){
         idNotParticipants.push(listNotParticipants[i].value);
     }
