@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Race;
 use App\Factory\RaceFactory;
+use PDO;
 
 final class RaceRepository extends AbstractRepository implements RaceInterface
 {
@@ -37,6 +38,18 @@ final class RaceRepository extends AbstractRepository implements RaceInterface
         FROM race ORDER BY date DESC');
         $getRaces->execute();
 
+        $dataRaces = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataRaces);
+    }
+
+    public function findAllPaginated(int $page): array
+    {
+        $getRaces = $this->pdo->prepare('SELECT *
+        FROM race ORDER BY date DESC LIMIT :limit, :offset');
+        $getRaces->bindValue(':limit', ($page * 10 - 10), PDO::PARAM_INT);
+        $getRaces->bindValue(':offset', ($page * 10), PDO::PARAM_INT);
+        $getRaces->execute();
         $dataRaces = $getRaces->fetchAll();
 
         return RaceFactory::arrayFromDbCollection($dataRaces);

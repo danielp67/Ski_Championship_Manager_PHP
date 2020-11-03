@@ -9,7 +9,7 @@ home_logo:
     controller: App\Controller\HomeController::homeLogo
 
 race_list:
-    path: /race/list
+    path: /race/list/{id<\d+>}
     controller: App\Controller\RaceController::raceList
 race_detail:
     path: /race/{id<\d+>}/detail
@@ -61,7 +61,7 @@ result_podium:
 
 
 participant_list:
-    path: /participant/list
+    path: /participant/list/{id<\d+>}
     controller: App\Controller\ParticipantController::participantList
 participant_form:
     path: /participant/form

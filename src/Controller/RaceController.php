@@ -14,8 +14,8 @@ final class RaceController extends AbstractController
     public function raceList(Request $request, Response $response): Response
     {
         $raceRepository = new RaceRepository($this->pdo);
-
-        $allRaces = $raceRepository->findAll();
+        $params = explode('/', $request->getPathInfo());
+        $allRaces = $raceRepository->findAllPaginated($params[3]);
         $content = $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
         $response->setContent($content);
 
@@ -102,19 +102,19 @@ final class RaceController extends AbstractController
         return $response;
     }
 
-    public function raceStart(Request $request): void
+    public function raceStart(Request $request): Response
     {
-        $this->raceStatus($request, 1);
+        return $this->raceStatus($request, 1);
     }
 
-    public function raceFinish(Request $request): void
+    public function raceFinish(Request $request): Response
     {
-        $this->raceStatus($request, 2);
+        return $this->raceStatus($request, 2);
     }
 
-    public function raceCancel(Request $request): void
+    public function raceCancel(Request $request): Response
     {
-        $this->raceStatus($request, 3);
+        return $this->raceStatus($request, 3);
     }
 
     private function raceStatus(Request $request, $status): Response

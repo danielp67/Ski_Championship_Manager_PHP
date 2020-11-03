@@ -40,6 +40,7 @@ Epreuve -
                                 <a href="/race/{{ race.id }}/delete" class="btn btn-danger" >
                                 Supprimer l'épreuve
                                 </a>
+                                {% elseif race.status == 2 %}
                                 {% else %}
                                 <a href="/result/{{ race.id }}/formParticipantList" class="btn btn-primary" >
                                 Ajouter/Modifier Participants
@@ -90,7 +91,7 @@ Epreuve -
                         </div>
                         <div class="card-footer">
                         
-                        <a href="/race/list" class=""   >
+                        <a href="/race/list/1" class="">
                         Retour
                         </a>
                         </div>

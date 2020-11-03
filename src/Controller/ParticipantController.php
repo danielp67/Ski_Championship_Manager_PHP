@@ -16,7 +16,8 @@ final class ParticipantController extends AbstractController
     public function participantList(Request $request, Response $response): Response
     {
         $participantRepository = new ParticipantRepository($this->pdo);
-        $participantList = $participantRepository->findAll();
+        $params = explode('/', $request->getPathInfo());
+        $participantList = $participantRepository->findAllPaginated($params[3]);
         $content =  $this->twig->render('participantList.html.twig', ['participants' => $participantList]);
         $response->setContent($content);
 

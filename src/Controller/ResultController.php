@@ -82,7 +82,8 @@ final class ResultController extends AbstractController
         $participants = $resultRepository->findResultsByRaceId($params[2]);
         $notParticipants = $resultRepository->findParticipantByNotRace($params[2]);
         
-        $content = $this->twig->render('addParticipantListToRaceView.html.twig',
+        $content = $this->twig->render(
+            'addParticipantListToRaceView.html.twig',
             [
                 'notParticipants' => $notParticipants,
                 'participants' =>  $participants,
@@ -94,17 +95,12 @@ final class ResultController extends AbstractController
         return $response;
     }
 
-    public function resultAddParticipantList($request)
+    public function resultAddParticipantList(Request $request): bool
     {
         $resultRepository = new ResultRepository($this->pdo);
         $params = explode('/', $request->getPathInfo());
 
-        $participantList = $request->request->get('participantId');
-        $participantList = explode(',', $participantList);
-
-        $participantList = array_map(function ($participant) {
-            return (int) $participant;
-        }, $participantList);
+        $participantList = $this->getParticipantList($request);
 
         $participantListWithRaceId = [];
         foreach ($participantList as $participant) {
@@ -130,6 +126,20 @@ final class ResultController extends AbstractController
         }
 
         return true;
+    }
+
+    private function getParticipantList(Request $request): array
+    {
+        $participantList = $request->request->get('participantId');
+        $params = explode('/', $request->getPathInfo());
+
+        $participantList = explode(',', $participantList);
+
+        $participantList = array_map(function ($participant) {
+            return (int) $participant;
+        }, $participantList);
+
+        return $participantList;
     }
 
       //Export to CSV

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use App\Factory\ParticipantFactory;
+use PDO;
 
 final class ParticipantRepository extends AbstractRepository implements ParticipantInterface
 {
@@ -42,7 +43,7 @@ final class ParticipantRepository extends AbstractRepository implements Particip
         return ParticipantFactory::arrayFromDbCollection($dataParticipants);
     }
 
-    public function findAll(): array
+    public function findAllPaginated(int $page): array
     {
         $getAllParticipants = $this->pdo->prepare('SELECT
         p.id, p.last_name, p.first_name, p.mail, p.birth_date, p.img_link, 
@@ -50,7 +51,10 @@ final class ParticipantRepository extends AbstractRepository implements Particip
         FROM participant p
         INNER JOIN category c ON p.category_id = c.id
         INNER JOIN profile pr ON p.profile_id = pr.id
-        ORDER BY p.last_name, p.first_name, p.birth_date');
+        ORDER BY p.last_name, p.first_name, p.birth_date
+        LIMIT :limit, :offset');
+        $getAllParticipants->bindValue(':limit', ($page * 10 - 10), PDO::PARAM_INT);
+        $getAllParticipants->bindValue(':offset', ($page * 10), PDO::PARAM_INT);
         $getAllParticipants->execute();
         $dataParticipants = $getAllParticipants->fetchAll();
 

@@ -87,7 +87,7 @@ final class ResultRepository extends AbstractRepository implements ResultInterfa
     public function findResultsByRaceIdAndCategory(int $raceId, int $categoryId)
     {
         $getResults = $this->pdo->prepare('SELECT r.id as result_id, r.race_id, 
-        r.participant_id as id ,
+        r.participant_id as id,
         r.average_time,
         p.last_name, p.first_name, p.mail, p.birth_date, p.img_link, 
         p.category_id, c.name as category, p.profile_id, pr.name as profile
