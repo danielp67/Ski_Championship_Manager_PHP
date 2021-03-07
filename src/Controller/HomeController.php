@@ -25,6 +25,19 @@ final class HomeController extends AbstractController
         return $response;
     }
 
+
+    public function homePicture(Request $request, Response $response): Response
+    {
+        $localDirectory =  $request->server->get('DOCUMENT_ROOT');
+
+        $params = explode('/', $request->getPathInfo());
+        $theImage = $localDirectory . '/data/img/ski'.$params[3] .'.jpg';
+        $response->headers->set('content-type', 'image/jpeg');
+        $response->setContent(file_get_contents($theImage));
+
+        return $response;
+    }
+
     public function errorPage(string $error): Response
     {
         $content = $this->twig->render('errorView.html.twig', ['error' => $error]);

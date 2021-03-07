@@ -1,12 +1,15 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\HomeController::homePage
 home:
     path: /home
     controller: App\Controller\HomeController::homePage
 home_logo:
     path: /home/logo
     controller: App\Controller\HomeController::homeLogo
+home_picture:
+    path: /home/picture/{id<\d+>}
+    controller: App\Controller\HomeController::homePicture
 
 race_list:
     path: /race/list/{id<\d+>}

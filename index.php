@@ -41,6 +41,9 @@ catch (Exception $error) { // S'il y a eu une erreur, alors...
     messageError($error);
     
 }finally{
+
+    $request =  Request::createFromGlobals();
+    $response = new Response();
         // Ici aucun paramètre n'est défini
         // On instancie le contrôleur
         $controller = new HomeController();

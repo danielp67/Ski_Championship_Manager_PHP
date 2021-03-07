@@ -2,11 +2,11 @@
 /********MENU*******/
 /*******************/
 
-.logitudColor{
-    background: linear-gradient(90deg,#543ccc,50%,#a32ae0);
+.logitudColor {
+    background: linear-gradient(90deg, #543ccc, 50%, #a32ae0);
 }
 
-header{
+header {
     position: fixed;
     width: 100%;
     top: 0px;
@@ -20,8 +20,7 @@ header{
 }
 
 
-#nav_logitud
-{  
+#nav_logitud {
     margin-right: 20px;
     padding-top: 30px;
     list-style-type: none;
@@ -32,31 +31,29 @@ header{
     height: 100%;
 }
 
-#nav_logitud a{
+#nav_logitud a {
     font-weight: 800;
     font-size: 1rem;
-    color : black;
+    color: black;
     text-decoration: none !important;
     transition: 0.3s;
 }
 
-#nav_logitud a:hover
-{
-    color:#543ccc;
+#nav_logitud a:hover {
+    color: #543ccc;
 }
 
-#nav_logitud .contactUs{
+#nav_logitud .contactUs {
     padding-top: -30px;
 }
 
-#logo{
+#logo {
     padding-left: 40px;
     height: 35px;
 }
 
-#nav_menu
-{  
-    position : fixed;
+#nav_menu {
+    position: fixed;
     top: 0px;
     left: 30px;
     width: 150px;
@@ -65,128 +62,138 @@ header{
     background-color: rgb(235, 235, 235);
 }
 
-#menu
-{  
-    padding-top : 100px;
+#menu {
+    padding-top: 100px;
     list-style-type: none;
     padding-inline-start: 0px;
     font-size: 1.2rem;
     width: 100%;
 }
 
-#menu li
-{  
-    padding : 10px;
-    background: linear-gradient(90deg,#543ccc,50%,#a32ae0);
+#menu li {
+    padding: 10px;
+    background: linear-gradient(90deg, #543ccc, #a32ae0);
 }
 
-#menu a:hover
-{  
-    color : white;
+#menu a:hover {
+    color: white;
     font-size: 1.4rem;
 }
 
-#menu a{
+#menu a {
     font-weight: bold;
-    color : rgb(218, 218, 218);
+    color: rgb(218, 218, 218);
     text-decoration: none !important;
     transition: 0.3s;
 }
 
-body{
+body {
     margin-top: 100px;
 }
 
 
+.fade-img{
+    opacity: 0.8;
+}
+
+.overlay-hover{
+    opacity: 0.7;
+transition: 0.3s;
+}
+
+.overlay-hover:hover{
+    opacity: 1;
+}
 /*******************/
 /********Display*******/
 /*******************/
-.active{
+.active {
     display: contents;
 }
 
-.inactive{
+.inactive {
     display: none;
 }
 
-#notParticipants{
-    width:100%;
-}
-
-#participants{
-    width:100%;
-}
-/*******************/
-/********Results******/
-/*******************/
-.podium{
+#notParticipants {
     width: 100%;
 }
 
-.imgParticipant{
+#participants {
+    width: 100%;
+}
+
+/*******************/
+/********Results******/
+/*******************/
+.podium {
+    width: 100%;
+}
+
+.imgParticipant {
     max-width: 50px;
     max-height: 50px;
 }
 
-.rankingList{
+.rankingList {
     position: relative;
 }
 
-.rank{
+.rank {
     max-width: 150px;
     max-height: 350px;
 }
 
-.card-img-top{
+.card-img-top {
     min-height: 100px;
     max-height: 100px;
     object-fit: contain;
 }
 
-.rank1{
+.rank1 {
     position: absolute;
-    bottom : -30%;
-    left : 38%;
+    bottom: -30%;
+    left: 38%;
 }
 
-.rank2{
+.rank2 {
     position: absolute;
-    bottom : -45%;
-    left : 10%;
+    bottom: -45%;
+    left: 10%;
 }
 
-.rank3{
+.rank3 {
     position: absolute;
-    bottom : -55%;
-    left : 70%;
+    bottom: -55%;
+    left: 70%;
 }
 
-.podium{
+.podium {
     position: absolute;
-    bottom : -100%;
-    left : 0%;
+    bottom: -100%;
+    left: 0%;
 }
 
-.result{
+.result {
 
     height: 80vh;
     min-height: 650px;
 }
 
 
-thead{
-    width:100%;
-}
-.scrollbar{
-    min-height: 400px;
-    height: 80%;
-    position : absolute;
-    overflow-y:scroll;
+thead {
+    width: 100%;
 }
 
-#style-4::-webkit-scrollbar-track
-{
-   
+.scrollbar {
+    min-height: 400px;
+    height: 80%;
+    position: absolute;
+    overflow-y: scroll;
+}
+
+#style-4::-webkit-scrollbar-track {
+
     background-color: #F5F5F5;
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -196,11 +203,9 @@ thead{
 }
 
 
-
-#style-4::-webkit-scrollbar
-{
+#style-4::-webkit-scrollbar {
     width: 6px;
-    padding-left :2px;
+    padding-left: 2px;
     padding-right: 2px;
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
@@ -211,16 +216,15 @@ thead{
 }
 
 
-#style-4::-webkit-scrollbar-thumb
-{   
-    
+#style-4::-webkit-scrollbar-thumb {
+
     background-color: #543ccc;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
-	
+
 }
 
 /*******************/
@@ -228,25 +232,27 @@ thead{
 /*******************/
 
 .fileUpload {
-	background: #28a745;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	color: #fff;
-	font-size: 1em;
-	font-weight: bold;
-	margin: 1.25em auto;/*20px/16px 0*/
-	overflow: hidden;
-	padding: 0.875em;/*14px/16px*/
-	position: relative;
-	text-align: center;
-	width: 120px;
-   cursor: pointer;
+    background: #28a745;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 1.25em auto; /*20px/16px 0*/
+    overflow: hidden;
+    padding: 0.875em; /*14px/16px*/
+    position: relative;
+    text-align: center;
+    width: 120px;
+    cursor: pointer;
 }
+
 .fileUpload:hover, .fileUpload:active, .fileUpload:focus {
-	background:#259940;
-  cursor: pointer;
+    background: #259940;
+    cursor: pointer;
 }
+
 .fileUpload input.upload {
     position: absolute;
     top: 0;
@@ -259,7 +265,7 @@ thead{
     filter: alpha(opacity=0);
     width: 148px;
     height: 46px;
-  cursor: pointer;
+    cursor: pointer;
 }
 
 input[type="file"] {
@@ -273,6 +279,6 @@ input[type="file"] {
 /*******************/
 
 
-.pagination{
-    margin-left : 45%;
+.pagination {
+    margin-left: 45%;
 }
