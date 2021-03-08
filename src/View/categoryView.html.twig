@@ -1,8 +1,7 @@
-
 {% extends 'template.html.twig' %}
 
 {% block title %}
-Home
+    Home
 {% endblock %}
 
 
@@ -11,96 +10,99 @@ Home
     <div class="col-8 offset-2">
         <h1>Liste des catégories</h1>
 
-<div class="card">
-<div class="row">
-    <div class="col-6">
-        <form method="post" action="/category/delete">
-            <div class="form-inline mt-2">
-                <label for="nameId" class="col-1 offset-1 text-right "></label>
-                     <select class="form-control" name="nameId" id="groupList"
-                     size = "{{ categories|length}}">
-                     {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.id }} - {{ category.name }}</option>
-                    {% endfor %}
-                    </select>
+        <div class="card">
+            <div class="row">
+                <div class="col-6">
+                    <form method="post" action="/category/delete">
+                        <div class="form-inline mt-2">
+                            <label for="nameId" class="col-1 offset-1 text-right "></label>
+                            <select class="form-control" name="nameId" id="groupList"
+                                    size="{{ categories|length }}">
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.id }} - {{ category.name }}</option>
+                                {% endfor %}
+                            </select>
 
-            </div>
+                        </div>
 
-            <div class="form-group mt-3">
-                <button class="btn btn-success" id="buttonAdd"  >Ajouter</button>
+                        <div class="form-group mt-3">
+                            <button class="btn btn-success" id="buttonAdd">Ajouter</button>
 
-                <button class="btn btn-primary" id="buttonUpdate" disabled >Modifier</button>
-                <button type="button" class="btn btn-danger"  id="buttonDelete" data-toggle="modal" data-target="#modalDelete" disabled>
-                    Supprimer
-                </button>
-                <input type="submit" class="btn btn-danger inactive"
-                value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled />
-            </div>
-        </form>
-    </div>
-    <div class="col-6">
-            <form method="post" action="/category/add" id="formAdd" class="">
-            <div class="form-group mt-2">
-                            
+                            <button class="btn btn-primary" id="buttonUpdate" disabled>Modifier</button>
+                            <button type="button" class="btn btn-danger" id="buttonDelete" data-toggle="modal"
+                                    data-target="#modalDelete" disabled>
+                                Supprimer
+                            </button>
+                            <input type="submit" class="btn btn-danger inactive"
+                                   value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled/>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form method="post" action="/category/add" id="formAdd" class="">
+                        <div class="form-group mt-2">
+
                             <label for="name" class="text-left col-10">
                                 Nouveau nom : </label>
                             <input class="form-control col-10" type="text" name="name"
-                            id="" value="Dupont" required minlength="2">
-            </div>
-            <input type="submit" class="btn btn-success" value="Valider" />
-             <button class="btn btn-danger" id="buttonHide1">Annuler</button>
-            </form>
+                                   id="" value="Dupont" required minlength="2">
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Valider"/>
+                        <button class="btn btn-danger" id="buttonHide1">Annuler</button>
+                    </form>
 
-            <form method="post" action="/category/update" id="formUpdate" class="">
-            <div class="form-group mt-2">
+                    <form method="post" action="/category/update" id="formUpdate" class="">
+                        <div class="form-group mt-2">
                             <label for="nameId" class="text-left col-10"></label>
                             <input class="form-control col-10 inactive" type="number" name="nameId"
-                            id="nameId" value="" required />
-                            <label for="name"  class="text-left col-10">
+                                   id="nameId" value="" required/>
+                            <label for="name" class="text-left col-10">
                                 Modifier nom : </label>
                             <input class="form-control col-10" type="text" name="name"
-                            id="" value="" required minlength="2">
+                                   id="" value="" required minlength="2">
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Valider"/>
+                        <button class="btn btn-danger" id="buttonHide2">Annuler</button>
+                    </form>
+                </div>
             </div>
-            <input type="submit" class="btn btn-success" value="Valider" />
-             <button class="btn btn-danger" id="buttonHide2">Annuler</button>
-            </form>
-        </div>
-        </div>
 
 
+        </div>
     </div>
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Confirmer la suppression ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmer la suppression ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-    <form method="post" action="/category/delete" dialog>
-      <label for="nameId" class="text-left col-10"></label>
-        <input class="form-control col-10 inactive" type="number" name="nameId"
-         id="nameIdmod" value="" required />
-      <div class="modal-body">
-        Etes vous sûr de vouloir supprimer la catégorie ?
-        Cela affectera les épreuves et les participants enregistrés !
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <input type="submit" class="btn btn-primary"  value="Confirmer"/>
-      </div>
-    </form>
+                <form method="post" action="/category/delete" dialog>
+                    <label for="nameId" class="text-left col-10"></label>
+                    <input class="form-control col-10 inactive" type="number" name="nameId"
+                           id="nameIdmod" value="" required/>
+                    <div class="modal-body">
+                        Etes vous sûr de vouloir supprimer la catégorie ?
+                        Cela affectera les épreuves et les participants enregistrés !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <input type="submit" class="btn btn-primary" value="Confirmer"/>
+                    </div>
+                </form>
 
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-{% endblock %}
+    {% endblock %}
 
 

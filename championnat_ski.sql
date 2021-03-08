@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 INSERT INTO `profile` (`id`, `name`) VALUES
 (1, 'ASVP'),
 (2, 'Open'),
-(3, 'Gardes-champêtres');
+(3, 'Gardes-champetres');
 
 -- --------------------------------------------------------
 
@@ -98,15 +98,15 @@ CREATE TABLE IF NOT EXISTS `participant` (
 ) ENGINE=InnoDB;
 
 INSERT INTO `participant` (`id`, `last_name`, `first_name`, `mail`, `birth_date`, `img_link`, `category_id`, `profile_id`) VALUES
-(1, 'Macon', 'Emmanuel', 'manu.macon@president.fr', '1970-01-12', 'unknown.jpg', 1, 2),
-(2, 'Philippe', 'Edouard', 'ed.phil@president.fr', '1960-10-12', '5f97ee79e158c.jpeg', 3, 1),
-(3, 'Francois', 'Philippe', 'phil.francois@president.fr', '1960-10-12', '5f97ee79e158c.jpeg', 7, 1),
-(4, 'Macon', 'Manuel', 'nom@exemple.com', '1970-01-13', '5f97ee79e158c.jpeg', 1, 1),
-(5, 'Pierre', 'Jean', 'nom@exemple.com', '1970-01-13', '5f97e5690b7c4.jpeg', 1, 3),
-(6, 'Pierre', 'Jeanne', 'nom@exemple.com', '1977-10-13', '5f97ee79e158c.jpeg', 1, 3),
-(7, 'Roger', 'Jean', 'nom@exemple.com', '1987-06-13', 'unknown.jpg', 1, 3),
-(8, 'Roger', 'Robert', 'nom@exemple.com', '1994-06-08', '5f97ef986d363.png', 1, 3),
-(9, 'Dupont', 'Jean', 'nom@exemple.com', '1995-06-21', '5f97fb01430a1.jpeg', 1, 1);
+(1, 'Macon', 'Franck', 'franck.macon@test.fr', '1970-01-12', 'unknown.jpg', 1, 2),
+(2, 'Philippe', 'René', 'rene.phil@test.fr', '1960-10-12', '5f97ee79e158c.jpeg', 3, 1),
+(3, 'Dupont', 'Philippe', 'phil.dupont@test.fr', '1960-10-12', '5f97ee79e158c.jpeg', 7, 1),
+(4, 'Martin', 'Louis', 'louis.martin@exemple.com', '1970-01-13', '5f97ee79e158c.jpeg', 1, 1),
+(5, 'Pierre', 'Jean', 'jean-pierre@exemple.com', '1970-01-13', '5f97e5690b7c4.jpeg', 1, 3),
+(6, 'Pierre', 'Jeanne', 'jeanne@exemple.com', '1977-10-13', '5f97ee79e158c.jpeg', 1, 3),
+(7, 'Roger', 'Jean', 'roger.j@exemple.com', '1987-06-13', 'unknown.jpg', 1, 3),
+(8, 'Roger', 'Robert', 'rr@exemple.com', '1994-06-08', '5f97fb01430a2.jpeg', 1, 3),
+(9, 'Dupont', 'Jean', 'dupont.jean@exemple.com', '1995-06-21', '5f97fb01430a1.jpeg', 1, 1);
 
 -- --------------------------------------------------------
 

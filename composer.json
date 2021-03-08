@@ -4,8 +4,7 @@
     "description": "championnat_ski",
     "authors": [
         {
-            "name": "danielp67",
-            "email": "daniel.67100@hotmail.fr"
+            "name": "danielp67"
         }
     ],
     "minimum-stability": "dev",

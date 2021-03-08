@@ -40,12 +40,23 @@ Epreuve -
                                 <a href="/race/{{ race.id }}/delete" class="btn btn-danger" >
                                 Supprimer l'épreuve
                                 </a>
-                                {% elseif race.status == 2 %}
                                 {% else %}
                                 <a href="/result/{{ race.id }}/formParticipantList" class="btn btn-primary" >
                                 Ajouter/Modifier Participants
-                                </a>
+                                </a><br><br>
+                                    {% if  race.status == 1 or race.status == 2 %}
+                                        <a href="/result/{{ race.id }}"  class=""  id="buttonResult{{ race.id }}" >
+                                            Voir les résultats
+                                        </a><br><br>
+                                    {% else %}
+                                        <button type="button" class="btn btn-success"  disabled >
+                                            Voir les résultats
+                                        </button>
+                                    {% endif %}
 
+                                    <a href="/race/{{ race.id }}/finish" class=""  >
+                                        Terminer l'épreuve
+                                    </a>
                                 {% endif %}
                                 </div>
                                 <div class="col-6">
@@ -59,32 +70,19 @@ Epreuve -
                                 </a>
 
                                 <form method="post" enctype="multipart/form-data" action="/result/{{ race.id }}/import">
-                                    <div class="form-inline mt-2">
-                                        <label for="file" class="col-1"></label>
+                                    <div class="form-inline mt-2 d-flex justify-content-center">
                                         <div class="fileUpload">
                                         <input type="file" name="file" class="upload"
                                         id="file" required minlength="4" value="Import" />
                                         <span><i class="fa fa-upload" aria-hidden="true"></i></span>
                                         </div>
-                                        <button type="submit" class="btn btn-success col-4">Importer Résultats
-                                        </button>
+
                                     </div>
-        
+                                    <a type="submit" class="">Importer Résultats
+                                    </a>
                                 </form>
-                                {% if  race.status == 1 or race.status == 2 %}
-                                <a href="/result/{{ race.id }}"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
-                                Voir les résultats
-                                </a>
-                                {% else %}
-                                <button type="button" class="btn btn-success"  disabled >
-                                Voir les résultats
-                                </button>
                                 {% endif %}
 
-                                <a href="/race/{{ race.id }}/finish" class="btn btn-primary"  >
-                                Terminer l'épreuve
-                                </a>
-                                {% endif %}
                                 </div>
                             </div>
 

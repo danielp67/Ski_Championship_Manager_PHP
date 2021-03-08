@@ -6,6 +6,7 @@ use App\Factory\ParticipantFactory;
 use App\Repository\CategoryRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\ProfileRepository;
+use App\Repository\RaceRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,7 +91,7 @@ final class ParticipantController extends AbstractController
 
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://' . $serverHost . '/participant/list');
+        return new RedirectResponse('http://' . $serverHost . '/participant/list/1');
     }
 
     public function participantFormUpdate(Request $request, Response $response): Response
@@ -152,6 +153,19 @@ final class ParticipantController extends AbstractController
 
         $serverHost = $request->server->get('HTTP_HOST');
 
-        return new RedirectResponse('http://' . $serverHost . '/participant/list');
+        return new RedirectResponse('http://' . $serverHost . '/participant/list/1');
+    }
+
+
+    public function participantDelete(Request $request): Response
+    {
+        $participantRepository = new ParticipantRepository($this->pdo);
+
+        $params = explode('/', $request->getPathInfo());
+
+        $deleteParticipant = $participantRepository->delete($params[2]);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/participant/list/1');
     }
 }
