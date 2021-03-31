@@ -2,77 +2,60 @@
 
 namespace App\Controller;
 
-use App\Model\Category;
+use App\Container\FactoryContainer;
+use App\Factory\CategoryFactory;
 use App\Repository\CategoryRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\Response;
 
-final class CategoryController
+final class CategoryController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    public object $loader;
-    public object $twig;
-
-
-    public function __construct()
+    public function categoryPage(Request $request, Response $response): Response
     {
-        $this->loader = new FilesystemLoader('src/View');
-        $this->twig = new Environment($this->loader, []);
-        $this->categoryRepository = new CategoryRepository();
+        $categoryRepository = new CategoryRepository($this->pdo);
+        $allCategory = $categoryRepository->findAll();
+        $content =  $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-
-    public function categoryPage(): void
+    public function categoryAdd(Request $request): Response
     {
-        $allCategory = $this->categoryRepository->findAll();
-        echo $this->twig->render('categoryView.html.twig', ['categories' => $allCategory]);
-    }
-
-    public function categoryAdd(): void
-    {
-        $request = Request::createFromGlobals();
-        $name = $request->get('name');
-        $newCategory = new Category();
-        $newCategory->setName($name);
-        $checkCategory = $this->categoryRepository->findbyName($newCategory);
-        if (empty($checkCategory)) {
-            $addCategory = $this->categoryRepository->add($newCategory);
+        $categoryRepository = new CategoryRepository($this->pdo);
+        $newCategory = CategoryFactory::fromRequestAdd($request);
+        $checkCategory = $categoryRepository->findbyName($newCategory);
+        if (! empty($checkCategory)) {
         }
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+        $addCategory = $categoryRepository->add($newCategory);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 
-    public function categoryCheck(): void
+    public function categoryUpdate(Request $request): Response
     {
-        $request = Request::createFromGlobals();
-        var_dump($request->request);
-        var_dump($request->files);
+        $categoryRepository = new CategoryRepository($this->pdo);
 
-        echo $this->twig->render('categoryView.html.twig');
-    }
-
-    public function categoryUpdate(): void
-    {
-        $request = Request::createFromGlobals();
-        $updateCategory = new Category();
-        $updateCategory->setName($request->get('name'));
-        $updateCategory->setId($request->get('nameId'));
-        $checkCategory = $this->categoryRepository->findbyName($updateCategory);
-        if (empty($checkCategory)) {
-            $addCategory = $this->categoryRepository->update($updateCategory);
+        $updateCategory = CategoryFactory::fromRequestUdpate($request);
+        $checkCategory = $categoryRepository->findbyName($updateCategory);
+        if (! empty($checkCategory)) {
+            throw new Exception('Nom déjà existant');
         }
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+        $addCategory = $categoryRepository->update($updateCategory);
+        $serverHost = $request->server->get('HTTP_HOST');
+        
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 
-    public function categoryDelete(): void
+    public function categoryDelete(Request $request): Response
     {
-        $request = Request::createFromGlobals();
-        $id = (int) $request->get('nameId');
-        $deleteCategory = $this->categoryRepository->delete($id);
-        $response = new RedirectResponse('http://127.1.2.3/category');
-        $response->send();
+        $categoryRepository = new CategoryRepository($this->pdo);
+        $deleteCategory = $categoryRepository->delete($request->get('nameId'));
+        $serverHost = $request->server->get('HTTP_HOST');
+        
+        return new RedirectResponse('http://' . $serverHost . '/category');
     }
 }

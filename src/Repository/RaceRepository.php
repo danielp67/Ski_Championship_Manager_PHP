@@ -2,54 +2,64 @@
 
 namespace App\Repository;
 
-use App\Model\ConnectModel;
-use App\Model\Race;
+use App\Entity\Race;
+use App\Factory\RaceFactory;
+use PDO;
 
-final class RaceRepository implements RaceInterface
+final class RaceRepository extends AbstractRepository implements RaceInterface
 {
-    private object $dataBase;
-
-    public function __construct()
+    public function find(int $id): object
     {
-        $pdo = new ConnectModel();
-        $this->dataBase = $pdo->dbConnect();
-    }
-
-    public function find(int $id): array
-    {
-        $getRace = $this->dataBase->prepare('SELECT *
-        FROM race WHERE id = ?');
+        $getRace = $this->pdo->prepare('SELECT *
+        FROM race WHERE id = ? ');
         $getRace->execute(array($id));
 
-        return $getRace->fetch();
+        return RaceFactory::FromDbCollection($getRace->fetch());
     }
 
     public function findByName(Race $race): array
     {
-        $getRace = $this->dataBase->prepare('SELECT *
-        FROM  race WHERE location = ? AND date = ?');
-        $getRace->execute(array(
+        $getRaces = $this->pdo->prepare('SELECT *
+        FROM  race WHERE location = ? AND date = ? AND id <> ?');
+        $getRaces->execute(array(
             $race->getLocation(),
-            $race->getDate()
+            $race->getDate()->format('Y-m-d'),
+            $race->getId()
         ));
 
-        return $getRace->fetchAll();
+        $dataRaces = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataRaces);
     }
 
     public function findAll(): array
     {
-        $getRaces = $this->dataBase->prepare('SELECT *
-        FROM race');
+        $getRaces = $this->pdo->prepare('SELECT *
+        FROM race ORDER BY date DESC');
         $getRaces->execute();
 
-        return $getRaces->fetchAll();
+        $dataRaces = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataRaces);
+    }
+
+    public function findAllPaginated(int $page): array
+    {
+        $getRaces = $this->pdo->prepare('SELECT *
+        FROM race ORDER BY date DESC LIMIT :limit, :offset');
+        $getRaces->bindValue(':limit', ($page * 10 - 10), PDO::PARAM_INT);
+        $getRaces->bindValue(':offset', ($page * 10), PDO::PARAM_INT);
+        $getRaces->execute();
+        $dataRaces = $getRaces->fetchAll();
+
+        return RaceFactory::arrayFromDbCollection($dataRaces);
     }
 
     public function add(Race $race): bool
     {
-        $addRace = $this->dataBase->prepare('INSERT INTO 
+        $addRace = $this->pdo->prepare('INSERT INTO 
         race (location, date, status) VALUES(?, ?, ?)');
-        
+
         return $addRace->execute(array(
             $race->getLocation(),
             $race->getDate()->format('Y-m-d'),
@@ -59,7 +69,7 @@ final class RaceRepository implements RaceInterface
 
     public function update(Race $race): bool
     {
-        $updateRace = $this->dataBase->prepare('UPDATE race 
+        $updateRace = $this->pdo->prepare('UPDATE race 
         SET location = :location, 
             date = :date, 
             status = :status 
@@ -75,7 +85,7 @@ final class RaceRepository implements RaceInterface
 
     public function delete(int $id): bool
     {
-        $deleteRace = $this->dataBase->prepare('DELETE FROM race WHERE id = :id');
+        $deleteRace = $this->pdo->prepare('DELETE FROM race WHERE id = :id');
 
         return $deleteRace->execute(array('id' => $id));
     }

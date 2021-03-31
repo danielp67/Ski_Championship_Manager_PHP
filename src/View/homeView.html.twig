@@ -1,21 +1,77 @@
-
 {% extends 'template.html.twig' %}
 
 {% block title %}
-Home
+    Home
 {% endblock %}
 
 
 {% block content %}
-<div class="row mx-auto">
+<div class="row mx-auto mt-5">
     <div class="col-6 offset-3">
         <h1>Bienvenue sur le championnat de ski !</h1>
-        
+    </div>
 
+    <div class="row mx-auto mt-5">
+        <div class="col-4 offset-2">
+            <div class="card bg-dark text-white">
+                <img class="card-img fade-img" src="/home/picture/1" alt="Card image">
+                <a class="card-text text-white" href="/race/form">
 
+                    <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                        <h2 class="card-title home-title">Créer une nouvelle épreuve</h2>
+
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col-4 offset-1">
+            <div class="card bg-dark text-white">
+                <img class="card-img fade-img" src="/home/picture/2" alt="Card image">
+                <a class="card-text text-white" href="/race/list/1">
+
+                    <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                        <h2 class="card-title home-title">Liste des épreuves</h2>
+
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+        <div class="row mx-auto mt-5">
+            <div class="col-4 offset-2">
+                <div class="card bg-dark text-white">
+                    <img class="card-img fade-img" src="/home/picture/3" alt="Card image">
+                    <a class="card-text text-white" href="/participant/form">
+
+                        <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                            <h2 class="card-title home-title">Ajouter des participants</h2>
+
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="col-4 offset-1">
+                <div class="card bg-dark text-white">
+                    <img class="card-img fade-img" src="/home/picture/4" alt="Card image">
+                    <a class="card-text text-white" href="/participant/list/1">
+
+                        <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                            <h2 class="card-title home-title">Liste des participants</h2>
+
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
 
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
 
 

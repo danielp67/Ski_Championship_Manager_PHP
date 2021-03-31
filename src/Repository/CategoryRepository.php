@@ -2,57 +2,50 @@
 
 namespace App\Repository;
 
-use App\Model\Category;
-use App\Model\ConnectModel;
+use App\Entity\Category;
+use App\Factory\CategoryFactory;
+use App\Repository\CategoryInterface;
 
-final class CategoryRepository implements CategoryInterface
+final class CategoryRepository extends AbstractRepository implements CategoryInterface
 {
-    private object $dataBase;
-
-    public function __construct()
+    public function find(int $id): object
     {
-        $pdo = new ConnectModel();
-        $this->dataBase = $pdo->dbConnect();
-    }
-
-    public function find(int $id): array
-    {
-        $getCategory = $this->dataBase->prepare('SELECT *
+        $getCategory = $this->pdo->prepare('SELECT *
         FROM category WHERE id = ?');
         $getCategory->execute(array($id));
 
-        return $getCategory->fetchAll();
+        return CategoryFactory::FromDbCollection($getCategory->fetch());
     }
 
     public function findbyName(Category $category): array
     {
-        $getCategory = $this->dataBase->prepare('SELECT *
+        $getAllCategories = $this->pdo->prepare('SELECT *
         FROM category WHERE name = ?');
-        $getCategory->execute(array($category->getName()));
-
-        return $getCategory->fetch();
+        $getAllCategories->execute(array($category->getName()));
+        $dataCategories = $getAllCategories->fetchAll();
+        return CategoryFactory::arrayFromDbCollection($dataCategories);
     }
 
     public function findAll(): array
     {
-        $getAllCategories = $this->dataBase->prepare('SELECT *
+        $getAllCategories = $this->pdo->prepare('SELECT *
         FROM category');
         $getAllCategories->execute();
-
-        return $getAllCategories->fetchAll();
+        $dataCategories = $getAllCategories->fetchAll();
+        return CategoryFactory::arrayFromDbCollection($dataCategories);
     }
 
     public function add(Category $category): bool
     {
-        $addCategory = $this->dataBase->prepare('INSERT INTO 
+        $addCategory = $this->pdo->prepare('INSERT INTO 
         category (name) VALUES(?)');
-        
+
         return $addCategory->execute(array($category->getName()));
     }
 
     public function update(Category $category): bool
     {
-        $updateCategory = $this->dataBase->prepare('UPDATE category SET name = :name WHERE id = :id');
+        $updateCategory = $this->pdo->prepare('UPDATE category SET name = :name WHERE id = :id');
 
         return $updateCategory->execute(array(
             'name' => $category->getName(),
@@ -62,7 +55,7 @@ final class CategoryRepository implements CategoryInterface
 
     public function delete(int $id): bool
     {
-        $deleteCategory = $this->dataBase->prepare('DELETE FROM category WHERE id = :id');
+        $deleteCategory = $this->pdo->prepare('DELETE FROM category WHERE id = :id');
 
         return $deleteCategory->execute(array('id' => $id));
     }

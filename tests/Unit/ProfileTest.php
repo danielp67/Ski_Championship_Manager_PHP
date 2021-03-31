@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Profile;
+use App\Entity\Profile;
 
 beforeEach(function (){
        $this->profile = new Profile();
@@ -23,7 +23,7 @@ it('should getId', function(){
 });
 
 it('should getName', function(){
-    $this->profile->setName('ASVP');
+    $this->profile->setName('Gardes-champêtres');
     $this->expect($this->profile->getName())->toBeString();
 });
 

@@ -1,0 +1,121 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+Liste des Participants
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-8 offset-2">
+        <h1>Liste des Participants Existants</h1>
+        
+        <div class="row my-3">
+
+        <a href="/participant/form" class="col-6">Ajouter un participant</a>
+
+          <form class="form-inline col-6">
+            <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un participant" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+          </form>
+          </div>
+       
+
+        <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Date de Naissance</th>
+                    <th scope="col">Mail</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Profil</th>
+                    <th scope="col" colspan="2">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for participant in participants %}
+                    <tr>
+                    <th scope="row">{{ participant.participant.id }}</th>
+                    <td><img class="imgParticipant" src="/participant/img/{{ participant.participant.id }}" alt=""></td>
+                    <td>{{ participant.participant.lastName }}</td>
+                    <td>{{ participant.participant.firstName }}</td>
+                    <td>{{ participant.participant.birthDate|date("d/m/Y")}}</td>
+                    <td>{{ participant.participant.mail }}</td>
+                    <td>{{ participant.category.name }}</td>
+                    <td>{{ participant.profile.name }}</td>
+                    <td><a href="/participant/{{ participant.participant.id }}/formUpdate" class="btn btn-primary">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </a>
+                    </td>
+                    <td ><a href="/participant/{{ participant.participant.id }}/delete" class="btn btn-danger" data-toggle="modal"
+                            data-target="#modalDelete" >
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                    </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+        </table>
+                 <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="/participant/list/1">1</a></li>
+    <li class="page-item"><a class="page-link" href="/participant/list/2">2</a></li>
+    <li class="page-item"><a class="page-link" href="/participant/list/3">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>   
+
+    </div>
+</div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmer la suppression ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form method="post" action="/participant/1/delete" dialog>
+                    <label for="nameId" class="text-left col-10"></label>
+                    <input class="form-control col-10 inactive" type="number" name="nameId"
+                           id="nameIdmod" value="" />
+                    <div class="modal-body">
+                        Etes vous sûr de vouloir supprimer le participant ?
+                        Cela affectera les épreuves dans lesquelles le participant est enregistré !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <input type="submit" class="btn btn-primary" value="Confirmer"/>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

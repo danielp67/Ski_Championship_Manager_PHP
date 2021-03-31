@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
        
         <title>{% block title %}{% endblock %}</title>
+       <!--<base href="C:\wamp64\www\tp15_championnat_ski">--> 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -11,24 +12,34 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" ></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link href="assets/css/style.css" rel="stylesheet" /> 
-        <script defer src="assets\js\index.js" ></script>
+        <link href="/assets/css/style.css" rel="stylesheet" /> 
+        <script defer src="/assets/js/index.js" ></script>
+        <script src="https://use.fontawesome.com/6a6ac5c924.js"></script>
     </head>
 
     <!--Barre de navigation fixe en haut-->
         <header >
-
-            <nav>    
-                    <ul id="nav_menu">
-                        <li><a href="/home">Accueil</a></li>
-                        <li><a href="/race">Epreuves</a></li>
-                        <li><a href="/participant">Participants</a></li>
-                        <li><a href="/profile">Profils</a></li>
-                        <li><a href="/category">Catégories</a></li>
-                    </ul>   
-            </nav>
-
+                    <img id="logo" src="/home/logo" alt="">
+                        <ul id="nav_logitud" class="">
+                            <li><a href="">Web Studio</a></li>
+                            <li><a href="">Vos besoins</a></li>
+                            <li><a href="">Nos solutions</a></li>
+                            <li><a href="">Actualités</a></li>
+                            <li><a href="">On recrute !</a></li>
+                            <li class="btn logitudColor contactUs"><a href="" class="text-white">Nous contacter !</a></li>
+                        </ul>  
         </header>
+
+
+            <div id="nav_menu">    
+                    <ul id="menu">
+                        <li class="card mt-1"><a href="/home">Accueil</a></li>
+                        <li class="card mt-1"><a href="/race/list/1">Epreuves</a></li>
+                        <li class="card mt-1"><a href="/participant/list/1">Participants</a></li>
+                        <li class="card mt-1"><a href="/profile">Profils</a></li>
+                        <li class="card mt-1"><a href="/category">Catégories</a></li>
+                    </ul>   
+            </div>
 
       
     <body>

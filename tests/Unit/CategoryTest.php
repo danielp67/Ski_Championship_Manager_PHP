@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Category;
+use App\Entity\Category;
 
 beforeEach(function (){
        $this->category = new Category();

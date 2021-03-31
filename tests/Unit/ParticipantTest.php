@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Participant;
+use App\Entity\Participant;
 
 beforeEach(function (){
        $this->participant = new Participant();
@@ -47,8 +47,8 @@ it('should getImgLink', function(){
 });
 
 it('should getBirthDate', function(){
-    $birthDate = '01/01/2000';
-    $date = DateTime::createFromFormat('d/m/Y', $birthDate);
+    $birthDate = '2000-01-01';
+    $date = DateTime::createFromFormat('Y-m-d', $birthDate);
     $this->participant->setBirthDate($birthDate);
     $this->expect($this->participant->getBirthDate())->toEqual($date);
 });
@@ -109,21 +109,21 @@ it('has setMail throw exception', function($mail){
 
 
 it('has setBirthDate between 3years to 100years', function($birthDate){
-    $date = DateTime::createFromFormat('d/m/Y', $birthDate);
+    $date = DateTime::createFromFormat('Y-m-d', $birthDate);
     $result = $this->participant->setBirthDate($birthDate);
     $this->expect($result->getBirthDate())->toEqual($date);
 })->with([
-    '01/01/2017',
-    '31/12/1950'
+    '2017-01-01',
+    '1950-12-31'
 ]);
 
 it('has setBirthDate throw exception', function($birthDate){
     $this->participant->setBirthDate($birthDate);
 })->with([
-    '01/01/10002',
-    '01/01/2020',
-    '01/01/1920',
-    '31/32/2500'
+    '10002-01-01',
+    '2020-01-01',
+    '1920-01-01',
+    '2500-31-31'
 ])->throws(Exception::class);
 
 

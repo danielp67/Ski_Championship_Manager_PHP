@@ -8,46 +8,93 @@ Liste des épreuves
 
 {% block content %}
 <div class="row mx-auto">
-    <div class="col-10 offset-1">
-        <h1>Epreuves</h1>
+    <div class="col-8 offset-2">
+        <h1>Liste des Epreuves</h1>
 
-        {% for race in races %}
-                    <div class="card">
-                        <div class="card-header">
-                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date }}
-                        </div>
-                        <div class="card-body">
-                     
-                        {% if  race.status == 0 %}
-                        <div class="btn btn-secondary">Non démarré</div>
+        <div class="row my-3">
+
+        <a href="/race/form" class="col-6">Créer une Epreuve</a>
+
+          <form class="form-inline col-6">
+            <input class="form-control mr-sm-2" type="search" placeholder="Rechercher une épreuve" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          </div>
+        
+        <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Lieu</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Gérer</th>
+                    <th scope="col">Résultats</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for race in races %}
+                    <tr>
+                    <th scope="row">{{ race.id }}</th>
+                    <td>{{ race.location }}</td>
+                    <td>{{ race.date|date("d/m/Y")}}</td>
+                    <td>{% if  race.status == 0 %}
+                        <div class="btn btn-outline-secondary">Non démarré</div>
                          {% elseif  race.status == 1 %}
-                        <div class="btn btn-primary">En cours</div>
+                        <div class="btn btn-outline-primary">En cours</div>
                         {% elseif  race.status == 2 %}
-                        <div class="btn btn-success">Terminé</div>
+                        <div class="btn btn-outline-success">Terminé</div>
                         {% else %}
-                        <div class="btn btn-danger">Annulé</div>
-                        {% endif %}
+                        <div class="btn btn-outline-danger">Annulé</div>
+                        {% endif %}</td>
+                            {% if  race.status == 2 %}
+                    <td><button class="btn btn-primary" disabled>
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                    <td ><a href="/result/{{ race.id }}" class="btn btn-success"  id="buttonResult{{ race.id }}">
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                            {% else %}
+                    <td><a href="/race/{{ race.id }}/detail" class="btn btn-primary"  id="buttonManage{{ race.id }}">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    <td ><button  class="btn btn-success"  disabled>
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+                        </button>
+                    </td>
 
-                        </div>
-                        <div class="card-footer">
-                        {% if  race.status == 2 %}
-                       <button  class="btn btn-primary"  disabled >
-                        Gérer l'épreuve
-                        </button>
-                        <a  href="/race/detail/{{ race.id }}/result" class="btn btn-success"  id="buttonResult{{ race.id }}" >
-                        Voir les résultats
-                        </a>
-                        {% else %}
-                        <a href="/race/detail/{{ race.id }}" class="btn btn-primary"  id="buttonManage{{ race.id }}" >
-                        Gérer l'épreuve
-                        </a>
-                        <button type="button" class="btn btn-success"  disabled >
-                        Voir les résultats
-                        </button>
-                        {% endif %}
-                        </div>
-                     </div>
-        {% endfor %}
+
+                            {% endif %}
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+        </table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="/race/list/1">1</a></li>
+    <li class="page-item"><a class="page-link" href="/race/list/2">2</a></li>
+    <li class="page-item"><a class="page-link" href="/race/list/3">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>   
+
 
     </div>
 </div>

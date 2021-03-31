@@ -2,115 +2,131 @@
 
 namespace App\Controller;
 
-use App\Model\Race;
+use App\Factory\RaceFactory;
 use App\Repository\RaceRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\Response;
 
 final class RaceController extends AbstractController
 {
-    private RaceRepository $raceRepository;
-    public object $loader;
-    public object $twig;
- 
-    public function __construct()
+    public function raceList(Request $request, Response $response): Response
     {
-        $this->loader = new FilesystemLoader('src/View');
-        $this->twig = new Environment($this->loader, []);
-        $this->raceRepository = new RaceRepository();
-    }
- 
-    public function racePage(): void
-    {
-        echo $this->twig->render('raceView.html.twig');
+        $raceRepository = new RaceRepository($this->pdo);
+        $params = explode('/', $request->getPathInfo());
+        $allRaces = $raceRepository->findAllPaginated($params[3]);
+        $content = $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceForm(): void
+    public function raceForm(Request $request, Response $response): Response
     {
-        echo $this->twig->render('raceAdd.html.twig');
+        $content = $this->twig->render('raceForm.html.twig', ['race' => null]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceAdd(): void
+    public function raceAdd(Request $request): Response
     {
-        $request = Request::createFromGlobals();
-        $newRace = new Race();
-        $newRace->setLocation($request->get('location'));
-        $newRace->setDate($request->get('date'));
-        $newRace->setStatus(0);
-        var_dump($newRace);
-       // $checkCategory = $this->categoryRepository->findbyName($newCategory);
-       // if(empty($checkCategory)){
-        $addRace = $this->raceRepository->add($newRace);
-       // }
-       // $response = new RedirectResponse('http://127.1.2.3/race');
-       // $response->send();
+        $raceRepository = new RaceRepository($this->pdo);
+
+        $newRace = RaceFactory::fromRequestAdd($request);
+        $checkRace = $raceRepository->findbyName($newRace);
+        if (! empty($checkRace)) {
+            throw new Exception('Epreuve déjà éxistante');
+        }
+        $addRace = $raceRepository->add($newRace);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/race/list/1');
     }
 
-    public function raceCheck(): void
+    public function raceFormUpdate(Request $request, Response $response): Response
     {
-        $request = Request::createFromGlobals();
-        var_dump($request->request);
-        $race = new Race();
+        $raceRepository = new RaceRepository($this->pdo);
+        $params = explode('/', $request->getPathInfo());
+        $race = $raceRepository->find($params[2]);
+        $content = $this->twig->render('raceForm.html.twig', ['race' => $race]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceList(): void
+    public function raceUpdate(Request $request): Response
     {
-        $allRaces = $this->raceRepository->findAll();
-        echo $this->twig->render('raceList.html.twig', ['races' => $allRaces]);
+        $params = explode('/', $request->getPathInfo());
+
+        $raceRepository = new RaceRepository($this->pdo);
+        $race = $raceRepository->find($params[2]);
+        $request->request->add(['status' => $race->getStatus()]);
+        $request->request->add(['id' => $params[2]]);
+
+        $newRace = RaceFactory::fromRequestUdpate($request);
+
+        $checkRace = $raceRepository->findbyName($newRace);
+
+        if (! empty($checkRace)) {
+            throw new Exception('Epreuve déjà éxistante');
+        }
+        $updateRace = $raceRepository->update($newRace);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/race/list/1');
     }
 
-    public function raceDetail(): void
+    public function raceDelete(Request $request): Response
     {
-        $params = explode('/', $_GET['url']);
-        $race = $this->raceRepository->find($params[2]);
-        var_dump($race);
-        echo $this->twig->render('raceDetail.html.twig', ['race' => $race]);
+        $raceRepository = new RaceRepository($this->pdo);
+
+        $params = explode('/', $request->getPathInfo());
+        $deleteRace = $raceRepository->delete($params[2]);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/race/list/1');
     }
 
-    public function raceStart(): void
+    public function raceDetail(Request $request, Response $response): Response
     {
-        $params = explode('/', $_GET['url']);
-        $race = $this->raceRepository->find($params[2]);
-        $newRace = new Race();
-        $newRace->setId($race['id']);
-        $newRace->setLocation($race['location']);
-        $newRace->setDate($race['date']);
-        $newRace->setStatus(1);
-        $race = $this->raceRepository->update($newRace);
+        $raceRepository = new RaceRepository($this->pdo);
 
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
-        $response->send();
+        $params = explode('/', $request->getPathInfo());
+        $race = $raceRepository->find($params[2]);
+
+        $content = $this->twig->render('raceDetail.html.twig', ['race' => $race]);
+        $response->setContent($content);
+
+        return $response;
     }
 
-    public function raceFinish(): void
+    public function raceStart(Request $request): Response
     {
-        $params = explode('/', $_GET['url']);
-        $race = $this->raceRepository->find($params[2]);
-        $newRace = new Race();
-        $newRace->setId($race['id']);
-        $newRace->setLocation($race['location']);
-        $newRace->setDate($race['date']);
-        $newRace->setStatus(2);
-        $race = $this->raceRepository->update($newRace);
-        
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
-        $response->send();
+        return $this->raceStatus($request, 1);
     }
 
-    public function raceCancel(): void
+    public function raceFinish(Request $request): Response
     {
-        $params = explode('/', $_GET['url']);
-        $race = $this->raceRepository->find($params[2]);
-        $newRace = new Race();
-        $newRace->setId($race['id']);
-        $newRace->setLocation($race['location']);
-        $newRace->setDate($race['date']);
-        $newRace->setStatus(3);
-        $race = $this->raceRepository->update($newRace);
-        
-        $response = new RedirectResponse('http://127.1.2.3/race/detail/' . $params[2]);
-        $response->send();
+        return $this->raceStatus($request, 2);
+    }
+
+    public function raceCancel(Request $request): Response
+    {
+        return $this->raceStatus($request, 3);
+    }
+
+    private function raceStatus(Request $request, $status): Response
+    {
+        $raceRepository = new RaceRepository($this->pdo);
+
+        $params = explode('/', $request->getPathInfo());
+        $race = $raceRepository->find($params[2]);
+        $race->setStatus($status);
+        $updateRace = $raceRepository->update($race);
+        $serverHost = $request->server->get('HTTP_HOST');
+
+        return new RedirectResponse('http://' . $serverHost . '/race/' . $params[2] . '/detail');
     }
 }

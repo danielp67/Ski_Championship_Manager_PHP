@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Result;
+use App\Entity\Result;
 
 beforeEach(function (){
        $this->result = new Result();
@@ -76,6 +76,6 @@ it('has setAverageTime', function($averageTime){
 it('has setAverageTime throw exception', function($averageTime){
     $this->result->setAverageTime($averageTime);
 })->with([
-    '1:01:0000',
+    '1:01:0000000',
     '99:60:99'
 ])->throws(Exception::class);

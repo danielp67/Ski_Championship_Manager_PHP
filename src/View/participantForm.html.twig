@@ -1,0 +1,111 @@
+
+{% extends 'template.html.twig' %}
+
+{% block title %}
+{% if participant %}
+Modifier Participant
+{% else %}
+Nouveau Participant
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-6 offset-3">
+        <form method="post" {% if participant %}
+            action="/participant/{{participant.participant.id}}/update"
+            {% else %}
+            action="/participant/add"            
+            {% endif %} enctype="multipart/form-data" class="card">
+            <legend class="card-header text-secondary">
+            {% if participant %}
+            Modifier Participant :
+            {% else %}
+            Créer un nouveau participant :            
+            {% endif %}
+            </legend>
+             <div class="form-inline mt-2">
+                <label for="lastName" class="col-5 offset-1 text-right ">
+                    Nom : </label>
+                <input class="form-control col-5" type="text" name="lastName"
+                id="lastName" value="{{participant.participant.lastName}}" required minlength="2">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="firstName" class="col-5 offset-1 text-right ">
+                    Prénom : </label>
+                <input class="form-control col-5" type="text" name="firstName"
+                id="firstName"  value="{{participant.participant.firstName}}" required minlength="2">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="birthDate" class="col-5 offset-1 text-right ">
+                    Date de naissance : </label>
+                <input class="form-control col-5" type="date" name="birthDate"
+                id="birthDate" value='{{participant.participant.birthDate|date("Y-m-d") }}' placeholder="10/10/2020">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="mail" class="col-5 offset-1 text-right ">
+                    E-mail : </label>
+                <input class="form-control col-5" type="email" name="mail"
+                id="mail" value="{{participant.participant.mail}}" placeholder="nom@exemple.com">
+            </div>
+            <div class="form-inline mt-2">
+                <label for="img" class="col-5 offset-1 text-right ">
+                    Sélectionner une photo : </label>
+                <input class="form-control col-5" type="file" name="img"
+                id="img" >
+                <input class="form-control col-5" type="text" name="imgLink"
+                id="img" value="{{participant.participant.imgLink}}" hidden >
+            </div>
+            <div class="form-inline mt-2">
+                <label for="categoryId" class="col-5 offset-1 text-right ">
+                    Catégorie : </label>
+
+                     <select class="form-control" name="categoryId" id="categoryId" value="2" >
+                    {% for category in categories %}
+                        <option value="{{ category.id }}"
+                        {% if participant.participant.categoryId == category.id %}
+                        selected
+                        {% endif %}>
+                        {{ category.id }} - {{ category.name }}
+                        </option>
+                    {% endfor %}
+                    </select>
+
+            </div>
+            <div class="form-inline mt-2">
+                <label for="profileId" class="col-5 offset-1 text-right ">
+                    Profil : </label>
+                     <select class="form-control" name="profileId" id="profileId" value="2">
+                    {% for profile in profiles %}
+                            <option value="{{ profile.id }}"
+                            {% if participant.participant.profileId == profile.id %}
+                            selected
+                            {% endif %}>
+                            {{ profile.id }} - {{ profile.name }}
+                            </option>
+                    {% endfor %}
+                    </select>
+            </div>
+
+    
+            <div class="form-group mt-3">
+                {% if participant %}
+                    <input type="submit" class="btn btn-success"
+                           value="Modifier" />
+                {% else %}
+                    <input type="submit" class="btn btn-success"
+                           value="Créer" />
+                {% endif %}
+
+            </div>
+            <div class="card-footer">
+                <a href="/participant/list/1">Retour</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+
+
