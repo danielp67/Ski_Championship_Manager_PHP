@@ -32,7 +32,7 @@ abstract class ParticipantFactory
         return $participant;
     }
 
-    public static function fromRequestUpdate(object $request): object
+    public static function fromRequestUpdate(object $request): Participant
     {
         $participant = new Participant();
         $participant->buildFromRequestUpdate($request);

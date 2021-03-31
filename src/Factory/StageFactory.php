@@ -6,7 +6,7 @@ use App\Entity\Stage;
 
 abstract class StageFactory
 {
-    public static function fromDbCollection(array $dataStage): object
+    public static function fromDbCollection(array $dataStage): Stage
     {
         $stage = new Stage();
         $stage->buildFromDb($dataStage);

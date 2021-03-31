@@ -1,130 +1,132 @@
-
 {% extends 'template.html.twig' %}
 
 {% block title %}
-Home
+    Home
 {% endblock %}
 
 
 {% block content %}
-<div class="row mx-auto">
-    <div class="col-9 offset-2">
-        <h1>Résultats</h1>
+    <div class="row mx-auto">
+        <div class="col-9 offset-2">
+            <h1>Résultats</h1>
 
-          <div class="card result">
-                        <div class="card-header">
-                        Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
-                        - {% if  race.status == 0 %}
+            <div class="card result">
+                <div class="card-header">
+                    Epreuve : {{ race.id }} - Lieu : {{ race.location }} - Date : {{ race.date|date("d/m/Y") }}
+                    - {% if  race.status == 0 %}
                         <div class="btn btn-secondary">Non démarré</div>
-                         {% elseif  race.status == 1 %}
+                    {% elseif  race.status == 1 %}
                         <div class="btn btn-primary">En cours</div>
-                        {% elseif  race.status == 2 %}
+                    {% elseif  race.status == 2 %}
                         <div class="btn btn-success">Terminé</div>
-                        {% else %}
+                    {% else %}
                         <div class="btn btn-danger">Annulé</div>
-                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <form method="post" action="/profile/delete">
+                                <div class="form-inline mt-2">
+                                    <label for="nameId" class="col-1 offset-1 text-right "></label>
+                                    <select class="form-control" name="nameId" id="resultList"
+                                            size="{{ categories|length + 2 }}">
+                                        <option value="0">0 - Général</option>
+                                        <optgroup label="Catégories">
+                                            {% for category in categories %}
+                                                <option value="{{ category.id }}">{{ category.id }}
+                                                    - {{ category.name }}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <input type="submit" class="btn btn-danger inactive"
+                                           value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled/>
+                                </div>
+                            </form>
                         </div>
-                        <div class="card-body">
-    <div class="row">
-    <div class="col-3">
-        <form method="post" action="/profile/delete">
-            <div class="form-inline mt-2">
-                <label for="nameId" class="col-1 offset-1 text-right "></label>
-                     <select class="form-control" name="nameId" id="resultList"
-                     size = "{{ categories|length + 2}}">
-                        <option value="0">0 - Général</option>
-                    <optgroup label="Catégories">
-                     {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.id }} - {{ category.name }}</option>
-                    {% endfor %}
-                    </optgroup>
-                    </select>
+                        <div class="col-9">
 
-            </div>
+                            <div id="resultList0" class="rankingList">
+                                <h3>Classement Général</h3>
 
-            <div class="form-group mt-3">
-                <input type="submit" class="btn btn-danger inactive"
-                value="Supprimer" data-toggle="modal" data-target="#modalDelete" disabled />
-            </div>
-        </form>
-    </div>
-<div class="col-9">
+                                <table class="table">
+                                    <thead class="">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Photo</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Catégorie</th>
+                                        <th scope="col">Profil</th>
+                                        <th scope="col">Temps</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="scrollbar" id="style-4">
+                                    {% for result in results %}
+                                        <tr>
+                                            <th scope="row">{{ loop.index }}</th>
+                                            <td><img class="imgParticipant"
+                                                     src="/participant/img/{{ result.participant.id }}" alt=""></td>
+                                            <td>{{ result.participant.lastName }}</td>
+                                            <td>{{ result.participant.firstName }}</td>
+                                            <td>{{ result.category.name }}</td>
+                                            <td>{{ result.profile.name }}</td>
+                                            <td>{{ result.result.averageTime|date("i:s.u")|trim('00') }}</td>
+                                        </tr>
+                                    {% endfor %}
 
-    <div id="resultList0" class="rankingList" >
-        <h3>Classement Général</h3>
-        
-        <table class="table">
-                <thead class="">
-                    <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Photo</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Catégorie</th>
-                    <th scope="col">Profil</th>
-                    <th scope="col">Temps</th>
-                    </tr>
-                </thead>
-                <tbody class="scrollbar" id="style-4">
-                     {% for result in results %}
-                    <tr>
-                    <th scope="row">{{loop.index }}</th>
-                    <td><img class="imgParticipant" src="/participant/img/{{ result.participant.id }}" alt=""></td>
-                    <td>{{ result.participant.lastName }}</td>
-                    <td>{{ result.participant.firstName }}</td>
-                    <td>{{ result.category.name }}</td>
-                    <td>{{ result.profile.name }}</td>
-                    <td>{{ result.result.averageTime|date("i:s.u") }}</td>
-                    </tr>
-                    {% endfor %}
+                                    </tbody>
+                                </table>
 
-                </tbody>
-        </table>
-                              
-    </div>
+                            </div>
 
-    {% for categoryResult in categoryResults %}
-        <div id="resultList{{categories[loop.index0].id }}" class="rankingList" >
-            <h3>Catégorie : {{ categories[loop.index0].name }}</h3>
-        
-        {% for result in categoryResult %}
-            
-            <div class="card rank rank{{ loop.index }}" id="">
-                <img class="card-img-top" src="/participant/img/{{ result.participant.id }}" alt="">
-                {{ result.participant.lastName }} {{ result.participant.firstName }}<br>
-                Temps Total : {{ result.result.averageTime|date("i:s.u") }}<br>
-                Catégorie : {{ result.category.name }}<br>
-                Profil : {{ result.profile.name }}<br>
-            </div>
-          
-        {% endfor %}
-         <img class="podium" src="/result/podium" alt="">
-        </div>
+                            {% for categoryResult in categoryResults %}
+                                <div id="resultList{{ categories[loop.index0].id }}" class="rankingList">
+                                    <h3>Catégorie : {{ categories[loop.index0].name }}</h3>
 
-    {% endfor %}
+                                    {% for result in categoryResult %}
 
- </div>
- </div>
+                                        <div class="card rank rank{{ loop.index }}" id="">
+                                            <img class="card-img-top" src="/participant/img/{{ result.participant.id }}"
+                                                 alt="">
+                                            {{ result.participant.lastName }} {{ result.participant.firstName }}<br>
+                                            Temps Total : {{ result.result.averageTime|date("i:s.u") }}<br>
+                                            Catégorie : {{ result.category.name }}<br>
+                                            Profil : {{ result.profile.name }}<br>
+                                        </div>
+
+                                    {% endfor %}
+                                    <img class="podium" src="/result/podium" alt="">
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
                     </div>
-                        <div class="card-footer">
-                        <a href="/result/{{ race.id }}/toPdf"  class="btn btn-success"  id="buttonResult{{ race.id }}" >
+                </div>
+                <div class="card-footer">
+                    <a href="/result/{{ race.id }}/toPdf" class="btn btn-success" id="buttonResult{{ race.id }}">
                         Exporter les résultats
-                        </a>
-                        {% if  race.status == 2 %}
+                    </a>
+                    {% if  race.status == 2 %}
                         <a href="/race/list/1" class="btn btn-primary">
-                        Retour
+                            Retour
                         </a>
-                        {% else %}
+                    {% else %}
                         <a href="/race/{{ race.id }}/detail" class="btn btn-primary">
-                        Retour
+                            Retour
                         </a>
-                        {% endif %}
-                        </div>
-                     </div>
+                    {% endif %}
+                </div>
+            </div>
 
- 
+
+        </div>
     </div>
-</div>
 {% endblock %}
 
 

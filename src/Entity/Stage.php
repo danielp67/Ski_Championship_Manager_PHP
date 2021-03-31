@@ -88,7 +88,7 @@ final class Stage
 
     /**
      * Set the value of time
-     * @param int $time
+     * @param string $timeStage
      * @throws Exception
      * @return  self
      */
@@ -123,6 +123,8 @@ final class Stage
         $this->id = $dataStage['id'];
         $this->resultId = $dataStage['result_id'];
         $this->stageNb = $dataStage['stage_nb'];
+
+       // var_dump(DateTime::createFromFormat('i:s.u', $dataStage['time']), $dataStage['time']);die();
         $this->time = is_null($dataStage['time']) ? null : DateTime::createFromFormat('i:s.u', $dataStage['time']);
 
         return $this;

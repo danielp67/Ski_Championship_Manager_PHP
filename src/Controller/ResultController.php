@@ -210,9 +210,10 @@ final class ResultController extends AbstractController
         $stageRepository = new StageRepository($this->pdo);
         foreach ($stages as $stage) {
             $insertedStage = $this->insertResultIntoStageTable($stage, $stageRepository);
+
         }
         if ($insertedStage) {
-            $insertedResult = $this->insertResultIntoResultTable($params[2]);
+            $this->insertResultIntoResultTable($params[2]);
         }
         $serverHost = $request->server->get('HTTP_HOST');
 
@@ -221,13 +222,16 @@ final class ResultController extends AbstractController
 
     public function insertResultIntoStageTable($stage, $stageRepository)
     {
+
         $checkStage = $stageRepository->findByResultIdAndStageNb($stage);
+
         if (! empty($checkStage)) {
             $updateStage = $stageRepository->updateTime($stage);
             if (! $updateStage) {
                 throw new Exception('Import incorrect');
             }
         } else {
+
             $addStage = $stageRepository->add($stage);
             if (! $addStage) {
                 throw new Exception('Import incorrect');

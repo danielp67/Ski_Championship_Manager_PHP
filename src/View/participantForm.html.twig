@@ -90,8 +90,14 @@ Nouveau Participant
 
     
             <div class="form-group mt-3">
-                <input type="submit" class="btn btn-success"
-                value="Créer" />
+                {% if participant %}
+                    <input type="submit" class="btn btn-success"
+                           value="Modifier" />
+                {% else %}
+                    <input type="submit" class="btn btn-success"
+                           value="Créer" />
+                {% endif %}
+
             </div>
             <div class="card-footer">
                 <a href="/participant/list/1">Retour</a>

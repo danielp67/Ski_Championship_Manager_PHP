@@ -6,7 +6,7 @@ use App\Entity\Result;
 
 abstract class ResultFactory
 {
-    public static function fromDbCollection(array $dataResult): object
+    public static function fromDbCollection(array $dataResult): Result
     {
         $result = new Result();
         $result->buildFromDb($dataResult);
@@ -33,7 +33,7 @@ abstract class ResultFactory
         return array_map('self::fromDbCollectionParticipant', $dataResults);
     }
 
-    public static function fromRequestAdd(array $dataResult): object
+    public static function fromRequestAdd(array $dataResult): Result
     {
         $result = new Result();
         $result->buildFromRequestAdd($dataResult);
@@ -46,7 +46,7 @@ abstract class ResultFactory
         return array_map('self::fromRequestAdd', $dataResults);
     }
 
-    public static function fromRequestUdpate(array $dataResults): object
+    public static function fromRequestUdpate(array $dataResults): Result
     {
         $result = new Result();
         $result->buildFromRequestUpdate($dataResults);

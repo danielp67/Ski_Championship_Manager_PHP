@@ -6,7 +6,7 @@ use App\Entity\Profile;
 
 abstract class ProfileFactory
 {
-    public static function fromDbCollection(array $dataProfile): object
+    public static function fromDbCollection(array $dataProfile): Profile
     {
         $profile = new Profile();
         $profile->buildFromDb($dataProfile);
@@ -19,7 +19,7 @@ abstract class ProfileFactory
         return array_map('self::fromDbCollection', $dataProfiles);
     }
 
-    public static function fromDbCollectionParticipant(array $dataParticipant): object
+    public static function fromDbCollectionParticipant(array $dataParticipant): Profile
     {
         $profile = new Profile();
         $profile->buildFromDbParticipant($dataParticipant);
@@ -27,7 +27,7 @@ abstract class ProfileFactory
         return $profile;
     }
 
-    public static function fromRequestAdd(object $request): object
+    public static function fromRequestAdd(object $request): Profile
     {
         $profile = new Profile();
         $profile->buildFromRequestAdd($request);

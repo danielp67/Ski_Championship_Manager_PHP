@@ -52,6 +52,7 @@ final class StageRepository extends AbstractRepository implements StageInterface
 
     public function findByResultIdAndStageNb(Stage $stage): array
     {
+        var_dump($stage);
         $getStages = $this->pdo->prepare('SELECT *
         FROM  stage WHERE result_id = ? AND stage_nb = ?');
         $getStages->execute(
@@ -98,6 +99,7 @@ final class StageRepository extends AbstractRepository implements StageInterface
             stage_nb = :stage_nb, 
             time = :time 
         WHERE id = :id');
+
 
         return $updateStage->execute(
             [

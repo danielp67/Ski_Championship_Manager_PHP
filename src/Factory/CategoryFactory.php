@@ -6,7 +6,7 @@ use App\Entity\Category;
 
 abstract class CategoryFactory
 {
-    public static function fromDbCollection(array $dataCategory): object
+    public static function fromDbCollection(array $dataCategory): Category
     {
         $category = new Category();
         $category->buildFromDb($dataCategory);
@@ -19,7 +19,7 @@ abstract class CategoryFactory
         return array_map('self::fromDbCollection', $dataCategories);
     }
 
-    public static function fromDbCollectionParticipant(array $dataParticipant): object
+    public static function fromDbCollectionParticipant(array $dataParticipant): Category
     {
         $category = new Category();
         $category->buildFromDbParticipant($dataParticipant);
@@ -27,7 +27,7 @@ abstract class CategoryFactory
         return $category;
     }
 
-    public static function fromRequestAdd(object $request): object
+    public static function fromRequestAdd(object $request): Category
     {
         $category = new Category();
         $category->buildFromRequestAdd($request);
@@ -35,7 +35,7 @@ abstract class CategoryFactory
         return $category;
     }
 
-    public static function fromRequestUdpate(object $request): object
+    public static function fromRequestUdpate(object $request): Category
     {
         $category = new Category();
         $category->buildFromRequestUpdate($request);

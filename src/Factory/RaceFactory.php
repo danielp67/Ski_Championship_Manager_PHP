@@ -6,7 +6,7 @@ use App\Entity\Race;
 
 abstract class RaceFactory
 {
-    public static function fromDbCollection(array $dataRace): object
+    public static function fromDbCollection(array $dataRace): Race
     {
         $race = new Race();
         $race->buildFromDb($dataRace);
@@ -18,7 +18,7 @@ abstract class RaceFactory
         return array_map('self::fromDbCollection', $dataRaces);
     }
 
-    public static function fromRequestAdd(object $request): object
+    public static function fromRequestAdd(object $request): Race
     {
         $race = new Race();
         $race->buildFromRequestAdd($request);
@@ -26,7 +26,7 @@ abstract class RaceFactory
         return $race;
     }
 
-    public static function fromRequestUdpate(object $request): object
+    public static function fromRequestUdpate(object $request): Race
     {
         $race = new Race();
         $race->buildFromRequestUpdate($request);
