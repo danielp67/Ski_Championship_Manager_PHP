@@ -31,7 +31,7 @@ final class HomeController extends AbstractController
         $localDirectory =  $request->server->get('DOCUMENT_ROOT');
 
         $params = explode('/', $request->getPathInfo());
-        $theImage = $localDirectory . '/data/img/ski'.$params[3] .'.jpg';
+        $theImage = $localDirectory . '/data/img/ski' . $params[3] . '.jpg';
         $response->headers->set('content-type', 'image/jpeg');
         $response->setContent(file_get_contents($theImage));
 

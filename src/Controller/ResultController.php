@@ -210,7 +210,6 @@ final class ResultController extends AbstractController
         $stageRepository = new StageRepository($this->pdo);
         foreach ($stages as $stage) {
             $insertedStage = $this->insertResultIntoStageTable($stage, $stageRepository);
-
         }
         if ($insertedStage) {
             $this->insertResultIntoResultTable($params[2]);
@@ -231,7 +230,6 @@ final class ResultController extends AbstractController
                 throw new Exception('Import incorrect');
             }
         } else {
-
             $addStage = $stageRepository->add($stage);
             if (! $addStage) {
                 throw new Exception('Import incorrect');
