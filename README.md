@@ -1,11 +1,11 @@
 # Projet Championnat de ski / Ski Championship Manager
 
-## Target : Create an desktop app to manage the different ski championships of French Police
+## Target : Create a desktop App to manage the different ski championships of French Police
 
-## Objectif : Créer une application web pour gérer les compétitions de skis de la Police Française
+## Objectif : Créer une application web pour gérer les compétitions de ski de la Police Française
 
 ---
-Specifications : https://github.com/danielp67/Ski_Championship_Manager_PHP/blob/develop/data/specification_projet_logitud.pdf
+Specifications : https://github.com/danielp67/Ski_Championship_Manager_PHP/blob/dev/data/specification_projet_logitud.pdf
 
 Tools :
 
@@ -33,7 +33,7 @@ Tools :
 ---
 ## Development Workflow :
 
-### Phase 1 : Design graph and logic, from 05-10-2020 to  09-10-2020
+### Phase 1 : Design graph and logic from 05-10-2020 to  09-10-2020
 
 ### Phase 2 : Initialization of the project and Entity creation with TDD from 12-10-2020 to 16-12-2020
 
